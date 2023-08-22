@@ -4,6 +4,81 @@
   
     
     <entry>
+      <title>博客（二）：美化你的个人博客</title>
+      <link href="/2023/08/22/blog2/"/>
+      <url>/2023/08/22/blog2/</url>
+      
+        <content type="html"><![CDATA[<h1 id="一-部署butterfly主题"><a href="#一-部署butterfly主题" class="headerlink" title="一. 部署butterfly主题"></a>一. 部署butterfly主题</h1><h2 id="1-butterfly主题"><a href="#1-butterfly主题" class="headerlink" title="1. butterfly主题"></a>1. butterfly主题</h2><p>butterfly是hexo框架下的一个主题。</p><p>butterfly主题：</p><p><img src="/image.png" alt="Alt text"></p><p>相比于原生的hexo博客样式，我相信你肯定更喜欢butterfly。</p><p>了解更多？<a href="https://butterfly.js.org/">butterfly</a></p><h2 id="2-下载butterfly主题"><a href="#2-下载butterfly主题" class="headerlink" title="2. 下载butterfly主题"></a>2. 下载butterfly主题</h2><p>参考文档：<a href="https://butterfly.js.org/posts/21cfbf15/">Butterfly 安裝文檔(一) 快速開始</a></p><p>在myblog目录下输入命令安装butterfly：</p><pre><code>git clone -b master https://github.com/jerryc127/hexo-theme-butterfly.git themes/butterfly</code></pre><h2 id="3-安装插件"><a href="#3-安装插件" class="headerlink" title="3. 安装插件"></a>3. 安装插件</h2><p>安装pug和stylus渲染器：</p><pre><code>npm install hexo-renderer-pug hexo-renderer-stylus --save</code></pre><h2 id="4-应用主题"><a href="#4-应用主题" class="headerlink" title="4. 应用主题"></a>4. 应用主题</h2><p>修改配置文件_config.yml：</p><pre><code>theme: butterfly</code></pre><h2 id="5-升级建议"><a href="#5-升级建议" class="headerlink" title="5. 升级建议"></a>5. 升级建议</h2><p>为了減少升级主题带来的不便，我们可以把主题文件夹中的 _config.yml 重命名为 _config.butterfly.yml，复制到 Hexo 根目录下与_config.yml同级。</p><p>Hexo会自动合并主题中的_config.yml和 _config.butterfly.yml ，如果存在同名配置，会使用_config.butterfly.yml的配置，其优先度较高。所以像和博客网址相关联的固定资料可以设置在_config.yml中，比如博客的标题、作者信息和邮箱等等资料，而和主题样式相关的配置放在 _config.butterfly.yml 中，那么在将来你想换一个主题是很方便的。</p><h1 id="二-美化主题"><a href="#二-美化主题" class="headerlink" title="二. 美化主题"></a>二. 美化主题</h1><h2 id="1-网站首页及个人信息"><a href="#1-网站首页及个人信息" class="headerlink" title="1. 网站首页及个人信息"></a>1. 网站首页及个人信息</h2><p>网站首页预览：</p><p><img src="/image-1.png" alt="Alt text"></p><p>个人信息预览：</p><p><img src="/image-2.png" alt="Alt text"></p><p>_comfig.yml配置：</p><pre><code># Sitetitle: 良月的小窝   #网站标题subtitle: &#39;&#39;description: 郎朗晴天   #个性签名keywords:author: 良月    #博客作者language: zh-CN    #网站语言timezone: Asia/Shanghai     #Shanghai是中国时区</code></pre><h2 id="2-导航菜单"><a href="#2-导航菜单" class="headerlink" title="2. 导航菜单"></a>2. 导航菜单</h2><p>预览：<br><img src="/image-3.png" alt="Alt text"></p><p>_config.butterfly.yml配置</p><pre><code># Menu 目錄menu:主页: / || fas fa-home博文 || fa fa-graduation-cap:     分类: /categories/ || fa fa-archive 标签: /tags/ || fa fa-tags 归档: /archives/ || fa fa-folder-open生活 || fas fa-list: 分享: /shuoshuo/ || fa fa-comments 相册: /photos/ || fa fa-camera-retro 音乐: /music/ || fa fa-music 影视: /movies/ || fas fa-video友链: /link/ || fa fa-link留言板: /messageboard/ || fa fa-paper-plane关于笔者: /about/ || fas fa-heart  </code></pre><h2 id="3-本地搜索功能"><a href="#3-本地搜索功能" class="headerlink" title="3. 本地搜索功能"></a>3. 本地搜索功能</h2><p>本地搜索功能预览：<br><img src="/image-4.png" alt="Alt text"></p><p>安装搜索插件：</p><pre><code>npm install hexo-generator-search --save</code></pre><p>主题配置文件_config.butterfly.yml：</p><pre><code># Local searchlocal_search:  enable: true  labels:    input_placeholder: Search for Posts    hits_empty: &quot;We didn&#39;t find any results for the search: $&#123;query&#125;&quot; # 如果没有查到内容相关内容显示</code></pre><h2 id="4-博文：分类-标签-归档"><a href="#4-博文：分类-标签-归档" class="headerlink" title="4. 博文：分类|标签|归档"></a>4. 博文：分类|标签|归档</h2><p>创建分类界面</p><pre><code>hexo new page categories</code></pre><p>打开.&#x2F;source&#x2F;categories&#x2F;index.md</p><pre><code>---title: 分类date: 2023-08-20 20:20:51type: &quot;categories&quot;comments: false---</code></pre><p>创建标签页面</p><pre><code>hexo new page tags</code></pre><p>打开.&#x2F;source&#x2F;tags&#x2F;index.md</p><pre><code>---title: 标签date: 2023-08-20 20:20:16type: &quot;tags&quot;comments: falseorderby: randomorder: 1---</code></pre><p>归档：归档界面已经默认被创建。</p><h2 id="5-生活：分享-相册-音乐-影视"><a href="#5-生活：分享-相册-音乐-影视" class="headerlink" title="5.生活：分享|相册|音乐|影视"></a>5.生活：分享|相册|音乐|影视</h2><p>待更新……</p><h2 id="6-友情链接页面"><a href="#6-友情链接页面" class="headerlink" title="6. 友情链接页面"></a>6. 友情链接页面</h2><p>创建友情链接页面：</p><pre><code>hexo new page link</code></pre><p>打开source&#x2F;link&#x2F;index.md文件：</p><pre><code>---title: 友情链接date: 2018-06-07 22:17:49type: &quot;link&quot;comments: false---</code></pre><p>添加友情链接：</p><p>在Hexo博客目录中的 source&#x2F;_data（如果没有 _data 文件夾，请自行创建），创建一个文件 link.yml</p><pre><code>- class_name: 友情链接  class_desc: 执子之手，与子偕老。  link_list:    - name: Hexo      link: https://hexo.io/zh-tw/      avatar: https://d33wubrfki0l68.cloudfront.net/6657ba50e702d84afb32fe846bed54fba1a77add/827ae/logo.svg      descr: 快速、簡單且強大的網誌框架- class_name: 网站  class_desc: 值得推荐的网站  link_list:    - name: Youtube      link: https://www.youtube.com/      avatar: https://i.loli.net/2020/05/14/9ZkGg8v3azHJfM1.png      descr: 視頻網站    - name: Weibo      link: https://www.weibo.com/      avatar: https://i.loli.net/2020/05/14/TLJBum386vcnI1P.png      descr: 中國最大社交分享平台    - name: Twitter      link: https://twitter.com/      avatar: https://i.loli.net/2020/05/14/5VyHPQqR6LWF39a.png      descr: 社交分享平台</code></pre><h1 id="7-留言板"><a href="#7-留言板" class="headerlink" title="7. 留言板"></a>7. 留言板</h1><p>创建留言板界面：</p><pre><code>hexo new page messageboard</code></pre><p>打开.&#x2F;source&#x2F;messageboard&#x2F;index.md：</p><pre><code>---title: 留言板date: 2023-08-20 20:21:06types: &quot;messageboard&quot;---</code></pre><h1 id="8-关于笔者"><a href="#8-关于笔者" class="headerlink" title="8. 关于笔者"></a>8. 关于笔者</h1><p>创建关于笔者界面：</p><pre><code>hexo new page about</code></pre><p>打开.&#x2F;source&#x2F;about&#x2F;index.md：</p><pre><code>---title: 关于我date: 2023-08-21 03:20:56type: &quot;about&quot;comments: false---</code></pre>]]></content>
+      
+      
+      <categories>
+          
+          <category> 博客 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> -博客 -nodejs -npm -git -github -hexo -butterfly </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>博客（一）：从零开始搭建你的个人博客</title>
+      <link href="/2023/08/21/blog1/"/>
+      <url>/2023/08/21/blog1/</url>
+      
+        <content type="html"><![CDATA[<p><em>此文章将会指引你搭建hexo框架的博客，并将其部署到Git Hub上。</em></p><h1 id="一-环境搭建"><a href="#一-环境搭建" class="headerlink" title="一. 环境搭建"></a>一. 环境搭建</h1><h2 id="1-安装Nodejs（npm）"><a href="#1-安装Nodejs（npm）" class="headerlink" title="1. 安装Nodejs（npm）"></a>1. 安装Nodejs（npm）</h2><p>下载链接：<a href="https://nodejs.org/en">Nodejs官方网站</a></p><p>这里直接选择官方推荐的稳定版本：Recommend For Most Users。</p><p>安装过程一路回车就好。</p><p>安装完成以后，打开cmd。输入命令：<em><strong>node -v</strong></em>，若返回下图则安装完成。</p><p>可以看到我的Nodejs版本（version）：18.17.1</p><h2 id="2-安装Git"><a href="#2-安装Git" class="headerlink" title="2. 安装Git"></a>2. 安装Git</h2><p><a href="https://git-scm.com/download/win">Git下载网址</a></p><p>下载这个版本就行，安装一路回车就行。</p><h1 id="二-本地部署你的博客"><a href="#二-本地部署你的博客" class="headerlink" title="二. 本地部署你的博客"></a>二. 本地部署你的博客</h1><h2 id="1-安装Hexo，新建hexo框架项目"><a href="#1-安装Hexo，新建hexo框架项目" class="headerlink" title="1. 安装Hexo，新建hexo框架项目"></a>1. 安装Hexo，新建hexo框架项目</h2><p>打开cmd中输入命令：<em><strong>npm install -g hexo-cli</strong></em>，等待安装完成即可。</p><p>安装完成以后输入命令：<em><strong>hexo -v</strong></em>查看版本，返回结果则安装成功。</p><p>选择一个用于放置博客文件的文件夹，在此目录下使用命令：<em><strong>hexo init myblog</strong></em>，新建你的博客项目。你可以看到在你的文件夹下多了一个myblog的项目。</p><p>输入命令：<em><strong>cd myblog</strong></em>进入myblog项目，安装npm：<em><strong>npm install</strong></em>即可。</p><h2 id="2-在本地启动你的项目"><a href="#2-在本地启动你的项目" class="headerlink" title="2. 在本地启动你的项目"></a>2. 在本地启动你的项目</h2><p>在你的项目根目录下输入命令：<em><strong>hexo g</strong></em>生成博客网站的文件。</p><p>然后输入命令：<em><strong>hexo server</strong></em>启动你的博客。</p><p>接下来，你可以输入网址：<a href="http://localhost/4000">http://localhost/4000</a> 以访问你的个人博客，</p><p>当然，如果你想停止你的博客服务，输入命令：<em><strong>Ctrl C</strong></em>即可。</p><h1 id="四-GiHub搭建博客"><a href="#四-GiHub搭建博客" class="headerlink" title="四. GiHub搭建博客"></a>四. GiHub搭建博客</h1><p>如果你没有GitHub账号，请前往官网注册：<a href="https://github.com/">GitHub官网</a> </p><h2 id="1-新建Pages类型仓库"><a href="#1-新建Pages类型仓库" class="headerlink" title="1. 新建Pages类型仓库"></a>1. 新建Pages类型仓库</h2><h2 id="2-安装hexo上传插件"><a href="#2-安装hexo上传插件" class="headerlink" title="2. 安装hexo上传插件"></a>2. 安装hexo上传插件</h2><p>输入命令：<em><strong>npm install hexo-deployer-git –save</strong></em></p><p>这个插件使用git上传hexo生成的</p><h2 id="3-修改hexo配置文件指定仓库路径"><a href="#3-修改hexo配置文件指定仓库路径" class="headerlink" title="3. 修改hexo配置文件指定仓库路径"></a>3. 修改hexo配置文件指定仓库路径</h2><h2 id="4-部署博客到对应仓库"><a href="#4-部署博客到对应仓库" class="headerlink" title="4. 部署博客到对应仓库"></a>4. 部署博客到对应仓库</h2><p>输入命令：<em><strong>hexo clean</strong></em>清除之前生成的博客文件</p><p>输入命令：<em><strong>hexo generate</strong></em>（<em><strong>hexo g</strong></em>）生成博客的静态网页文件</p><p>输入命令：<em><strong>hexo deploy</strong></em>（<em><strong>hexo d</strong></em>）将生成的博客文件推送到github仓库</p><p>将博客文件上传到GitHub仓库时，需要进行身份验证，在这个过程中保持登录GitHub，根据提示完成验证即可。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 博客 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> -博客 -nodejs -npm -git -github -hexo -butterfly </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>博客：README</title>
+      <link href="/2023/08/21/blog0/"/>
+      <url>/2023/08/21/blog0/</url>
+      
+        <content type="html"><![CDATA[<h1 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h1><h2 id="1-博客？"><a href="#1-博客？" class="headerlink" title="1. 博客？"></a>1. 博客？</h2><p>你可以点击链接了解。</p><p>一些好看的博客：（待补充）</p><p>我的个人博客：<a href="https://yangcheneee.github.io/">良月的小窝</a></p><p>你可以通过这个系列文章做出与我相似的个人博客，当然或许更好。</p><h2 id="2-个人博客有啥用？"><a href="#2-个人博客有啥用？" class="headerlink" title="2. 个人博客有啥用？"></a>2. 个人博客有啥用？</h2><p>个人博客主要用于记录你的学习笔记，简单来说这是你的在线记事本。</p><p>除此之外，个人博客可以用于知识分享，其他人可以通过网络访问你的博客。</p><p>抑或是用于满足好奇心，抑或是喜欢漂亮的博客页面……</p><p>总之，搭建你的个人博客并不需要太多理由，只是去做也是一种乐趣！</p><h2 id="3-搭建个人博客难吗？"><a href="#3-搭建个人博客难吗？" class="headerlink" title="3. 搭建个人博客难吗？"></a>3. 搭建个人博客难吗？</h2><p>一点都不难！</p><p>你可以不写任何代码，只是安装一些文件并配置它们就可以搭建属于你的个人博客。</p><h2 id="4-如何搭建我的个人博客？"><a href="#4-如何搭建我的个人博客？" class="headerlink" title="4. 如何搭建我的个人博客？"></a>4. 如何搭建我的个人博客？</h2><p>我采用GitHub Pages搭建hexo框架的butterfly主题博客，这是一种简单的方式。</p><p>大概流程：下载框架和主题文件；修改配置以美化你的博客界面；上传到Git Hub仓库使得其他人可以访问。</p><p>如果你感兴趣，我很乐意给你分享我的方法。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 博客 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> -博客 -nodejs -npm -git -github -hexo -butterfly </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>Hello World</title>
       <link href="/2023/08/20/hello-world/"/>
       <url>/2023/08/20/hello-world/</url>
