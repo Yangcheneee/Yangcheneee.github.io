@@ -4,11 +4,36 @@
   
     
     <entry>
-      <title>在线AI绘画</title>
-      <link href="/2023/08/25/AI%E7%BB%98%E7%94%BB/"/>
-      <url>/2023/08/25/AI%E7%BB%98%E7%94%BB/</url>
+      <title>博客（三）：一些问题</title>
+      <link href="/2023/08/25/blog3/"/>
+      <url>/2023/08/25/blog3/</url>
       
-        <content type="html"><![CDATA[<h1 id="在线AI绘画"><a href="#在线AI绘画" class="headerlink" title="在线AI绘画"></a>在线AI绘画</h1><h2 id="网址：LiblibAI·哩布哩布AI-中国领先原创AI模型分享社区"><a href="#网址：LiblibAI·哩布哩布AI-中国领先原创AI模型分享社区" class="headerlink" title="网址：LiblibAI·哩布哩布AI-中国领先原创AI模型分享社区"></a>网址：<a href="LiblibAI%C2%B7%E5%93%A9%E5%B8%83%E5%93%A9%E5%B8%83AI-%E4%B8%AD%E5%9B%BD%E9%A2%86%E5%85%88%E5%8E%9F%E5%88%9BAI%E6%A8%A1%E5%9E%8B%E5%88%86%E4%BA%AB%E7%A4%BE%E5%8C%BA">LiblibAI·哩布哩布AI-中国领先原创AI模型分享社区</a></h2><h2 id="教程："><a href="#教程：" class="headerlink" title="教程："></a>教程：</h2><h3 id="1-进入绘画页面"><a href="#1-进入绘画页面" class="headerlink" title="1. 进入绘画页面"></a>1. 进入绘画页面</h3><p>点击网址，来到在线 AI 绘画首页。登录你的账号（QQ 就行）。点击右上角<em><strong>在线Stable Diffusion</strong></em>，进入在线绘画页面。</p><p><img src="/img/AI%E7%BB%98%E7%94%BB/image.png" alt="Alt text"></p><p><img src="/img/AI%E7%BB%98%E7%94%BB/image-1.png" alt="Alt text"></p><h3 id="2-选择模型"><a href="#2-选择模型" class="headerlink" title="2. 选择模型"></a>2. 选择模型</h3><p>在首页中选择一个模型，这里选择<em><strong>麦橘写实</strong></em>。<em>不同的模型适用于不同的类型的图画创作。</em></p><p><img src="/img/AI%E7%BB%98%E7%94%BB/image-2.png" alt="Alt text"></p><h3 id="3-复制图片参数"><a href="#3-复制图片参数" class="headerlink" title="3. 复制图片参数"></a>3. 复制图片参数</h3><p>点击模型进入页面查看图片<em><strong>详细信息</strong></em>，这里是图片生成的一些参数，<em><strong>复制</strong></em>就行。</p><p><img src="/img/AI%E7%BB%98%E7%94%BB/image-3.png" alt="Alt text"></p><p><img src="/img/AI%E7%BB%98%E7%94%BB/image-4.png" alt="Alt text"></p><h3 id="4-填写参数绘画"><a href="#4-填写参数绘画" class="headerlink" title="4. 填写参数绘画"></a>4. 填写参数绘画</h3><p>返回绘画页面，<em><strong>Stable Diffusion 模型选择麦橘写实</strong></em>，<em><strong>粘贴</strong></em>刚才复制的的信息。</p><p><img src="/img/AI%E7%BB%98%E7%94%BB/image-9.png" alt="Alt text"></p><p><em>如果你想生成多张图片，修改以下内容。</em></p><p><img src="/img/AI%E7%BB%98%E7%94%BB/image-5.png" alt="Alt text"></p><h3 id="5-耐心等待生成图片"><a href="#5-耐心等待生成图片" class="headerlink" title="5. 耐心等待生成图片"></a>5. 耐心等待生成图片</h3><p>点击<em><strong>生成图片</strong></em>，耐心等待就好了。下面是图片展示，AI绘画并不一定完美，可以 PS等工具完善。</p><p><img src="/img/AI%E7%BB%98%E7%94%BB/image-6.png" alt="Alt text"></p><p><img src="/img/AI%E7%BB%98%E7%94%BB/image-7.png" alt="Alt text"></p><p><img src="/img/AI%E7%BB%98%E7%94%BB/image-8.png" alt="Alt text"></p><h3 id="6-最后"><a href="#6-最后" class="headerlink" title="6.最后"></a>6.最后</h3><p>恭喜你，已经学会了基础的绘图。接下来，选择你喜欢的模型，慢慢了解并调节各种参数，绘画出你喜欢的图片吧！</p><p>对了，上面介绍了文生图模式，图生图模式一样有趣。赶快试试吧，你就是下一个 AI 调教大师。</p>]]></content>
+        <content type="html"><![CDATA[<p>如果你有任何问题。。。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 博客 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> -博客 -nodejs -npm -git -github -hexo -butterfly </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>在线AI绘画</title>
+      <link href="/2023/08/25/%E5%9C%A8%E7%BA%BFAI%E7%BB%98%E7%94%BB/"/>
+      <url>/2023/08/25/%E5%9C%A8%E7%BA%BFAI%E7%BB%98%E7%94%BB/</url>
+      
+        <content type="html"><![CDATA[<h1 id="在线AI绘画"><a href="#在线AI绘画" class="headerlink" title="在线AI绘画"></a>在线AI绘画</h1><h2 id="网址：LiblibAI·哩布哩布AI-中国领先原创AI模型分享社区"><a href="#网址：LiblibAI·哩布哩布AI-中国领先原创AI模型分享社区" class="headerlink" title="网址：LiblibAI·哩布哩布AI-中国领先原创AI模型分享社区"></a>网址：<a href="LiblibAI%C2%B7%E5%93%A9%E5%B8%83%E5%93%A9%E5%B8%83AI-%E4%B8%AD%E5%9B%BD%E9%A2%86%E5%85%88%E5%8E%9F%E5%88%9BAI%E6%A8%A1%E5%9E%8B%E5%88%86%E4%BA%AB%E7%A4%BE%E5%8C%BA">LiblibAI·哩布哩布AI-中国领先原创AI模型分享社区</a></h2><h2 id="教程："><a href="#教程：" class="headerlink" title="教程："></a>教程：</h2><h3 id="1-进入绘画页面"><a href="#1-进入绘画页面" class="headerlink" title="1. 进入绘画页面"></a>1. 进入绘画页面</h3><p>点击网址，来到在线 AI 绘画首页。登录你的账号（QQ 就行）。点击右上角<em><strong>在线Stable Diffusion</strong></em>，进入在线绘画页面。</p><p><img src="/img/%E5%9C%A8%E7%BA%BFAI%E7%BB%98%E7%94%BB/image.png" alt="Alt text"></p><p><img src="/img/%E5%9C%A8%E7%BA%BFAI%E7%BB%98%E7%94%BB/image-1.png" alt="Alt text"></p><h3 id="2-选择模型"><a href="#2-选择模型" class="headerlink" title="2. 选择模型"></a>2. 选择模型</h3><p>在首页中选择一个模型，这里选择<em><strong>麦橘写实</strong></em>。<em>不同的模型适用于不同的类型的图画创作。</em></p><p><img src="/img/%E5%9C%A8%E7%BA%BFAI%E7%BB%98%E7%94%BB/image-2.png" alt="Alt text"></p><h3 id="3-复制图片参数"><a href="#3-复制图片参数" class="headerlink" title="3. 复制图片参数"></a>3. 复制图片参数</h3><p>点击模型进入页面查看图片<em><strong>详细信息</strong></em>，这里是图片生成的一些参数，<em><strong>复制</strong></em>就行。</p><p><img src="/img/%E5%9C%A8%E7%BA%BFAI%E7%BB%98%E7%94%BB/image-3.png" alt="Alt text"></p><p><img src="/img/%E5%9C%A8%E7%BA%BFAI%E7%BB%98%E7%94%BB/image-4.png" alt="Alt text"></p><h3 id="4-填写参数绘画"><a href="#4-填写参数绘画" class="headerlink" title="4. 填写参数绘画"></a>4. 填写参数绘画</h3><p>返回绘画页面，<em><strong>Stable Diffusion 模型选择麦橘写实</strong></em>，<em><strong>粘贴</strong></em>刚才复制的的信息。</p><p><img src="/img/%E5%9C%A8%E7%BA%BFAI%E7%BB%98%E7%94%BB/image-9.png" alt="Alt text"></p><p><em>如果你想生成多张图片，修改以下内容。</em></p><p><img src="/img/%E5%9C%A8%E7%BA%BFAI%E7%BB%98%E7%94%BB/image-5.png" alt="Alt text"></p><h3 id="5-耐心等待生成图片"><a href="#5-耐心等待生成图片" class="headerlink" title="5. 耐心等待生成图片"></a>5. 耐心等待生成图片</h3><p>点击<em><strong>生成图片</strong></em>，耐心等待就好了。下面是图片展示，AI绘画并不一定完美，可以 PS等工具完善。</p><p><img src="/img/%E5%9C%A8%E7%BA%BFAI%E7%BB%98%E7%94%BB/image-6.png" alt="Alt text"></p><p><img src="/img/%E5%9C%A8%E7%BA%BFAI%E7%BB%98%E7%94%BB/image-7.png" alt="Alt text"></p><p><img src="/img/%E5%9C%A8%E7%BA%BFAI%E7%BB%98%E7%94%BB/image-8.png" alt="Alt text"></p><h3 id="6-最后"><a href="#6-最后" class="headerlink" title="6.最后"></a>6.最后</h3><p>恭喜你，已经学会了基础的绘图。接下来，选择你喜欢的模型，慢慢了解并调节各种参数，绘画出你喜欢的图片吧！</p><p>对了，上面介绍了文生图模式，图生图模式一样有趣。赶快试试吧，你就是下一个 AI 调教大师。</p>]]></content>
       
       
       <categories>
@@ -27,31 +52,6 @@
             <tag> 在线ai绘画 </tag>
             
             <tag> 哩布哩布 </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>博客（三）：一些问题</title>
-      <link href="/2023/08/25/blog3/"/>
-      <url>/2023/08/25/blog3/</url>
-      
-        <content type="html"><![CDATA[<p>如果你有任何问题。。。</p>]]></content>
-      
-      
-      <categories>
-          
-          <category> 博客 </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> -博客 -nodejs -npm -git -github -hexo -butterfly </tag>
             
         </tags>
       
@@ -126,7 +126,19 @@
       
         <tags>
             
-            <tag> -博客 -nodejs -npm -git -github -hexo -butterfly </tag>
+            <tag> 博客 </tag>
+            
+            <tag> nodejs </tag>
+            
+            <tag> npm </tag>
+            
+            <tag> git </tag>
+            
+            <tag> github </tag>
+            
+            <tag> hexo </tag>
+            
+            <tag> butterfly </tag>
             
         </tags>
       
@@ -142,31 +154,6 @@
         <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><pre><code class="bash">$ hexo new &quot;My New Post&quot;</code></pre><p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><pre><code class="bash">$ hexo server</code></pre><p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><pre><code class="bash">$ hexo generate</code></pre><p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><pre><code class="bash">$ hexo deploy</code></pre><p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>]]></content>
       
       
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>图片爬虫示例</title>
-      <link href="/2023/08/20/%E5%9B%BE%E7%89%87%E7%88%AC%E8%99%AB%E7%A4%BA%E4%BE%8B/"/>
-      <url>/2023/08/20/%E5%9B%BE%E7%89%87%E7%88%AC%E8%99%AB%E7%A4%BA%E4%BE%8B/</url>
-      
-        <content type="html"><![CDATA[<h1 id="AI绘画"><a href="#AI绘画" class="headerlink" title="AI绘画"></a>AI绘画</h1><h2 id="在线AI绘画"><a href="#在线AI绘画" class="headerlink" title="在线AI绘画"></a>在线AI绘画</h2><h3 id="登录网站"><a href="#登录网站" class="headerlink" title="登录网站"></a>登录网站</h3><h3 id="选择模板进行绘画"><a href="#选择模板进行绘画" class="headerlink" title="选择模板进行绘画"></a>选择模板进行绘画</h3><h3 id="修图"><a href="#修图" class="headerlink" title="修图"></a>修图</h3><p>AI绘画。。。。。</p><h2 id="本地部署sd"><a href="#本地部署sd" class="headerlink" title="本地部署sd"></a>本地部署sd</h2><p>loading</p>]]></content>
-      
-      
-      <categories>
-          
-          <category> 爬虫 </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> 爬虫 scrapy 图片 </tag>
-            
-        </tags>
       
     </entry>
     
