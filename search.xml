@@ -76,7 +76,19 @@
       
         <tags>
             
-            <tag> -博客 -nodejs -npm -git -github -hexo -butterfly </tag>
+            <tag> 博客 </tag>
+            
+            <tag> nodejs </tag>
+            
+            <tag> npm </tag>
+            
+            <tag> git </tag>
+            
+            <tag> github </tag>
+            
+            <tag> hexo </tag>
+            
+            <tag> butterfly </tag>
             
         </tags>
       
@@ -89,7 +101,7 @@
       <link href="/2023/08/21/blog1/"/>
       <url>/2023/08/21/blog1/</url>
       
-        <content type="html"><![CDATA[<p><em>此文章将会指引你搭建hexo框架的博客，并将其部署到Git Hub上。</em></p><h1 id="一-环境搭建"><a href="#一-环境搭建" class="headerlink" title="一. 环境搭建"></a>一. 环境搭建</h1><h2 id="1-安装Nodejs（npm）"><a href="#1-安装Nodejs（npm）" class="headerlink" title="1. 安装Nodejs（npm）"></a>1. 安装Nodejs（npm）</h2><p>下载链接：<a href="https://nodejs.org/en">Nodejs官方网站</a></p><p>这里直接选择官方推荐的稳定版本：Recommend For Most Users。</p><p>安装过程一路回车就好。</p><p>安装完成以后，打开cmd。输入命令：<em><strong>node -v</strong></em>，若返回下图则安装完成。</p><p>可以看到我的Nodejs版本（version）：18.17.1</p><h2 id="2-安装Git"><a href="#2-安装Git" class="headerlink" title="2. 安装Git"></a>2. 安装Git</h2><p><a href="https://git-scm.com/download/win">Git下载网址</a></p><p>下载这个版本就行，安装一路回车就行。</p><h1 id="二-本地部署你的博客"><a href="#二-本地部署你的博客" class="headerlink" title="二. 本地部署你的博客"></a>二. 本地部署你的博客</h1><h2 id="1-安装Hexo，新建hexo框架项目"><a href="#1-安装Hexo，新建hexo框架项目" class="headerlink" title="1. 安装Hexo，新建hexo框架项目"></a>1. 安装Hexo，新建hexo框架项目</h2><p>打开cmd中输入命令：<em><strong>npm install -g hexo-cli</strong></em>，等待安装完成即可。</p><p>安装完成以后输入命令：<em><strong>hexo -v</strong></em>查看版本，返回结果则安装成功。</p><p>选择一个用于放置博客文件的文件夹，在此目录下使用命令：<em><strong>hexo init myblog</strong></em>，新建你的博客项目。你可以看到在你的文件夹下多了一个myblog的项目。</p><p>输入命令：<em><strong>cd myblog</strong></em>进入myblog项目，安装npm：<em><strong>npm install</strong></em>即可。</p><h2 id="2-在本地启动你的项目"><a href="#2-在本地启动你的项目" class="headerlink" title="2. 在本地启动你的项目"></a>2. 在本地启动你的项目</h2><p>在你的项目根目录下输入命令：<em><strong>hexo g</strong></em>生成博客网站的文件。</p><p>然后输入命令：<em><strong>hexo server</strong></em>启动你的博客。</p><p>接下来，你可以输入网址：<a href="http://localhost/4000">http://localhost/4000</a> 以访问你的个人博客，</p><p>当然，如果你想停止你的博客服务，输入命令：<em><strong>Ctrl C</strong></em>即可。</p><h1 id="四-GiHub搭建博客"><a href="#四-GiHub搭建博客" class="headerlink" title="四. GiHub搭建博客"></a>四. GiHub搭建博客</h1><p>如果你没有GitHub账号，请前往官网注册：<a href="https://github.com/">GitHub官网</a> </p><h2 id="1-新建Pages类型仓库"><a href="#1-新建Pages类型仓库" class="headerlink" title="1. 新建Pages类型仓库"></a>1. 新建Pages类型仓库</h2><h2 id="2-安装hexo上传插件"><a href="#2-安装hexo上传插件" class="headerlink" title="2. 安装hexo上传插件"></a>2. 安装hexo上传插件</h2><p>输入命令：<em><strong>npm install hexo-deployer-git –save</strong></em></p><p>这个插件使用git上传hexo生成的</p><h2 id="3-修改hexo配置文件指定仓库路径"><a href="#3-修改hexo配置文件指定仓库路径" class="headerlink" title="3. 修改hexo配置文件指定仓库路径"></a>3. 修改hexo配置文件指定仓库路径</h2><h2 id="4-部署博客到对应仓库"><a href="#4-部署博客到对应仓库" class="headerlink" title="4. 部署博客到对应仓库"></a>4. 部署博客到对应仓库</h2><p>输入命令：<em><strong>hexo clean</strong></em>清除之前生成的博客文件</p><p>输入命令：<em><strong>hexo generate</strong></em>（<em><strong>hexo g</strong></em>）生成博客的静态网页文件</p><p>输入命令：<em><strong>hexo deploy</strong></em>（<em><strong>hexo d</strong></em>）将生成的博客文件推送到github仓库</p><p>将博客文件上传到GitHub仓库时，需要进行身份验证，在这个过程中保持登录GitHub，根据提示完成验证即可。</p>]]></content>
+        <content type="html"><![CDATA[<p><em>此文章将会指引你搭建hexo框架的博客，并将其部署到Git Hub上。</em></p><h1 id="一-环境搭建"><a href="#一-环境搭建" class="headerlink" title="一. 环境搭建"></a>一. 环境搭建</h1><h2 id="1-安装Nodejs（npm）"><a href="#1-安装Nodejs（npm）" class="headerlink" title="1. 安装Nodejs（npm）"></a>1. 安装Nodejs（npm）</h2><p>下载链接：<a href="https://nodejs.org/en">Nodejs官方网站</a></p><p>这里直接选择官方推荐的稳定版本：Recommend For Most Users。</p><p><img src="/image.png" alt="Alt text"></p><p>安装过程一路回车就好，默认选项不需要任何额外的操作。</p><p>安装完成以后，打开cmd。输入命令：<em><strong>node -v</strong></em>，若返回nodejs版本信息则安装成功。</p><p>nodejs内置npm。输入命令<em><strong>npm -v</strong></em>，返回npm版本信息则安装成功。<br><img src="/image-1.png" alt="Alt text"></p><h2 id="2-安装Git"><a href="#2-安装Git" class="headerlink" title="2. 安装Git"></a>2. 安装Git</h2><p><a href="https://git-scm.com/download/win">Git下载网址</a></p><p>下载标注的版本。</p><p><img src="/image-2.png" alt="Alt text"></p><p>安装一路回车就好。</p><h1 id="二-本地部署你的博客"><a href="#二-本地部署你的博客" class="headerlink" title="二. 本地部署你的博客"></a>二. 本地部署你的博客</h1><h2 id="1-安装Hexo，新建hexo框架项目"><a href="#1-安装Hexo，新建hexo框架项目" class="headerlink" title="1. 安装Hexo，新建hexo框架项目"></a>1. 安装Hexo，新建hexo框架项目</h2><p>打开cmd中输入命令：<em><strong>npm install -g hexo-cli</strong></em>，等待安装完成即可。</p><p>安装完成以后输入命令：<em><strong>hexo -v</strong></em>查看版本，返回结果则安装成功。</p><p>选择一个用于放置博客文件的文件夹，在此目录下使用命令：<em><strong>hexo init myblog</strong></em>，新建你的博客项目。你可以看到在你的文件夹下多了一个myblog的项目。</p><p>输入命令：<em><strong>cd myblog</strong></em>进入myblog项目，安装npm：<em><strong>npm install</strong></em>即可。</p><h2 id="2-在本地启动你的项目"><a href="#2-在本地启动你的项目" class="headerlink" title="2. 在本地启动你的项目"></a>2. 在本地启动你的项目</h2><p>在你的项目根目录下输入命令：<em><strong>hexo g</strong></em>生成博客网站的文件。</p><p>然后输入命令：<em><strong>hexo server</strong></em>启动你的博客。</p><p>接下来，你可以输入网址：<a href="http://localhost/4000">http://localhost/4000</a> 以访问你的个人博客，</p><p>当然，如果你想停止你的博客服务，输入命令：<em><strong>Ctrl C</strong></em>即可。</p><h1 id="四-GiHub搭建博客"><a href="#四-GiHub搭建博客" class="headerlink" title="四. GiHub搭建博客"></a>四. GiHub搭建博客</h1><p>如果你没有GitHub账号，请前往官网注册：<a href="https://github.com/">GitHub官网</a> </p><h2 id="1-新建Pages类型仓库"><a href="#1-新建Pages类型仓库" class="headerlink" title="1. 新建Pages类型仓库"></a>1. 新建Pages类型仓库</h2><h2 id="2-安装hexo上传插件"><a href="#2-安装hexo上传插件" class="headerlink" title="2. 安装hexo上传插件"></a>2. 安装hexo上传插件</h2><p>输入命令：<em><strong>npm install hexo-deployer-git –save</strong></em></p><p>这个插件使用git上传hexo生成的</p><h2 id="3-修改hexo配置文件指定仓库路径"><a href="#3-修改hexo配置文件指定仓库路径" class="headerlink" title="3. 修改hexo配置文件指定仓库路径"></a>3. 修改hexo配置文件指定仓库路径</h2><h2 id="4-部署博客到对应仓库"><a href="#4-部署博客到对应仓库" class="headerlink" title="4. 部署博客到对应仓库"></a>4. 部署博客到对应仓库</h2><p>输入命令：<em><strong>hexo clean</strong></em>清除之前生成的博客文件</p><p>输入命令：<em><strong>hexo generate</strong></em>（<em><strong>hexo g</strong></em>）生成博客的静态网页文件</p><p>输入命令：<em><strong>hexo deploy</strong></em>（<em><strong>hexo d</strong></em>）将生成的博客文件推送到github仓库</p><p>将博客文件上传到GitHub仓库时，需要进行身份验证，在这个过程中保持登录GitHub，根据提示完成验证即可。</p>]]></content>
       
       
       <categories>
@@ -101,7 +113,19 @@
       
         <tags>
             
-            <tag> -博客 -nodejs -npm -git -github -hexo -butterfly </tag>
+            <tag> 博客 </tag>
+            
+            <tag> nodejs </tag>
+            
+            <tag> npm </tag>
+            
+            <tag> git </tag>
+            
+            <tag> github </tag>
+            
+            <tag> hexo </tag>
+            
+            <tag> butterfly </tag>
             
         </tags>
       
