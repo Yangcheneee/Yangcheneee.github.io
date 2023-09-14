@@ -4,39 +4,60 @@
   
     
     <entry>
-      <title></title>
-      <link href="/2023/09/09/spider_bian/"/>
-      <url>/2023/09/09/spider_bian/</url>
+      <title>爬虫-写在前面</title>
+      <link href="/2023/09/14/spider_pre/"/>
+      <url>/2023/09/14/spider_pre/</url>
       
-        <content type="html"><![CDATA[]]></content>
+        <content type="html"><![CDATA[<p><em>如果你有任何问题，在评论提出</em></p><h2 id="1-爬虫？"><a href="#1-爬虫？" class="headerlink" title="1. 爬虫？"></a>1. 爬虫？</h2><p>爬虫（Spider）常常用于批量获取网络数据资源。</p><p>依托于大数据时代，爬虫在互联网中的地位逐渐凸显，以下是爬虫一些具体应用。</p><ul><li>爬取社交媒体的热点事件评论可以帮助我们分析舆论倾向。</li><li>爬取资源（图片&#x2F;音乐&#x2F;视频）分享到互联网，做一个资源（图片&#x2F;音乐&#x2F;视频）网站。</li><li>爬取数据可以作为机器学习的数据集，像情感分析模型，AI绘画模型都会依赖大量数据集。</li><li>当然，如果你尝试编写爬虫，相信你会对Web有新的理解同时提高你的python编程能力。</li></ul><h2 id="2-爬虫学习基础？"><a href="#2-爬虫学习基础？" class="headerlink" title="2. 爬虫学习基础？"></a>2. 爬虫学习基础？</h2><p>如果你对Web和HTTP协议没有基本的了解并且没有什么python编程基础，我相信这些都不是什么问题，爬虫并没有那么困难。</p><p>人生的困难和挫折就像薛定谔的猫。当你尝试阅读这篇博客，编写代码并坚持下去，心里成见的大山也变为了晴空万里的草原。</p><p>你什么都不会，你开始你将什么都会。</p><h2 id="3-爬虫的一些理解"><a href="#3-爬虫的一些理解" class="headerlink" title="3. 爬虫的一些理解"></a>3. 爬虫的一些理解</h2><p>这一部分有一定的局限性，你可以参考。</p><ul><li>爬虫或者网络爬虫依靠于Web的HTTP协议，学习爬虫可以让你更加理解Web</li><li>爬虫一般经历三个步骤：向服务器发送请求获取响应文件；分析响应文件提取关键内容；保存内容到本地。</li><li>只要你能在浏览器上看到的，你就能够爬取。因为服务器将数据给你后才能在浏览器显示，所以爬虫也能够请求获取这个数据。</li></ul>]]></content>
       
       
+      <categories>
+          
+          <category> 爬虫 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 爬虫 </tag>
+            
+            <tag> Web </tag>
+            
+        </tags>
       
     </entry>
     
     
     
     <entry>
-      <title></title>
-      <link href="/2023/09/09/spider_weibo/"/>
-      <url>/2023/09/09/spider_weibo/</url>
+      <title>爬虫-微博爬虫实例</title>
+      <link href="/2023/09/14/spider_weibo/"/>
+      <url>/2023/09/14/spider_weibo/</url>
       
-        <content type="html"><![CDATA[]]></content>
-      
-      
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title></title>
-      <link href="/2023/09/09/spider_citydy/"/>
-      <url>/2023/09/09/spider_citydy/</url>
-      
-        <content type="html"><![CDATA[]]></content>
+        <content type="html"><![CDATA[<p><em>你需要先了解…</em></p><p><em>关于此文章…</em></p><p>懒得写，贴个源码。<br>需要传入你的cookie</p><pre><code class="python">import requests  # 网络请求import random  # 与time控制网络请求频率import time  # 与random控制网络请求频率import json  # 响应的json数据分析from tqdm import tqdm  # 进度条# 由此函数完成 请求-响应解析 的过程# 接收评论json文件的url，解析json文件并返回评论信息字典（max，total_number,max_id，max_id_type，commentlist[]）def getCommentTnfo(commenturl):    # 请求评论json文件    # print(commenturl)    headers = &#123;        &quot;cookie&quot;: &quot;SUB=_2A25J-Z1_DeRhGeBP4loQ8yvEyzuIHXVrBSM3rDV6PUJbktANLXHDkW1NRQvz7mF3V6LkmIQfpFNkz0dbWMbaAvWq; SUBP=0033WrSXqPxfM725Ws9jqgMF55529P9D9W5Ud4KeeqIoRj0Ip037Z1OD5NHD95QceK.ReKef1h5NWs4DqcjGBgSET-H_M5tt; _T_WM=58995471467; MLOGIN=1; BAIDU_SSP_lcr=https://cn.bing.com/; M_WEIBOCN_PARAMS=oid%3D4945284825617444%26luicode%3D20000061%26lfid%3D4945284825617444%26uicode%3D20000061%26fid%3D4945284825617444; XSRF-TOKEN=17cb5d&quot;,        &#39;user-agent&#39;: &#39;Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Mobile Safari/537.36 Edg/116.0.1938.76&#39;    &#125;    response = requests.get(commenturl, headers=headers)    # 解析json文件内容：max_id，max_id_type，commentlist[]    # max,total_number是第一次请求要获取的信息    dic = &#123;        &#39;max&#39;: 0,        &#39;total_number&#39;: 0,        &#39;max_id&#39;: 0,        &#39;max_id_type&#39;: 0,        &#39;comment_list&#39;: []    &#125;    comment_json = json.loads(response.text)    if (comment_json[&quot;ok&quot;] == 1):        data = comment_json[&quot;data&quot;]        dic[&quot;max&quot;] = data[&quot;max&quot;]        dic[&quot;total_number&quot;] = data[&quot;total_number&quot;]        dic[&quot;max_id&quot;] = data[&quot;max_id&quot;]        dic[&quot;max_id_type&quot;] = data[&quot;max_id_type&quot;]        list = data[&quot;data&quot;]        for li in list:            user = li[&quot;user&quot;]            name = user[&quot;screen_name&quot;]            gender = user[&quot;gender&quot;]            source = li[&quot;source&quot;]            text = li[&quot;text&quot;]            # print(name + &quot;(&quot; + gender + &quot;|&quot; + source + &quot;)&quot; + &quot;:&quot; + text)            dic[&quot;comment_list&quot;].append(name + &quot;(&quot; + gender + &quot;|&quot; + source + &quot;)&quot; + &quot;:&quot; + text)        return dic    # 如果不写else，那么python默认函数返回None    else:        return dic# 此函数调用getCommentList函数,输入不同的max_id# 输入文章url，返回评论信息def getcomments():    blog = input(&quot;请输入帖子的url:&quot;)    id = blog.split(&#39;/&#39;)[-1]    mid = blog.split(&#39;/&#39;)[-1]    max_id_type = 0    comment_list = []    print(&quot;正在分析中...&quot;)    comment_url = &quot;https://m.weibo.cn/comments/hotflow?id=&quot; + id + &quot;&amp;mid=&quot; + mid + &quot;&amp;max_id_type=&quot; + str(max_id_type)    dic = getCommentTnfo(comment_url)    # max，total_number第一次请求时赋值，分析有多少页和多少评论    max = dic[&quot;max&quot;]    total_number = dic[&quot;total_number&quot;]    max_id = dic[&quot;max_id&quot;]    max_id_type = dic[&quot;max_id_type&quot;]    comment_list = comment_list + dic[&quot;comment_list&quot;]    print(&quot;查询到&quot; + str(max) + &quot;页内容，共计&quot; + str(total_number) + &quot;条评论&quot;)    print(&quot;正在爬取中...&quot;)    for i in tqdm(range(max-1)):    # for i in range(max - 1):        time.sleep(random.uniform(1.0, 3.0))        comment_url = &quot;https://m.weibo.cn/comments/hotflow?id=&quot; + id + &quot;&amp;mid=&quot; + mid + &quot;&amp;max_id=&quot; + str(max_id) + &quot;&amp;max_id_type=&quot; + str(max_id_type)        if(dic[&quot;max_id&quot;]!=0):            dic = getCommentTnfo(comment_url)            max_id = dic[&quot;max_id&quot;]            max_id_type = dic[&quot;max_id_type&quot;]            comment_list = comment_list + dic[&quot;comment_list&quot;]    # 是否预览    preview = input(&quot;共&quot; + str(len(comment_list)) + &quot;条记录，预览（y/n）：&quot;)    if (preview == &quot;y&quot; or preview == &quot;Y&quot;):        for comment in comment_list:            print(comment)    # 是否保存    save = input(&quot;共&quot; + str(len(comment_list)) + &quot;条记录，保存（y/n）：&quot;)    if (save == &quot;y&quot; or save == &quot;Y&quot;):        print(&quot;正在写入中...&quot;)        with open(&quot;comment.txt&quot;, &quot;w&quot;, encoding=&quot;utf-8&quot;) as f:            for comment in tqdm(comment_list):                f.writelines(comment + &quot;\n&quot;)if __name__ == &#39;__main__&#39;:    while (True):        print(&quot;-------微博评论爬虫-------&quot;)        print(&quot;             by liangyue&quot;)        getcomments()</code></pre>]]></content>
       
       
+      <categories>
+          
+          <category> 爬虫 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 爬虫 </tag>
+            
+            <tag> Web </tag>
+            
+            <tag> Python </tag>
+            
+            <tag> Requests </tag>
+            
+            <tag> 微博 </tag>
+            
+        </tags>
       
     </entry>
     
@@ -64,31 +85,6 @@
             <tag> U盘 </tag>
             
             <tag> 音乐 </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>爬虫</title>
-      <link href="/2023/09/09/spider_pre/"/>
-      <url>/2023/09/09/spider_pre/</url>
-      
-        <content type="html"><![CDATA[]]></content>
-      
-      
-      <categories>
-          
-          <category> 爬虫 </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> 爬虫 </tag>
             
         </tags>
       
@@ -130,11 +126,11 @@
     
     
     <entry>
-      <title>爬虫-Request模块</title>
+      <title>爬虫-Requests模块</title>
       <link href="/2023/09/08/spider_request/"/>
       <url>/2023/09/08/spider_request/</url>
       
-        <content type="html"><![CDATA[<p><em>你需要先了解…</em></p><p><em>关于此文章…</em></p><h1 id="一-Requests-概述"><a href="#一-Requests-概述" class="headerlink" title="一. Requests-概述"></a>一. Requests-概述</h1><p>Request是Python的第三方库，用于网络请求并接收返回的数据，你需要在Python的虚拟环境中安装使用。</p><ul><li><p>Request帮助你发送网络请求，同时你可以自定义Request携带的参数。</p></li><li><p>另外，Request模块接收响应请求的数据，并把Response作为函数的返回。</p></li><li><p>如果你想实现一个爬虫，对返回的网页文件进行Xpath&#x2F;正则表达式解析，并将你需要的内容存储即可。</p></li></ul><h1 id="二-Request基础"><a href="#二-Request基础" class="headerlink" title="二. Request基础"></a>二. Request基础</h1><h2 id="1-下载-安装"><a href="#1-下载-安装" class="headerlink" title="1. 下载&amp;安装"></a>1. 下载&amp;安装</h2><pre><code>pip/pip3 install requests</code></pre><h2 id="2-Request库"><a href="#2-Request库" class="headerlink" title="2. Request库"></a>2. Request库</h2><h3 id="关于request"><a href="#关于request" class="headerlink" title="关于request"></a>关于request</h3><p>request支持各种HTTP方法，同时你可以指定请求所携带的内容。</p><ul><li><p>获取HTML文件</p><p>  response &#x3D; request.get(url)</p></li><li><p>带上请求头headers</p><p>  response &#x3D; request.get(url,header &#x3D; headers)</p></li><li><p>伪装浏览器代理，避免反爬虫<br>*如果你向<a href="https://www.douban.com/%E5%8F%91%E9%80%81%E8%AF%B7%E6%B1%82%EF%BC%8C%E5%93%8D%E5%BA%94%E7%A0%81%E4%B8%BA418%EF%BC%8C">https://www.douban.com/发送请求，响应码为418，</a><br>  headers &#x3D; {<br>  ‘user-agent’:<br>  ‘Mozilla&#x2F;5.0 (Linux; Android 6.0; Nexus 5 Build&#x2F;MRA58N) AppleWebKit&#x2F;537.36 (KHTML, like Gecko) Chrome&#x2F;116.0.0.0 Mobile Safari&#x2F;537.36 Edg&#x2F;116.0.1938.69’<br>  }</p></li></ul><h3 id="关于response"><a href="#关于response" class="headerlink" title="关于response"></a>关于response</h3><p>你可以定义参数response（或者其他名字）接收request的返回。</p><ul><li><p>返回响应状态码</p><p>  status_code &#x3D; response.status_code</p></li><li><p>返回网页HTML文件</p><p>  content &#x3D; response.content</p></li></ul><h3 id="了解更多"><a href="#了解更多" class="headerlink" title="了解更多"></a>了解更多</h3><ul><li><a href="https://www.runoob.com/python3/python-requests.html">菜鸟教程</a></li></ul><h1 id="三-代码实例"><a href="#三-代码实例" class="headerlink" title="三. 代码实例"></a>三. 代码实例</h1><pre><code>import requestsurl = &#39;https://www.baidu.com&#39;response = requests.get(url)if(response.status_code == 200):    print(response.content)else:    print(response.status_code)</code></pre><h1 id="四-问题？"><a href="#四-问题？" class="headerlink" title="四. 问题？"></a>四. 问题？</h1><h2 id="1-response-text-response-content返回中文？"><a href="#1-response-text-response-content返回中文？" class="headerlink" title="1. response.text&#x2F;response.content返回中文？"></a>1. response.text&#x2F;response.content返回中文？</h2><p>你可以使用response.content.decode(‘utf-8’)使得content正常的显示中文内容。</p><p>另外，response.text使用推测的解码格式（ISO-8859-1），相当于response.content.decode(response.encoding)；而response.content将逐一字节进行解码。</p><h2 id="2-418-I’m-a-teapot？"><a href="#2-418-I’m-a-teapot？" class="headerlink" title="2. 418 | I’m a teapot？"></a>2. 418 | I’m a teapot？</h2><p>大概：服务器表示我是一个茶壶，需要咖啡的话别找我。</p><p>当然，具体意思需要结合实际场景。</p><p>如果某些网站反爬虫，那么如果你不表示你的代理是浏览器的话，你也会收到418。</p><p>解决方案也很简单，使用header{‘user-agent’:xxx}，来声称你使用浏览器代理访问网站。</p>]]></content>
+        <content type="html"><![CDATA[<p><em>你需要先了解…</em></p><p><em>关于此文章…</em></p><h1 id="一-Requests-概述"><a href="#一-Requests-概述" class="headerlink" title="一. Requests-概述"></a>一. Requests-概述</h1><p>Request是Python的第三方库，用于网络请求并接收返回的数据，你需要在Python的虚拟环境中安装使用。</p><ul><li><p>Request帮助你发送网络请求，同时你可以自定义Request携带的参数。</p></li><li><p>另外，Request模块接收响应请求的数据，并把Response作为函数的返回。</p></li><li><p>如果你想实现一个爬虫，对返回的网页文件进行Xpath&#x2F;正则表达式解析，并将你需要的内容存储即可。</p></li></ul><h1 id="二-Request基础"><a href="#二-Request基础" class="headerlink" title="二. Request基础"></a>二. Request基础</h1><h2 id="1-下载-安装"><a href="#1-下载-安装" class="headerlink" title="1. 下载&amp;安装"></a>1. 下载&amp;安装</h2><pre><code class="cmd">pip/pip3 install requests</code></pre><h2 id="2-Request库"><a href="#2-Request库" class="headerlink" title="2. Request库"></a>2. Request库</h2><h3 id="关于request"><a href="#关于request" class="headerlink" title="关于request"></a>关于request</h3><p>request支持各种HTTP方法，同时你可以指定请求所携带的内容。</p><ul><li>获取响应文件</li></ul><pre><code class="Python">response = request.get(url)</code></pre><ul><li>带上请求头headers</li></ul><pre><code class="Python">response = request.get(url, headers = headers)</code></pre><ul><li>伪装浏览器代理，避免反爬虫<br>*如果你向<a href="https://www.douban.com/%E5%8F%91%E9%80%81%E8%AF%B7%E6%B1%82%EF%BC%8C%E5%93%8D%E5%BA%94%E7%A0%81%E4%B8%BA418%EF%BC%8C">https://www.douban.com/发送请求，响应码为418，</a></li></ul><pre><code class="Python">headers = &#123;    &#39;user-agent&#39;:    &#39;Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Mobile Safari/537.36 Edg/116.0.1938.69&#39;    &#125;</code></pre><h3 id="关于response"><a href="#关于response" class="headerlink" title="关于response"></a>关于response</h3><p>你可以定义参数response（或者其他名字）接收request的返回。</p><ul><li>返回响应状态码</li></ul><pre><code class="Python">status_code = response.status_code</code></pre><ul><li>返回网页HTML文件</li></ul><pre><code class="Python">content = response.content</code></pre><h3 id="了解更多"><a href="#了解更多" class="headerlink" title="了解更多"></a>了解更多</h3><ul><li><a href="https://www.runoob.com/python3/python-requests.html">菜鸟教程</a></li></ul><h1 id="三-代码实例"><a href="#三-代码实例" class="headerlink" title="三. 代码实例"></a>三. 代码实例</h1><pre><code class="python">    import requests    url = &#39;https://www.baidu.com&#39;    response = requests.get(url)    if(response.status_code == 200):        print(response.content)    else:        print(response.status_code)</code></pre><h1 id="四-问题？"><a href="#四-问题？" class="headerlink" title="四. 问题？"></a>四. 问题？</h1><h2 id="1-response-text-response-content返回中文？"><a href="#1-response-text-response-content返回中文？" class="headerlink" title="1. response.text&#x2F;response.content返回中文？"></a>1. response.text&#x2F;response.content返回中文？</h2><p>你可以使用 <em><strong>response.content.decode(‘utf-8’)</strong></em> 使得content正常的显示中文内容。</p><p>另外， <em><strong>response.text</strong></em> 使用推测的解码格式（ISO-8859-1），相当于 <em><strong>response.content.decode(response.encoding)</strong></em> 。</p><h2 id="2-418-I’m-a-teapot？"><a href="#2-418-I’m-a-teapot？" class="headerlink" title="2. 418 | I’m a teapot？"></a>2. 418 | I’m a teapot？</h2><p>大概：服务器表示我是一个茶壶，需要咖啡的话别找我。</p><p>当然，具体意思需要结合实际场景。</p><p>如果某些网站反爬虫，那么如果你不表示你的代理是浏览器的话，你也会收到418。</p><p>解决方案也很简单，使用 <em><strong>headers{‘user-agent’:’xxx’}</strong></em> 来声称你使用浏览器代理访问网站。</p>]]></content>
       
       
       <categories>
@@ -146,9 +142,13 @@
       
         <tags>
             
-            <tag> web </tag>
+            <tag> 爬虫 </tag>
             
-            <tag> 爬虫，python，requests </tag>
+            <tag> Web </tag>
+            
+            <tag> Python </tag>
+            
+            <tag> Requests </tag>
             
         </tags>
       
@@ -460,7 +460,7 @@
       <link href="/2023/08/21/blog_pre/"/>
       <url>/2023/08/21/blog_pre/</url>
       
-        <content type="html"><![CDATA[<h2 id="1-博客？"><a href="#1-博客？" class="headerlink" title="1. 博客？"></a>1. 博客？</h2><p>一些好看的博客：<a href="https://butterfly.js.org/link/#%E7%A4%BA%E4%BE%8B">这里</a></p><p>我的个人博客：<a href="https://yangcheneee.github.io/">良月的小窝</a></p><p><img src="/img/blog_pre/image.png" alt="Alt text"></p><p>你可以通过这个系列文章做出与我相似的个人博客，当然或许更好。</p><h2 id="2-个人博客有啥用？"><a href="#2-个人博客有啥用？" class="headerlink" title="2. 个人博客有啥用？"></a>2. 个人博客有啥用？</h2><ul><li><p>个人博客主要用于记录你的学习笔记，简单来说博客是一个在线记事本。</p></li><li><p>除此之外，个人博客可以用于知识分享，其他人可以通过网络访问你的博客。</p></li><li><p>抑或是用于满足好奇心，抑或是喜欢漂亮的博客页面……</p></li><li><p>总之，搭建你的个人博客并不需要太多理由，只是去做也是一种乐趣！</p></li></ul><h2 id="3-搭建个人博客难吗？"><a href="#3-搭建个人博客难吗？" class="headerlink" title="3. 搭建个人博客难吗？"></a>3. 搭建个人博客难吗？</h2><p>一点都不难！</p><p>你可以不写任何代码，只是安装一些文件并配置它们就可以搭建属于你的个人博客。</p><h2 id="4-如何搭建我的个人博客？"><a href="#4-如何搭建我的个人博客？" class="headerlink" title="4. 如何搭建我的个人博客？"></a>4. 如何搭建我的个人博客？</h2><p>我采用GitHub Pages搭建hexo框架的butterfly主题博客，这是一种简单的方式。</p><p>大概流程：下载框架和主题文件；修改配置以美化你的博客界面；生成网页静态文件上传到Git Hub仓库使得其他人可以访问。</p><p>如果你感兴趣，我很乐意继续讲下去。</p>]]></content>
+        <content type="html"><![CDATA[<p><em>如果你有任何问题，在评论提出</em></p><h2 id="1-博客？"><a href="#1-博客？" class="headerlink" title="1. 博客？"></a>1. 博客？</h2><p>一些好看的博客：<a href="https://butterfly.js.org/link/#%E7%A4%BA%E4%BE%8B">这里</a></p><p>我的个人博客：<a href="https://yangcheneee.github.io/">良月的小窝</a></p><p><img src="/img/blog_pre/image.png" alt="Alt text"></p><p>你可以通过这个系列文章做出与我相似的个人博客，当然或许更好。</p><h2 id="2-个人博客有啥用？"><a href="#2-个人博客有啥用？" class="headerlink" title="2. 个人博客有啥用？"></a>2. 个人博客有啥用？</h2><ul><li><p>个人博客主要用于记录你的学习笔记，简单来说博客是一个在线记事本。</p></li><li><p>除此之外，个人博客可以用于知识分享，其他人可以通过网络访问你的博客。</p></li><li><p>抑或是用于满足好奇心，抑或是喜欢漂亮的博客页面……</p></li><li><p>总之，搭建你的个人博客并不需要太多理由，只是去做也是一种乐趣！</p></li></ul><h2 id="3-搭建个人博客难吗？"><a href="#3-搭建个人博客难吗？" class="headerlink" title="3. 搭建个人博客难吗？"></a>3. 搭建个人博客难吗？</h2><p>一点都不难！</p><p>你可以不写任何代码，只是安装一些文件并配置它们就可以搭建属于你的个人博客。</p><h2 id="4-如何搭建我的个人博客？"><a href="#4-如何搭建我的个人博客？" class="headerlink" title="4. 如何搭建我的个人博客？"></a>4. 如何搭建我的个人博客？</h2><p>我采用GitHub Pages搭建hexo框架的butterfly主题博客，这是一种简单的方式。</p><p>大概流程：下载框架和主题文件；修改配置以美化你的博客界面；生成网页静态文件上传到Git Hub仓库使得其他人可以访问。</p><p>如果你感兴趣，我很乐意继续讲下去。</p>]]></content>
       
       
       <categories>
