@@ -4,25 +4,29 @@
   
     
     <entry>
-      <title>爬虫-写在前面</title>
-      <link href="/2023/09/14/spider_pre/"/>
-      <url>/2023/09/14/spider_pre/</url>
+      <title>DHCP安全性分析</title>
+      <link href="/2023/09/26/network_protocol_DHCP/"/>
+      <url>/2023/09/26/network_protocol_DHCP/</url>
       
-        <content type="html"><![CDATA[<p><em>如果你有任何问题，在评论提出</em></p><h2 id="1-爬虫？"><a href="#1-爬虫？" class="headerlink" title="1. 爬虫？"></a>1. 爬虫？</h2><p>爬虫（Spider）常常用于批量获取网络数据资源。</p><p>依托于大数据时代，爬虫在互联网中的地位逐渐凸显，以下是爬虫一些具体应用。</p><ul><li>爬取社交媒体的热点事件评论可以帮助我们分析舆论倾向。</li><li>爬取资源（图片&#x2F;音乐&#x2F;视频）分享到互联网，做一个资源（图片&#x2F;音乐&#x2F;视频）网站。</li><li>爬取数据可以作为机器学习的数据集，像情感分析模型，AI绘画模型都会依赖大量数据集。</li><li>当然，如果你尝试编写爬虫，相信你会对Web有新的理解同时提高你的python编程能力。</li></ul><h2 id="2-爬虫学习基础？"><a href="#2-爬虫学习基础？" class="headerlink" title="2. 爬虫学习基础？"></a>2. 爬虫学习基础？</h2><p>如果你对Web和HTTP协议没有基本的了解并且没有什么python编程基础，我相信这些都不是什么问题，爬虫并没有那么困难。</p><p>人生的困难和挫折就像薛定谔的猫。当你尝试阅读这篇博客，编写代码并坚持下去，心里成见的大山也变为了晴空万里的草原。</p><p>你什么都不会，你开始你将什么都会。</p><h2 id="3-爬虫的一些理解"><a href="#3-爬虫的一些理解" class="headerlink" title="3. 爬虫的一些理解"></a>3. 爬虫的一些理解</h2><p>这一部分有一定的局限性，你可以参考。</p><ul><li>爬虫或者网络爬虫依靠于Web的HTTP协议，学习爬虫可以让你更加理解Web</li><li>爬虫一般经历三个步骤：向服务器发送请求获取响应文件；分析响应文件提取关键内容；保存内容到本地。</li><li>只要你能在浏览器上看到的，你就能够爬取。因为服务器将数据给你后才能在浏览器显示，所以爬虫也能够请求获取这个数据。</li></ul>]]></content>
+        <content type="html"><![CDATA[<p>等我有空了更新</p><p>这个部分也蛮有意思…有一些安全性的东西。</p><p>很刑，日子越来越有判头</p><h1 id="一-DHCP协议概述"><a href="#一-DHCP协议概述" class="headerlink" title="一. DHCP协议概述"></a>一. DHCP协议概述</h1><h1 id="1-饿死攻击"><a href="#1-饿死攻击" class="headerlink" title="1. 饿死攻击"></a>1. 饿死攻击</h1>]]></content>
       
       
       <categories>
           
-          <category> 爬虫 </category>
+          <category> 计算机网络 </category>
           
       </categories>
       
       
         <tags>
             
-            <tag> 爬虫 </tag>
+            <tag> internet </tag>
             
-            <tag> Web </tag>
+            <tag> 计算机网络 </tag>
+            
+            <tag> Protocol </tag>
+            
+            <tag> DHCP </tag>
             
         </tags>
       
@@ -31,11 +35,104 @@
     
     
     <entry>
-      <title>爬虫-微博爬虫实例</title>
-      <link href="/2023/09/14/spider_weibo/"/>
-      <url>/2023/09/14/spider_weibo/</url>
+      <title>ARP毒化</title>
+      <link href="/2023/09/26/network_ARP/"/>
+      <url>/2023/09/26/network_ARP/</url>
       
-        <content type="html"><![CDATA[<p><em>你需要先了解…</em></p><p><em>关于此文章…</em></p><p>懒得写，贴个源码。<br>需要传入你的cookie</p><pre><code class="python">import requests  # 网络请求import random  # 与time控制网络请求频率import time  # 与random控制网络请求频率import json  # 响应的json数据分析from tqdm import tqdm  # 进度条# 由此函数完成 请求-响应解析 的过程# 接收评论json文件的url，解析json文件并返回评论信息字典（max，total_number,max_id，max_id_type，commentlist[]）def getCommentTnfo(commenturl):    # 请求评论json文件    # print(commenturl)    headers = &#123;        &quot;cookie&quot;: &quot;SUB=_2A25J-Z1_DeRhGeBP4loQ8yvEyzuIHXVrBSM3rDV6PUJbktANLXHDkW1NRQvz7mF3V6LkmIQfpFNkz0dbWMbaAvWq; SUBP=0033WrSXqPxfM725Ws9jqgMF55529P9D9W5Ud4KeeqIoRj0Ip037Z1OD5NHD95QceK.ReKef1h5NWs4DqcjGBgSET-H_M5tt; _T_WM=58995471467; MLOGIN=1; BAIDU_SSP_lcr=https://cn.bing.com/; M_WEIBOCN_PARAMS=oid%3D4945284825617444%26luicode%3D20000061%26lfid%3D4945284825617444%26uicode%3D20000061%26fid%3D4945284825617444; XSRF-TOKEN=17cb5d&quot;,        &#39;user-agent&#39;: &#39;Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Mobile Safari/537.36 Edg/116.0.1938.76&#39;    &#125;    response = requests.get(commenturl, headers=headers)    # 解析json文件内容：max_id，max_id_type，commentlist[]    # max,total_number是第一次请求要获取的信息    dic = &#123;        &#39;max&#39;: 0,        &#39;total_number&#39;: 0,        &#39;max_id&#39;: 0,        &#39;max_id_type&#39;: 0,        &#39;comment_list&#39;: []    &#125;    comment_json = json.loads(response.text)    if (comment_json[&quot;ok&quot;] == 1):        data = comment_json[&quot;data&quot;]        dic[&quot;max&quot;] = data[&quot;max&quot;]        dic[&quot;total_number&quot;] = data[&quot;total_number&quot;]        dic[&quot;max_id&quot;] = data[&quot;max_id&quot;]        dic[&quot;max_id_type&quot;] = data[&quot;max_id_type&quot;]        list = data[&quot;data&quot;]        for li in list:            user = li[&quot;user&quot;]            name = user[&quot;screen_name&quot;]            gender = user[&quot;gender&quot;]            source = li[&quot;source&quot;]            text = li[&quot;text&quot;]            # print(name + &quot;(&quot; + gender + &quot;|&quot; + source + &quot;)&quot; + &quot;:&quot; + text)            dic[&quot;comment_list&quot;].append(name + &quot;(&quot; + gender + &quot;|&quot; + source + &quot;)&quot; + &quot;:&quot; + text)        return dic    # 如果不写else，那么python默认函数返回None    else:        return dic# 此函数调用getCommentList函数,输入不同的max_id# 输入文章url，返回评论信息def getcomments():    blog = input(&quot;请输入帖子的url:&quot;)    id = blog.split(&#39;/&#39;)[-1]    mid = blog.split(&#39;/&#39;)[-1]    max_id_type = 0    comment_list = []    print(&quot;正在分析中...&quot;)    comment_url = &quot;https://m.weibo.cn/comments/hotflow?id=&quot; + id + &quot;&amp;mid=&quot; + mid + &quot;&amp;max_id_type=&quot; + str(max_id_type)    dic = getCommentTnfo(comment_url)    # max，total_number第一次请求时赋值，分析有多少页和多少评论    max = dic[&quot;max&quot;]    total_number = dic[&quot;total_number&quot;]    max_id = dic[&quot;max_id&quot;]    max_id_type = dic[&quot;max_id_type&quot;]    comment_list = comment_list + dic[&quot;comment_list&quot;]    print(&quot;查询到&quot; + str(max) + &quot;页内容，共计&quot; + str(total_number) + &quot;条评论&quot;)    print(&quot;正在爬取中...&quot;)    for i in tqdm(range(max-1)):    # for i in range(max - 1):        time.sleep(random.uniform(1.0, 3.0))        comment_url = &quot;https://m.weibo.cn/comments/hotflow?id=&quot; + id + &quot;&amp;mid=&quot; + mid + &quot;&amp;max_id=&quot; + str(max_id) + &quot;&amp;max_id_type=&quot; + str(max_id_type)        if(dic[&quot;max_id&quot;]!=0):            dic = getCommentTnfo(comment_url)            max_id = dic[&quot;max_id&quot;]            max_id_type = dic[&quot;max_id_type&quot;]            comment_list = comment_list + dic[&quot;comment_list&quot;]    # 是否预览    preview = input(&quot;共&quot; + str(len(comment_list)) + &quot;条记录，预览（y/n）：&quot;)    if (preview == &quot;y&quot; or preview == &quot;Y&quot;):        for comment in comment_list:            print(comment)    # 是否保存    save = input(&quot;共&quot; + str(len(comment_list)) + &quot;条记录，保存（y/n）：&quot;)    if (save == &quot;y&quot; or save == &quot;Y&quot;):        print(&quot;正在写入中...&quot;)        with open(&quot;comment.txt&quot;, &quot;w&quot;, encoding=&quot;utf-8&quot;) as f:            for comment in tqdm(comment_list):                f.writelines(comment + &quot;\n&quot;)if __name__ == &#39;__main__&#39;:    while (True):        print(&quot;-------微博评论爬虫-------&quot;)        print(&quot;             by liangyue&quot;)        getcomments()</code></pre>]]></content>
+        <content type="html"><![CDATA[<h1 id="一-ARP协议概述"><a href="#一-ARP协议概述" class="headerlink" title="一. ARP协议概述"></a>一. ARP协议概述</h1><p>建议你先学习计算机网络以及ARP协议部分。</p><h2 id="1-arp缓存"><a href="#1-arp缓存" class="headerlink" title="1. arp缓存"></a>1. arp缓存</h2><h3 id="查看你的主机arp缓存"><a href="#查看你的主机arp缓存" class="headerlink" title="查看你的主机arp缓存"></a>查看你的主机arp缓存</h3><p>arp缓存表存储在主机的内存中。</p><ul><li>对于Windows操作系统，你可以在终端中使用命令 <em><strong>arp -a</strong></em> 查看电脑的arp缓存表。</li><li>对于Linux操作系统，使用命令 <em><strong>arp</strong></em> 即可。</li></ul><h3 id="你的arp缓存表的内容"><a href="#你的arp缓存表的内容" class="headerlink" title="你的arp缓存表的内容"></a>你的arp缓存表的内容</h3><p>一般来说，arp缓存只关心子网下其他主机。</p><ul><li>对于路由器下的子网，arp缓存其他主机的MAC地址为路由器（网关）的MAC地址，因为主机访问其他主机的下一跳是路由器。</li><li>对于交换机下的子网，arp缓存其他主机的真实MAC地址。</li><li>当你访问子网外的IP地址时，MAC地址默认为网关地址。</li></ul><h2 id="2-arp报文"><a href="#2-arp报文" class="headerlink" title="2. arp报文"></a>2. arp报文</h2><p>你可以使用python的scapy库写一个arp请求函数，这非常简单。</p><pre><code class="python">def arp(ipy):    dst_ip_list = IPY(ipy)    alive_ip_list = []    for dst_ip in dst_ip_list:        pkt = ARP(pdst=str(dst_ip))        # pkt.show()        ans = sr1(pkt, timeout=1, verbose=False)        if ans is not None:            # ans.summary()            # ans.show()            alive_ip_list.append(dst_ip)            print(dst_ip, &#39;is up&#39;)        else:            print(dst_ip, &#39;is closed&#39;)    return alive_ip_list</code></pre><p>构造一个请求，通过warsahrk抓包，你可以对协议的实现有更多了解。</p><h1 id="二-断断室友的网？刑"><a href="#二-断断室友的网？刑" class="headerlink" title="二. 断断室友的网？刑"></a>二. 断断室友的网？刑</h1><p><em><strong>本次实验在虚拟环境中完成，你需要知道未被授权的攻击不被允许。</strong></em></p><p>当你了解arp缓存和arp报文相关内容以后，下面这一步非常简单。</p><p>这里有两台虚拟机。Ubuntu（20.04）发起arp攻击；Windows（7）作为被攻击对象，并查看被攻击后的结果。</p><p>下面是实操部分：</p><h2 id="1-Ubuntu发起攻击"><a href="#1-Ubuntu发起攻击" class="headerlink" title="1. Ubuntu发起攻击"></a>1. Ubuntu发起攻击</h2><h3 id="安装dsniff"><a href="#安装dsniff" class="headerlink" title="安装dsniff"></a>安装dsniff</h3><p>在终端输入命令 <em><strong>sudo apt install dsniff</strong></em>，这里我已经安装完成。<br><img src="/img/network_arp/image.png" alt="Alt text"></p><h3 id="使用dsniff毒化目标主机"><a href="#使用dsniff毒化目标主机" class="headerlink" title="使用dsniff毒化目标主机"></a>使用dsniff毒化目标主机</h3><p><em><strong>网关IP：192.168.59.2</strong></em></p><p><em><strong>目标主机IP：192.168.59.137</strong></em></p><p><img src="/img/network_arp/image-2.png" alt="Alt text"></p><h2 id="2-Windows受到攻击"><a href="#2-Windows受到攻击" class="headerlink" title="2. Windows受到攻击"></a>2. Windows受到攻击</h2><h3 id="受到攻击之前"><a href="#受到攻击之前" class="headerlink" title="受到攻击之前"></a>受到攻击之前</h3><p>Windows虚拟机可以正常访问网络，这里访问百度作为测试</p><p><img src="/img/network_arp/image-1.png" alt="Alt text"></p><h3 id="受到攻击之后"><a href="#受到攻击之后" class="headerlink" title="受到攻击之后"></a>受到攻击之后</h3><p>Windows虚拟机无法正常访问网络</p><p><img src="/img/network_arp/image-3.png" alt="Alt text"></p><h3 id="看看Windows虚拟机arp缓存表"><a href="#看看Windows虚拟机arp缓存表" class="headerlink" title="看看Windows虚拟机arp缓存表"></a>看看Windows虚拟机arp缓存表</h3><p>可以看到Windows主机arp缓存被毒化之后网关IP映射的MAC地址变成了发起攻击Ubuntu的MAC地址。因此Windows虚拟机访问其他主机时，流量指向发起攻击的Ubuntu主机。利用这一点我们还可以做一些事情，比如中间人攻击。</p><p><img src="/img/network_arp/image-4.png" alt="Alt text"></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 计算机网络 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> ARP </tag>
+            
+            <tag> internet </tag>
+            
+            <tag> 计算机网络 </tag>
+            
+            <tag> Protocol </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>网络：协议</title>
+      <link href="/2023/09/25/network_protocol/"/>
+      <url>/2023/09/25/network_protocol/</url>
+      
+        <content type="html"><![CDATA[<p>基础部分实在懒得写，如果你想学习，这只是一个目录。</p><p>以后的文章应该都是面向实际问题和操作。</p><h1 id="一-协议"><a href="#一-协议" class="headerlink" title="一. 协议"></a>一. 协议</h1><h2 id="1-IP协议"><a href="#1-IP协议" class="headerlink" title="1. IP协议"></a>1. IP协议</h2><h2 id="2-ARP协议"><a href="#2-ARP协议" class="headerlink" title="2. ARP协议"></a>2. ARP协议</h2><h2 id="3-TCP-UDP协议"><a href="#3-TCP-UDP协议" class="headerlink" title="3. TCP&#x2F;UDP协议"></a>3. TCP&#x2F;UDP协议</h2><h2 id="4-ICMP协议"><a href="#4-ICMP协议" class="headerlink" title="4. ICMP协议"></a>4. ICMP协议</h2><h2 id="6-DHCP协议"><a href="#6-DHCP协议" class="headerlink" title="6. DHCP协议"></a>6. DHCP协议</h2><h2 id="7-DNS协议"><a href="#7-DNS协议" class="headerlink" title="7. DNS协议"></a>7. DNS协议</h2><h2 id="7-其他各种应用层协议"><a href="#7-其他各种应用层协议" class="headerlink" title="7. 其他各种应用层协议"></a>7. 其他各种应用层协议</h2>]]></content>
+      
+      
+      <categories>
+          
+          <category> 计算机网络 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 网络 </tag>
+            
+            <tag> network </tag>
+            
+            <tag> internet </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>网络：扫描工具</title>
+      <link href="/2023/09/24/network_scanner/"/>
+      <url>/2023/09/24/network_scanner/</url>
+      
+        <content type="html"><![CDATA[<h1 id="一-扫描工具"><a href="#一-扫描工具" class="headerlink" title="一. 扫描工具"></a>一. 扫描工具</h1><p>下面是代码</p><p>文档等有空上传</p><pre><code class="python">from scapy.all import *from IPy import IP as IPYfrom scapy.layers.inet import ICMP, IP, TCPfrom scapy.layers.l2 import ARPdef preview(list):    preview = input(&quot;预览（y/n）:&quot;)    if preview == &#39;y&#39; or &#39;Y&#39;:        for li in list:            print(li)def arp(ipy):    dst_ip_list = IPY(ipy)    alive_ip_list = []    for dst_ip in dst_ip_list:        pkt = ARP(pdst=str(dst_ip))        ans = sr1(pkt, timeout=1, verbose=False)        if ans is not None:            # ans.summary()            # ans.show()            alive_ip_list.append(dst_ip)            print(dst_ip, &#39;is up&#39;)        else:            print(dst_ip, &#39;is closed&#39;)    return alive_ip_listdef ping(ipy):    dst_ip_list = IPY(ipy)    alive_ip_list = []    for dst_ip in dst_ip_list:        pkt = IP(dst=str(dst_ip)) / ICMP() / b&#39;hello&#39;        ans = sr1(pkt, timeout=1, verbose=False)        if ans is not None:            if ans[ICMP].type == 0:                if ans[IP].ttl &lt;= 64:                    print(dst_ip, &#39;(Linux)&#39;, &#39;is up&#39;)                elif ans[IP].ttl &lt;= 128:                    print(dst_ip, &#39;(Windows)&#39;, &#39;is up&#39;)                else:                    print(dst_ip, &#39;(Mac/Unix)&#39;, &#39;is up&#39;)                alive_ip_list.append(dst_ip)            elif ans[ICMP].type == 11:                print(dst_ip, &#39;is timeout&#39;)            elif ans[ICMP].type == 3:                print(dst_ip, &#39;is unreachable&#39;)            elif ans[ICMP].type == 4:                print(dst_ip, &#39;source quench&#39;)            elif ans[ICMP].type == 5:                print(dst_ip, &#39;redirect&#39;)            elif ans[ICMP].type == 12:                print(dst_ip, &#39;参数问题&#39;)            else:                print(dst_ip, &#39;其他问题：[ICMP].type&#39;, ans[ICMP].type)        else:            print(dst_ip, &#39;is probably filtered(no response)&#39;)    return alive_ip_listdef syn_scan(dst_ip, n, m):    alive_port_list = []    for i in range(n, m):        pkt = IP(dst=str(dst_ip)) / TCP(dport=int(i))        # pkt = IP(dst=str(dst_ip)) / TCP(sport=random.randint(1,65536),dport=int(i))        # pkt.show()        ans = sr1(pkt, timeout=1, verbose=False)        if ans is not None:            # ans.summary()            # ans.show()            if ans[TCP].flags == &#39;SA&#39;:                print(i, &#39;port is open&#39;)                alive_port_list.append(i)                rst = IP(dst=str(dst_ip)) / TCP(dport=int(i), flags=&#39;R&#39;)                sr1(rst, timeout=1, verbose=False)            else:                print(i, &#39;port is closed&#39;)        else:            print(i, &#39;port is filtered&#39;)    return alive_port_listdef ack_scan(dst_ip, n, m):    alive_port_list = []    for i in range(n, m):        pkt = IP(dst=str(dst_ip)) / TCP(dport=int(i), flags=&#39;A&#39;)        # pkt.show()        ans = sr1(pkt, timeout=0.2, verbose=False)        if ans is None:            print(i, &#39;port is filtered&#39;)        else:            # ans.summary()            # ans.show()            print(i, &#39;port is closed&#39;)    return alive_port_listdef fin_scan(dst_ip, n, m):    alive_port_list = []    for i in range(n, m):        pkt = IP(dst=str(dst_ip)) / TCP(dport=int(i), flags=&#39;F&#39;)        # pkt.show()        ans = sr1(pkt, timeout=1, verbose=False)        if ans is None:            print(i, &#39;port is open or filtered&#39;)            alive_port_list.append(i)        else:            # ans.summary()            # ans.show()            print(i, &#39;port is closed&#39;)    return alive_port_listdef null_scan(dst_ip, n, m):    alive_port_list = []    for i in range(n, m):        pkt = IP(dst=str(dst_ip)) / TCP(dport=int(i), flags=0)        # pkt.show()        ans = sr1(pkt, timeout=1, verbose=False)        if ans is None:            print(i, &#39;port is open or filtered&#39;)            alive_port_list.append(i)        else:            # ans.summary()            # ans.show()            print(i, &#39;port is closed&#39;)    return alive_port_listdef xmas_scan(dst_ip, n, m):    alive_port_list = []    for i in range(n, m):        pkt = IP(dst=str(dst_ip)) / TCP(dport=int(i), flags=1)        # pkt.show()        ans = sr1(pkt, timeout=1, verbose=False)        if ans is None:            print(i, &#39;port is open or filtered&#39;)            alive_port_list.append(i)        else:            # ans.summary()            # ans.show()            print(i, &#39;port is closed&#39;)    return alive_port_listdef windows_scan(dst_ip, n, m):    alive_port_list = []    for i in range(n, m):        pkt = IP(dst=str(dst_ip)) / TCP(dport=int(i), flags=&#39;S&#39;)        # pkt.show()        ans = sr1(pkt, timeout=1, verbose=False)        if ans is not None:            # ans.summary()            # ans.show()            if ans[TCP].window != 0:                print(i, &#39;port is open&#39;)                alive_port_list.append(i)                rst = IP(dst=str(dst_ip)) / TCP(dport=int(i), flags=&#39;R&#39;)                sr1(rst, timeout=1, verbose=False)            else:                print(i, &#39;port is closed&#39;)        else:            print(i, &#39;port is filtered&#39;)    return alive_port_listif __name__ == &#39;__main__&#39;:    # 主机ip（移动）    # dst_ip = &#39;10.132.68.173&#39;    # 网关ip    # dst_ip = &#39;10.132.168.1&#39;    # 子网    # dst_ip = &#39;10.132.168.0/21&#39;    # Windows虚拟机ip    # dst_ip = &#39;192.168.59.132&#39;    # Linux虚拟机ip    # dst_ip = &#39;192.168.59.131&#39;    while True:        print(&#39;-------net scanner-------&#39;)        service = input(&#39;你选择主机扫描或是端口扫描?（host/port）：&#39;)        if service == &#39;host&#39;:            way = input(&#39;请输入扫描方式（arp/ping）：&#39;)            if way == &#39;ping&#39;:                dst_ip = input(&#39;请输入你要查询的主机或者范围：&#39;)                alive_ip_list = ping(dst_ip)                preview(alive_ip_list)            elif way == &#39;arp&#39;:                dst_ip = input(&#39;请输入你要查询的主机或者范围：&#39;)                alive_ip_list = arp(dst_ip)                preview(alive_ip_list)        elif service == &#39;port&#39;:            way = input(&#39;请输入扫描方式（syn/windows/ack/fin/null/xmas）：&#39;)            if way == &#39;syn&#39;:                dst_ip = input(&#39;请输入你要查询的主机：&#39;)                alive_port_list = syn_scan(dst_ip, 1, 1024)                preview(alive_port_list)            elif way == &#39;windows&#39;:                dst_ip = input(&#39;请输入你要查询的主机：&#39;)                alive_port_list = windows_scan(dst_ip, 1, 1024)                preview(alive_port_list)            elif way == &#39;ack&#39;:                dst_ip = input(&#39;请输入你要查询的主机：&#39;)                alive_port_list = ack_scan(dst_ip, 1, 1024)                preview(alive_port_list)            elif way == &#39;fin&#39;:                dst_ip = input(&#39;请输入你要查询的主机：&#39;)                alive_port_list = fin_scan(dst_ip, 1, 1024)                preview(alive_port_list)            elif way == &#39;null&#39;:                dst_ip = input(&#39;请输入你要查询的主机：&#39;)                alive_port_list = null_scan(dst_ip, 1, 1024)                preview(alive_port_list)            elif way == &#39;xmas&#39;:                dst_ip = input(&#39;请输入你要查询的主机：&#39;)                alive_port_list = xmas_scan(dst_ip, 1, 1024)                preview(alive_port_list)        else:            print(&#39;i am a teapot&#39;)</code></pre>]]></content>
+      
+      
+      <categories>
+          
+          <category> 计算机网络 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Python </tag>
+            
+            <tag> Scapy </tag>
+            
+            <tag> TCP </tag>
+            
+            <tag> ICMP </tag>
+            
+            <tag> ARP </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>微博爬虫实例</title>
+      <link href="/2023/09/16/spider_weibo/"/>
+      <url>/2023/09/16/spider_weibo/</url>
+      
+        <content type="html"><![CDATA[<p><em>你需要先了解…</em></p><p><em>关于此文章…</em></p><h1 id="一-帖子"><a href="#一-帖子" class="headerlink" title="一. 帖子"></a>一. 帖子</h1><p>懒得写，贴个源码。<br>爬不了的话，传入你的cookie</p><pre><code class="python">import requests  # 网络请求import random  # 与time控制网络请求频率import time  # 与random控制网络请求频率import json  # 响应的json数据分析from tqdm import tqdm  # 进度条# 由此函数完成 请求-响应解析 的过程# 接收评论json文件的url，解析json文件并返回评论信息字典（max，total_number,max_id，max_id_type，commentlist[]）def getCommentTnfo(commenturl):    # 请求评论json文件    # print(commenturl)    headers = &#123;        &quot;cookie&quot;: &quot;&quot;,        &#39;user-agent&#39;: &#39;Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Mobile Safari/537.36 Edg/116.0.1938.76&#39;    &#125;    response = requests.get(commenturl, headers=headers)    # 解析json文件内容：max_id，max_id_type，commentlist[]    # max,total_number是第一次请求要获取的信息    dic = &#123;        &#39;max&#39;: 0,        &#39;total_number&#39;: 0,        &#39;max_id&#39;: 0,        &#39;max_id_type&#39;: 0,        &#39;comment_list&#39;: []    &#125;    comment_json = json.loads(response.text)    if (comment_json[&quot;ok&quot;] == 1):        data = comment_json[&quot;data&quot;]        dic[&quot;max&quot;] = data[&quot;max&quot;]        dic[&quot;total_number&quot;] = data[&quot;total_number&quot;]        dic[&quot;max_id&quot;] = data[&quot;max_id&quot;]        dic[&quot;max_id_type&quot;] = data[&quot;max_id_type&quot;]        list = data[&quot;data&quot;]        for li in list:            user = li[&quot;user&quot;]            name = user[&quot;screen_name&quot;]            gender = user[&quot;gender&quot;]            source = li[&quot;source&quot;]            text = li[&quot;text&quot;]            # print(name + &quot;(&quot; + gender + &quot;|&quot; + source + &quot;)&quot; + &quot;:&quot; + text)            dic[&quot;comment_list&quot;].append(name + &quot;(&quot; + gender + &quot;|&quot; + source + &quot;)&quot; + &quot;:&quot; + text)        return dic    # 如果不写else，那么python默认函数返回None    else:        return dic# 此函数调用getCommentList函数,输入不同的max_id# 输入文章url，返回评论信息def getcomments():    blog = input(&quot;请输入帖子的url:&quot;)    id = blog.split(&#39;/&#39;)[-1]    mid = blog.split(&#39;/&#39;)[-1]    max_id_type = 0    comment_list = []    print(&quot;正在分析中...&quot;)    comment_url = &quot;https://m.weibo.cn/comments/hotflow?id=&quot; + id + &quot;&amp;mid=&quot; + mid + &quot;&amp;max_id_type=&quot; + str(max_id_type)    dic = getCommentTnfo(comment_url)    # max，total_number第一次请求时赋值，分析有多少页和多少评论    max = dic[&quot;max&quot;]    total_number = dic[&quot;total_number&quot;]    max_id = dic[&quot;max_id&quot;]    max_id_type = dic[&quot;max_id_type&quot;]    comment_list = comment_list + dic[&quot;comment_list&quot;]    print(&quot;查询到&quot; + str(max) + &quot;页内容，共计&quot; + str(total_number) + &quot;条评论&quot;)    print(&quot;正在爬取中...&quot;)    for i in tqdm(range(max-1)):    # for i in range(max - 1):        time.sleep(random.uniform(1.0, 3.0))        comment_url = &quot;https://m.weibo.cn/comments/hotflow?id=&quot; + id + &quot;&amp;mid=&quot; + mid + &quot;&amp;max_id=&quot; + str(max_id) + &quot;&amp;max_id_type=&quot; + str(max_id_type)        if(dic[&quot;max_id&quot;]!=0):            dic = getCommentTnfo(comment_url)            max_id = dic[&quot;max_id&quot;]            max_id_type = dic[&quot;max_id_type&quot;]            comment_list = comment_list + dic[&quot;comment_list&quot;]    # 是否预览    preview = input(&quot;共&quot; + str(len(comment_list)) + &quot;条记录，预览（y/n）：&quot;)    if (preview == &quot;y&quot; or preview == &quot;Y&quot;):        for comment in comment_list:            print(comment)    # 是否保存    save = input(&quot;共&quot; + str(len(comment_list)) + &quot;条记录，保存（y/n）：&quot;)    if (save == &quot;y&quot; or save == &quot;Y&quot;):        print(&quot;正在写入中...&quot;)        with open(&quot;comment.txt&quot;, &quot;w&quot;, encoding=&quot;utf-8&quot;) as f:            for comment in tqdm(comment_list):                f.writelines(comment + &quot;\n&quot;)if __name__ == &#39;__main__&#39;:    while (True):        print(&quot;-------微博评论爬虫-------&quot;)        print(&quot;             by liangyue&quot;)        getcomments()</code></pre><h1 id="二-评论"><a href="#二-评论" class="headerlink" title="二. 评论"></a>二. 评论</h1><pre><code class="python">import requests  # 网络请求import random  # 与time控制网络请求频率import time  # 与random控制网络请求频率import json  # 响应的json数据分析from tqdm import tqdm  # 进度条def analyse(blogurl):    # 请求&amp;响应    headers = &#123;        &#39;user-agent&#39;: &#39;Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Mobile Safari/537.36 Edg/116.0.1938.76&#39;    &#125;    response = requests.get(blogurl, headers=headers)    # 响应解析    list_dic_blog = []    response_json = json.loads(response.text)    if (response_json[&quot;ok&quot;] == 1):        data = response_json[&quot;data&quot;]        cards = data[&quot;cards&quot;]        for card in cards:            dic_blog = &#123;                &quot;user_name&quot;: &quot;&quot;,                &quot;user_gender&quot;: &quot;&quot;,                &quot;user_region&quot;: &quot;&quot;,                &quot;blog_text&quot;: &quot;&quot;,                &quot;blog_url&quot;: &quot;&quot;            &#125;            if &quot;mblog&quot; in card:                myblog = card[&quot;mblog&quot;]                user = myblog[&quot;user&quot;]                dic_blog[&quot;user_name&quot;] = user[&quot;screen_name&quot;]                dic_blog[&quot;user_gender&quot;] = user[&quot;gender&quot;]                if (&quot;status_province&quot; in myblog):                    dic_blog[&quot;user_region&quot;] = myblog[&quot;status_province&quot;]                mid = myblog[&quot;mid&quot;]                dic_blog[&quot;blog_text&quot;] = myblog[&quot;text&quot;]                dic_blog[&quot;blog_url&quot;] = &quot;https://m.weibo.cn/detail/&quot; + mid                list_dic_blog.append(dic_blog)            if &quot;card_group&quot; in card:                card_grop = card[&quot;card_group&quot;]                if &quot;mblog&quot; in card_grop[0]:                    myblog = (card_grop[0])[&quot;mblog&quot;]                    user = myblog[&quot;user&quot;]                    dic_blog[&quot;user_name&quot;] = user[&quot;screen_name&quot;]                    dic_blog[&quot;user_gender&quot;] = user[&quot;gender&quot;]                    if (&quot;status_province&quot; in myblog):                        dic_blog[&quot;user_region&quot;] = myblog[&quot;status_province&quot;]                    mid = myblog[&quot;mid&quot;]                    dic_blog[&quot;blog_text&quot;] = myblog[&quot;text&quot;]                    dic_blog[&quot;blog_url&quot;] = &quot;https://m.weibo.cn/detail/&quot; + mid                list_dic_blog.append(dic_blog)        return list_dic_blog    else:        return list_dic_blogdef getblog():    keyword = input(&quot;请输入关键字：&quot;)    page = input(&quot;请输入爬取页码（1-100）：&quot;)    page = int(page)    if (page &lt; 1 or page &gt; 100):        exit(418)    print(&quot;正在爬取中...&quot;)    list_dic_blog = []    for i in tqdm(range(page)):        if (page == 0):            blogurl = &quot;https://m.weibo.cn/api/container/getIndex?containerid=100103type%3D1%26q%3D&quot; + keyword + &quot;&amp;page_type=searchall&quot;            list_dic_blog = list_dic_blog + analyse(blogurl)        else:            time.sleep(random.uniform(1, 2))            blogurl = &quot;https://m.weibo.cn/api/container/getIndex?containerid=100103type%3D1%26q%3D&quot; + keyword + &quot;&amp;page_type=searchall&quot; + &quot;&amp;page=&quot; + str(                i)            list_dic_blog = list_dic_blog + analyse(blogurl)    # 是否预览？    preview = input(&quot;共&quot; + str(len(list_dic_blog)) + &quot;条记录，你是否希望预览（y/n）：&quot;)    if (preview == &quot;y&quot; or preview == &quot;Y&quot;):        for dic_blog in list_dic_blog:            print(dic_blog)    # 是否保存？    save = input(&quot;共&quot; + str(len(list_dic_blog)) + &quot;条记录，保存到blog.txt（y/n）：&quot;)    if (save == &quot;y&quot; or save == &quot;Y&quot;):        with open(&quot;blog.txt&quot;, &quot;w&quot;, encoding=&#39;Utf-8&#39;) as f:            for dic_blog in tqdm(list_dic_blog):                f.writelines(str(dic_blog) + &quot;\n&quot;)if __name__ == &#39;__main__&#39;:    print(&quot;-------微博帖子-------&quot;)    print(&quot;           By liangyue&quot;)    while(True):        getblog()</code></pre>]]></content>
       
       
       <categories>
@@ -47,9 +144,9 @@
       
         <tags>
             
-            <tag> 爬虫 </tag>
-            
             <tag> Web </tag>
+            
+            <tag> 爬虫 </tag>
             
             <tag> Python </tag>
             
@@ -64,16 +161,142 @@
     
     
     <entry>
-      <title>车载U盘</title>
-      <link href="/2023/09/09/other_u/"/>
-      <url>/2023/09/09/other_u/</url>
+      <title>子域名查询</title>
+      <link href="/2023/09/15/spider_subdomain/"/>
+      <url>/2023/09/15/spider_subdomain/</url>
       
-        <content type="html"><![CDATA[]]></content>
+        <content type="html"><![CDATA[<p><em>如果你有任何问题，在评论提出</em></p><p>网络空间攻防技术的第一个作业，简单记录一下。</p><h2 id="百度"><a href="#百度" class="headerlink" title="百度"></a>百度</h2><p>百度将子域名存在 <em><strong>div</strong></em> 标签的 <em><strong>mu</strong></em> 属性中，你可以通过 <em><strong>class_&#x3D;’result c-container xpath-log new-pmd’</strong></em> 找到这个 <em><strong>div</strong></em> 标签。</p><pre><code class="python"># 定义一个采用baidu搜索的方法def baidu_search():    ### html request construct    print(&quot;-------Powered by baidu-------&quot;)    # 输入域名和查询页数    domain = input(&quot;input the domain you want to query:&quot;)    page = input(&quot;The more page,the more subdomain(not sure):&quot;)    page = int(page)    if(page&lt;1 or page&gt;100):        exit(418)    # 定义请求头，绕过反爬机制    hearders = &#123;        # 填入你的cookie        &#39;cookie&#39;: &#39;&#39;,        &#39;user-agent&#39;: &#39;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.93 Safari/537.36 Edg/90.0.818.56&#39;,    &#125;    ### html request    print(&quot;url requesting...&quot;)    resp_list = []    # for i in range(0,page):    for i in tqdm(range(page)):        time.sleep(random.uniform(0.3, 2.0))        if(i==0):            url = &quot;https://www.baidu.com/s?wd=domain%3A&quot;+ domain            resp = requests.get(url, headers=hearders)  # 访问url，获取网页源码            resp_list.append(resp)        else:            url = &quot;https://www.baidu.com/s?wd=domain%3A&quot;+ domain +&quot;&amp;pn=&quot;+ str(i*10)            resp = requests.get(url, headers=hearders)  # 访问url，获取网页源码            resp_list.append(resp)    ### html response analysis    print(&quot;response analying...&quot;)    subdomain_list = []  # 定义一个空列表用于存储收集到的子域名    # for resp in resp_list:    for resp in tqdm(resp_list):        soup = BeautifulSoup(resp.content, &#39;html.parser&#39;)  # 创建一个BeautifulSoup对象，第一个参数是网页源码，第二个参数是Beautiful Soup 使用的 HTML 解析器，        # 锁定含有子域名的标签        tag_div = soup.find_all(&quot;div&quot;,class_=&#39;result c-container xpath-log new-pmd&#39;)        for i in tag_div:            link = i.get(&#39;mu&#39;)  # 获取标签内mu属性值，即子域名            # urlparse是一个解析url的工具，scheme获取url的协议名，netloc获取url的网络位置            subdomain = str(urlparse(link).scheme + &quot;://&quot; + urlparse(link).netloc)            if (subdomain in subdomain_list) | (domain not in subdomain):  # 如果解析后的domain存在于Subdomain中则跳过，否则将domain存入子域名表中                pass            else:                subdomain_list.append(subdomain)    ### item pipline    # preview？    print(str(len(subdomain_list))+&quot; records total&quot;)    preview = input(&quot;preview or not(y/n):&quot;)    if(preview==&quot;y&quot; or preview==&quot;Y&quot;):        for subdomain in subdomain_list:            print(subdomain)    # isSave?    save = input(&quot;save or not(y/n):&quot;)    if(save==&quot;y&quot; or save==&quot;Y&quot;):        print(&quot;file writing...&quot;)        with open(&#39;subdomain.txt&#39;, &#39;w&#39;) as f:            # for subdomain in subdomain_list:            for subdomain in tqdm(subdomain_list):                f.writelines(subdomain + &quot;\n&quot;)</code></pre><h2 id="必应"><a href="#必应" class="headerlink" title="必应"></a>必应</h2><p>必应的子域名位于 <strong>h2</strong> 标签下的 <strong>a</strong> 标签的 <strong>href</strong> 属性，这是很常见的，很多链接都会放在a标签的href属性中。</p><h2 id="源代码"><a href="#源代码" class="headerlink" title="源代码"></a>源代码</h2><ul><li>如果你安装了python，你可以将源码复制然后安装相应的包以使用</li><li>当然我也将这个程序打包为可执行文件</li></ul><pre><code class="python">import randomimport requests  # 用于请求网页from bs4 import BeautifulSoup  # 用于处理获取的到的网页源码数据from urllib.parse import urlparse  # 用于处理urlfrom tqdm import tqdm   # 进度条import time     # 爬虫请求时停# 定义一个采用baidu搜索的方法def baidu_search():    ### html request construct    print(&quot;-------Powered by baidu-------&quot;)    # 输入域名和查询页数    domain = input(&quot;input the domain you want to query:&quot;)    page = input(&quot;The more page,the more subdomain(not sure):&quot;)    page = int(page)    if(page&lt;1 or page&gt;100):        exit(418)    # 定义请求头，绕过反爬机制    hearders = &#123;        # 别用我的cookie        &#39;cookie&#39;: &#39;&#39;,        &#39;user-agent&#39;: &#39;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.93 Safari/537.36 Edg/90.0.818.56&#39;,    &#125;    ### html request    print(&quot;url requesting...&quot;)    resp_list = []    # for i in range(0,page):    for i in tqdm(range(page)):        time.sleep(random.uniform(0.3, 2.0))        if(i==0):            url = &quot;https://www.baidu.com/s?wd=domain%3A&quot;+ domain            resp = requests.get(url, headers=hearders)  # 访问url，获取网页源码            resp_list.append(resp)        else:            url = &quot;https://www.baidu.com/s?wd=domain%3A&quot;+ domain +&quot;&amp;pn=&quot;+ str(i*10)            resp = requests.get(url, headers=hearders)  # 访问url，获取网页源码            resp_list.append(resp)    ### html response analysis    print(&quot;response analying...&quot;)    subdomain_list = []  # 定义一个空列表用于存储收集到的子域名    # for resp in resp_list:    for resp in tqdm(resp_list):        soup = BeautifulSoup(resp.content, &#39;html.parser&#39;)  # 创建一个BeautifulSoup对象，第一个参数是网页源码，第二个参数是Beautiful Soup 使用的 HTML 解析器，        # 锁定含有子域名的标签        tag_div = soup.find_all(&quot;div&quot;,class_=&#39;result c-container xpath-log new-pmd&#39;)        for i in tag_div:            link = i.get(&#39;mu&#39;)  # 获取标签内mu属性值，即子域名            # urlparse是一个解析url的工具，scheme获取url的协议名，netloc获取url的网络位置            subdomain = str(urlparse(link).scheme + &quot;://&quot; + urlparse(link).netloc)            if (subdomain in subdomain_list) | (domain not in subdomain):  # 如果解析后的domain存在于Subdomain中则跳过，否则将domain存入子域名表中                pass            else:                subdomain_list.append(subdomain)    ### item pipline    # preview？    print(str(len(subdomain_list))+&quot; records total&quot;)    preview = input(&quot;preview or not(y/n):&quot;)    if(preview==&quot;y&quot; or preview==&quot;Y&quot;):        for subdomain in subdomain_list:            print(subdomain)    # isSave?    save = input(&quot;save or not(y/n):&quot;)    if(save==&quot;y&quot; or save==&quot;Y&quot;):        print(&quot;file writing...&quot;)        with open(&#39;subdomain.txt&#39;, &#39;w&#39;) as f:            # for subdomain in subdomain_list:            for subdomain in tqdm(subdomain_list):                f.writelines(subdomain + &quot;\n&quot;)# 定义一个采用bing搜索的方法def bing_search():    #定义请求url    url = &quot;https://cn.bing.com/search?q=domain%3aqq.com&amp;qs=n&amp;sp=-1&amp;pq=domain%3abaidu.com&amp;sc=0-16&amp;sk=&amp;cvid=E6DAE965B2BD4FDC8DF857015E0499C1&amp;first=9&amp;FORM=PQRE1&quot;    #定义请求头，绕过反爬机制    hearders = &#123;        &#39;user-agent&#39;:&#39;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.93 Safari/537.36 Edg/90.0.818.56&#39;,        # &#39;accept&#39;:&#39;*/*&#39;,        # &#39;referer&#39;:&#39;https://cn.bing.com/search?q=domain%3abaidu.com&amp;qs=HS&amp;pq=domain%3a&amp;sc=10-7&amp;cvid=B99CC286861647E79EF504A4D5B819F1&amp;FORM=QBLH&amp;sp=1&#39;,        # &#39;cookie&#39;:&#39;MUID=15F7A3347F9B66091BBBAC017EB56733&#39;    &#125;    # 访问url，获取网页源码    resp = requests.get(url,headers=hearders)    # 创建一个BeautifulSoup对象，第一个参数是网页源码，第二个参数是Beautiful Soup 使用的 HTML 解析器，    soup = BeautifulSoup(resp.content,&#39;html.parser&#39;)    # find_all()查找源码中所有&lt;h2&gt;标签的内容    job_bt = soup.find_all(&#39;h2&#39;)    # 定义一个空列表用于存储收集到的子域名    Subdomain = []    for i in job_bt:        link = i.a.get(&#39;href&#39;)                          #循环获取‘href’的内容        #urlparse是一个解析url的工具，scheme获取url的协议名，netloc获取url的网络位置        domain = str(urlparse(link).scheme + &quot;://&quot; + urlparse(link).netloc)        if domain in Subdomain:              #如果解析后的domain存在于Subdomain中则跳过，否则将domain存入子域名表中            pass        else:            Subdomain.append(domain)            print(domain)if __name__ == &#39;__main__&#39;:    print(&quot;-------Subdomain Getter-------&quot;)    print(&quot;                   by liangyue&quot;)    while (True):        engine = input(&quot;select a engine(baidu/bing):&quot;)        if (engine == &quot;baidu&quot;):            baidu_search()        elif (engine == &quot;bing&quot;):            bing_search()        else:            exit(418)</code></pre>]]></content>
       
       
       <categories>
           
-          <category> 发现 </category>
+          <category> 爬虫 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Web </tag>
+            
+            <tag> 爬虫 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Web开发（五）-JWT</title>
+      <link href="/2023/09/11/web_jwt/"/>
+      <url>/2023/09/11/web_jwt/</url>
+      
+        <content type="html"><![CDATA[<p><em>这篇文章将会向你介绍JWT的理论基础和程序实现</em></p><h1 id="一-JWT-理论"><a href="#一-JWT-理论" class="headerlink" title="一. JWT-理论"></a>一. JWT-理论</h1><h2 id="JWT基础"><a href="#JWT基础" class="headerlink" title="JWT基础"></a>JWT基础</h2><p><em>如果你没有任何基础，请耐心看完这一部分</em></p><p>想象一下你登录某个网站的场景。你从登录页面输入账号密码进入到该网站，同时该网站返回你的个人信息，包括你的昵称，头像，个性签名，显示到网页上。更重要的是，登录网站意味着你的身份得到服务器的验证，你获得了访问你的个人信息的权限。</p><p>服务器通过账号密码识别我们的身份吗？是，但不完全是。首先，你需要明白我们浏览器所依靠的http协议是无状态的。这就好像你和一个记忆力差劲的人交流，每一轮对话之后，他都会忘记你的名字。所以，你在每次和他说话之前，都需要重申你的身份。服务器就像这么一个人，尽管你对它说尽千言万语，而服务器只会在众多用户中迷失你的名字。</p><p>那么，这是否意味着我们必须在每一个请求之前都输入我们的账号密码来告知服务器我们的合法身份呢？答案是否定的，有更简单的解决方案。JWT（JSON WEB TOKEN）就是一种实现方式。</p><p>在输入账号密码之后，服务器会返回一个token给我们。以后在每次请求，我们带上token，服务器便会在用户中认出你。但是，如果你企图修改token，服务器能轻易检查出。这一部分是通过签名实现，当服务器用秘钥对token签名后，任何对token的更改都需要这个秘钥。</p><h2 id="JWT"><a href="#JWT" class="headerlink" title="JWT"></a>JWT</h2><p>JWT由三个部分组成：header，payload，signature。header标识类型和签名算法。payload一般会存放标识你的一些信息账号id，用户名等。signnature是服务器的签名，防止你篡改上一部分的信息冒充他人。</p><h3 id="header："><a href="#header：" class="headerlink" title="header："></a>header：</h3><pre><code>&#123;    &#39;typ&#39;: &#39;JWT&#39;,    &#39;alg&#39;: &#39;HS256&#39;&#125;</code></pre><p><em>类型是JWT；签名算法是HS256</em></p><h3 id="一般header会进行base64编码："><a href="#一般header会进行base64编码：" class="headerlink" title="一般header会进行base64编码："></a>一般header会进行base64编码：</h3><pre><code>eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9</code></pre><h3 id="payload："><a href="#payload：" class="headerlink" title="payload："></a>payload：</h3><pre><code>&#123;    &quot;sub&quot;: &quot;1234567890&quot;,    &quot;name&quot;: &quot;John Doe&quot;,    &quot;admin&quot;: true&#125;</code></pre><p><em>iss: jwt签发者；sub: jwt所面向的用户；aud: 接收jwt的一方；exp: jwt的过期时间，这个过期时间必须要大于签发时间；nbf: 定义在什么时间之前，该jwt都是不可用的.；iat: jwt的签发时间；jti: jwt的唯一身份标识，主要用来作为一次性token,从而回避重放攻击。</em></p><h3 id="一般会对payload进行base64编码："><a href="#一般会对payload进行base64编码：" class="headerlink" title="一般会对payload进行base64编码："></a>一般会对payload进行base64编码：</h3><pre><code>eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWV9</code></pre><h2 id="signature："><a href="#signature：" class="headerlink" title="signature："></a>signature：</h2><p>signature对上面两部分的base64编码使用key进行签名</p><pre><code>HMACSHA256（base64(header) . base64(payload) , key）</code></pre><p>一般像这样：<br>      eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWV9.TJVA95OrM7E2cBab30RMHrHDcEfxjoYZgeFONFh7HgQ</p><h2 id="JWT-1"><a href="#JWT-1" class="headerlink" title="JWT"></a>JWT</h2><p>将这三部分合并，中间用“.”分隔，得到一个完整的JWT</p><pre><code>  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWV9.TJVA95OrM7E2cBab30RMHrHDcEfxjoYZgeFONFh7HgQ</code></pre><h1 id="二-JWT-实现"><a href="#二-JWT-实现" class="headerlink" title="二. JWT-实现"></a>二. JWT-实现</h1><h2 id="0-添加依赖"><a href="#0-添加依赖" class="headerlink" title="0. 添加依赖"></a>0. 添加依赖</h2><pre><code>    &lt;!--JWT--&gt;    &lt;dependency&gt;        &lt;groupId&gt;io.jsonwebtoken&lt;/groupId&gt;        &lt;artifactId&gt;jjwt&lt;/artifactId&gt;        &lt;version&gt;0.9.1&lt;/version&gt;    &lt;/dependency&gt;</code></pre><h2 id="1-生成token"><a href="#1-生成token" class="headerlink" title="1. 生成token"></a>1. 生成token</h2><pre><code>//token有效时间private static long expire = 604800;//校验token有效性秘钥private static String key = &quot;aaaabbbbccccddddaaaabbbbccccdddd&quot;;//token生成public static String generateToken(String username)&#123;Date now = new Date();Date expiration = new Date(now.getTime()+1000*expire);return Jwts.builder()//          .setHeaderParams()            .setSubject(username)            .setIssuedAt(now)            .setExpiration(expiration)            .signWith(SignatureAlgorithm.HS512,key)            .compact();&#125;</code></pre><h2 id="2-token校验"><a href="#2-token校验" class="headerlink" title="2. token校验"></a>2. token校验</h2><pre><code>//token校验public static Claims getClaimsByToken(String token)&#123;    return Jwts.parser()            .setSigningKey(key)            .parseClaimsJws(token)            .getBody();&#125;</code></pre><h2 id="3-一个简单的例子"><a href="#3-一个简单的例子" class="headerlink" title="3. 一个简单的例子"></a>3. 一个简单的例子</h2><p>你可以将上面两个函数封装在JwtUtils的类中，在Controller中调用token相关的函数在网络请求中使用token。</p><pre><code>String token = generateToken(name);</code></pre><p>登录之后将token返回到客户端。</p><pre><code>getClaimsByToken(token).getSubject().equals(name)</code></pre><p>校验客户端的token后，允许其访问对应接口。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> Web开发 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> web </tag>
+            
+            <tag> web开发 </tag>
+            
+            <tag> java </tag>
+            
+            <tag> springboot </tag>
+            
+            <tag> jwt </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Web开发（四）-MyBatis</title>
+      <link href="/2023/09/10/web_mybatis/"/>
+      <url>/2023/09/10/web_mybatis/</url>
+      
+        <content type="html"><![CDATA[<h1 id="一-MyBatis-理论"><a href="#一-MyBatis-理论" class="headerlink" title="一. MyBatis-理论"></a>一. MyBatis-理论</h1><p>这一部分我也不是很了解，简单的写点理解。</p><h2 id="1-MyBatis基础"><a href="#1-MyBatis基础" class="headerlink" title="1. MyBatis基础"></a>1. MyBatis基础</h2><p>MyBatis将数据库语句映射到java函数，将一个函数同SQL语句绑定后，当你调用这个函数，对应的SQL语句将会执行，并且返回参数到函数的返回值。</p><p>同时，MyBatis将数据库的表和java的对象做了很好的连接。在MyBatis的作用下，映射SQL查询语句的函数可以返回java对象。</p><h1 id="二-MyBatis实现"><a href="#二-MyBatis实现" class="headerlink" title="二. MyBatis实现"></a>二. MyBatis实现</h1><h2 id="1-依赖和配置"><a href="#1-依赖和配置" class="headerlink" title="1. 依赖和配置"></a>1. 依赖和配置</h2><h3 id="依赖"><a href="#依赖" class="headerlink" title="依赖"></a>依赖</h3><p>你可以直接使用MyBatis-plus版本，它支持MyBatis</p><pre><code>    &lt;!--mybatis-plus--&gt;    &lt;dependency&gt;        &lt;groupId&gt;com.baomidou&lt;/groupId&gt;        &lt;artifactId&gt;mybatis-plus-boot-starter&lt;/artifactId&gt;        &lt;version&gt;3.4.2&lt;/version&gt;    &lt;/dependency&gt;    &lt;!--Mysql jdbc驱动--&gt;    &lt;dependency&gt;        &lt;groupId&gt;mysql&lt;/groupId&gt;        &lt;artifactId&gt;mysql-connector-java&lt;/artifactId&gt;        &lt;version&gt;5.1.47&lt;/version&gt;    &lt;/dependency&gt;    &lt;!--druid 连接池--&gt;    &lt;dependency&gt;        &lt;groupId&gt;com.alibaba&lt;/groupId&gt;        &lt;artifactId&gt;druid&lt;/artifactId&gt;        &lt;version&gt;1.1.20&lt;/version&gt;    &lt;/dependency&gt;</code></pre><h3 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h3><pre><code>spring.datasource.type=com.alibaba.druid.pool.DruidDataSourcespring.datasource.driver-class-name=com.mysql.jdbc.Driverspring.datasource.url=jdbc:mysql://localhost:3306/mybatis?useUnicode=true&amp;characterEncoding=UTF-8&amp;serverTimezone=UTCspring.datasource.username=rootspring.datasource.password=root</code></pre><h2 id="2-新建实体类"><a href="#2-新建实体类" class="headerlink" title="2. 新建实体类"></a>2. 新建实体类</h2><p>这是一个简单的User类，定义了id，name，password三个属性，以及set，get，toString三个方法。</p><pre><code>public class User &#123;    private int id;    private String name;    private String password;    public int getId() &#123;        return id;    &#125;    public String getName()&#123;        return name;    &#125;    public String getPassword()&#123;        return password;    &#125;    public void setName(String name) &#123;        this.name = name;    &#125;    public void setPassword(String password) &#123;        this.password = password;    &#125;    public void setId(int id) &#123;        this.id = id;    &#125;    @Override    public String toString() &#123;        return &quot;User&#123;&quot; +                &quot;id=&quot; + id +                &quot;, name=&#39;&quot; + name + &#39;\&#39;&#39; +                &quot;, password=&#39;&quot; + password + &#39;\&#39;&#39; +                &#39;&#125;&#39;;    &#125;&#125;</code></pre><h2 id="新建Mapper接口"><a href="#新建Mapper接口" class="headerlink" title="新建Mapper接口"></a>新建Mapper接口</h2><p>在下面代码中，你可以阅读注释，你很容易明白这些@注解的作用。</p><pre><code>@Mapperpublic interface UserMapper&#123;    //返回查询对象的集合    @Select(&quot;select * from user&quot;)    public List&lt;User&gt; findAll();    //返回查询对象    @Select(&quot;select * from user where id = #&#123;id&#125;&quot;)    public User findById(int id);    //将数据库insert语句映射到java程序的insert方法    //返回值为插入语句影响的记录数目    @Insert(&quot;insert into user values (#&#123;id&#125;,#&#123;name&#125;,#&#123;password&#125;)&quot;)    public int insert(int id, String name,String password);    //将数据库delete语句映射到java程序的delete方法    //返回值为删除语句影响的记录数目    @Delete(&quot;delete  from user where id = #&#123;id&#125;&quot;)    public int delete(int id);    //将数据库update语句映射到java程序的update方法    //返回值为更新语句影响的记录数目    @Update(&quot;update user set name = #&#123;newName&#125;,password= #&#123;newPassword&#125; where id = #&#123;id&#125;&quot;)    public int update(int id,String newName,String newPassword);&#125;</code></pre><h2 id="3-编写Controller方法"><a href="#3-编写Controller方法" class="headerlink" title="3. 编写Controller方法"></a>3. 编写Controller方法</h2><p>通过Mapper类你可以将数据库表的数据轻松的赋给java对象或者对数据库进行操作。</p><p>下面是一个用户登录的例子</p><pre><code>@RestControllerpublic class UserController &#123;    @Autowired    private UserMapper userMapper;    //登录    @PostMapping(&quot;/&quot;)    public String login(@RequestParam String name,@RequestParam String password)&#123;        //权限标识        int verify = 0;        //检查账号，密码        List&lt;User&gt; list = userMapper.findAll();        for(int i=0; i&lt;list.size(); i++)&#123;            User useri = list.get(i);            if(useri.getName().equals(name) &amp;&amp; useri.getPassword().equals(password))&#123;                verify = 1;                break;            &#125;        &#125;        //权限判断        if(verify==1)&#123;            return &quot;login&quot;;        &#125;else&#123;            return &quot;error&quot;;        &#125;    &#125;    //返回用户个人信息    @GetMapping(&quot;/user&quot;)    public String info(@RequestParam int id,@RequestParam String name,@RequestParam String token) &#123;        if(getClaimsByToken(token).getSubject().equals(name))&#123;        User user = userMapper.findById(id);        return user.toString();        &#125;else&#123;            return &quot;error&quot;;        &#125;    &#125;    //用户注册    @PostMapping(&quot;/user&quot;)    public String register(@RequestParam String name,@RequestParam String password)&#123;        int id = 0;        userMapper.insert(id,name,password);        return &quot;register&quot;;    &#125;    //用户注销    @DeleteMapping(&quot;/user&quot;)    public String delete(@RequestParam int id)&#123;        userMapper.delete(id);        return &quot;delete&quot;;    &#125;    //修改个人信息    @PutMapping(&quot;/user&quot;)    public String update(@RequestParam int id,@RequestParam String newName,@RequestParam String newPassword) &#123;        userMapper.update(id,newName,newPassword);        return &quot;update&quot;;    &#125;&#125;</code></pre>]]></content>
+      
+      
+      <categories>
+          
+          <category> Web开发 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> web </tag>
+            
+            <tag> web开发 </tag>
+            
+            <tag> java </tag>
+            
+            <tag> springboot </tag>
+            
+            <tag> mybatis </tag>
+            
+            <tag> mysql </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>爬虫（三）：结果保存</title>
+      <link href="/2023/09/10/spider_save/"/>
+      <url>/2023/09/10/spider_save/</url>
+      
+        <content type="html"><![CDATA[<p><em><strong>一般来说会把爬取的结果存储到列表或者字典中，然后将结果写入文件中</strong></em></p><h1 id="一-TXT"><a href="#一-TXT" class="headerlink" title="一. TXT"></a>一. TXT</h1><p>代码比较简单,看一下应该就懂了…</p><p>对于列表</p><pre><code class="Python">    # 是否保存    save = input(&quot;共&quot; + str(len(comment_list)) + &quot;条记录，保存到commen.txt（y/n）：&quot;)    if (save == &quot;y&quot; or save == &quot;Y&quot;):        print(&quot;正在写入中...&quot;)        with open(&quot;comment.txt&quot;, &quot;w&quot;, encoding=&quot;utf-8&quot;) as f:            for comment in tqdm(comment_list):                f.writelines(comment + &quot;\n&quot;)</code></pre><p>对于字典</p><pre><code class="Python">    # 是否保存？    save = input(&quot;共&quot; + str(len(list_dic_blog)) + &quot;条记录，保存到blog.txt（y/n）：&quot;)    if (save == &quot;y&quot; or save == &quot;Y&quot;):        with open(&quot;blog.txt&quot;, &quot;w&quot;, encoding=&#39;Utf-8&#39;) as f:            for dic_blog in tqdm(list_dic_blog):                f.writelines(str(dic_blog) + &quot;\n&quot;)</code></pre><h1 id="二-JSON"><a href="#二-JSON" class="headerlink" title="二. JSON"></a>二. JSON</h1><pre><code class="Python">    json_str = json.dumps(the_dict,indent=4,ensure_ascii=False)    with open(file_name, &#39;w&#39;) as json_file:        json_file.write(json_str)</code></pre><h1 id="三-Excel"><a href="#三-Excel" class="headerlink" title="三. Excel"></a>三. Excel</h1><pre><code class="python"># -*- coding: utf-8 -*-import xlsxwriter as xw  def xw_toExcel(data, fileName):  # xlsxwriter库储存数据到excel    workbook = xw.Workbook(fileName)  # 创建工作簿    worksheet1 = workbook.add_worksheet(&quot;sheet1&quot;)  # 创建子表    worksheet1.activate()  # 激活表    title = [&#39;序号&#39;, &#39;酒店&#39;, &#39;价格&#39;]  # 设置表头    worksheet1.write_row(&#39;A1&#39;, title)  # 从A1单元格开始写入表头    i = 2  # 从第二行开始写入数据    for j in range(len(data)):        insertData = [data[j][&quot;id&quot;], data[j][&quot;name&quot;], data[j][&quot;price&quot;]]        row = &#39;A&#39; + str(i)        worksheet1.write_row(row, insertData)        i += 1    workbook.close()  # 关闭表  # &quot;-------------数据用例-------------&quot;testData = [    &#123;&quot;id&quot;: 1, &quot;name&quot;: &quot;立智&quot;, &quot;price&quot;: 100&#125;,    &#123;&quot;id&quot;: 2, &quot;name&quot;: &quot;维纳&quot;, &quot;price&quot;: 200&#125;,    &#123;&quot;id&quot;: 3, &quot;name&quot;: &quot;如家&quot;, &quot;price&quot;: 300&#125;,]fileName = &#39;测试.xlsx&#39;xw_toExcel(testData, fileName)</code></pre>]]></content>
+      
+      
+      <categories>
+          
+          <category> 爬虫 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Web </tag>
+            
+            <tag> 爬虫 </tag>
+            
+            <tag> Python </tag>
+            
+            <tag> txt </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>车载U盘</title>
+      <link href="/2023/09/09/other_u/"/>
+      <url>/2023/09/09/other_u/</url>
+      
+        <content type="html"><![CDATA[<p>最近发现一个好玩的东西，车载U盘不知道大家有没有用过。</p><p>暑假，有个哥哥叫我帮他U盘下点歌，顺便删掉里面的一些DJ歌曲。</p><p>我想，这不简单吗？我接过U盘，插在电脑上，吓我一跳，提示我无法打开，需要格式化，这点错歌不全没了吗。</p><p>我才发现，事情没有我想象的那么简单。</p><p>于是，我马上搜索 <em><strong>“车载U盘”</strong></em> 相关信息。</p><p>互联网上信息很多，但是我的信息检索能力还算合格吧。不一会就发现了问题所在。</p><p>一般车子系统是Linux，车载U盘使用也是Linux系统的分区，因此我插入Windows系统的电脑并不能识别出U盘的音乐文件，而是直接提示我格式化U盘。</p><hr><p>原来如此，那么解决方案是什么呢？</p><ul><li><p>最简单的方法：买一根连接U盘的转接线，手机是Linux内核的Android操作系统，因此可以解析车载U盘中的音乐文件。</p></li><li><p>如果你的计算机内装有Linux虚拟机，那么你也可以通过虚拟机连接U盘来对其中的文件进行更改。</p></li></ul><hr><p>嗯，然后就熬夜下歌…最后发现搞错了，啊…joker</p><p>额，怎么说呢？</p><p>一个小小的车载U盘，即使学过操作系统，考试也觉得不难，但是倘若缺乏这次经历，可能我仍不知。</p><p>我就像井底之蛙，但还好没事折腾两下自己，能看看更广阔的天地。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 杂项 </category>
           
       </categories>
       
@@ -82,9 +305,77 @@
             
             <tag> Linux </tag>
             
-            <tag> U盘 </tag>
-            
             <tag> 音乐 </tag>
+            
+            <tag> 车载U盘 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Web开发（三）-TomCat</title>
+      <link href="/2023/09/09/web_tomcat/"/>
+      <url>/2023/09/09/web_tomcat/</url>
+      
+        <content type="html"><![CDATA[<h1 id="一-TomCat-理论"><a href="#一-TomCat-理论" class="headerlink" title="一. TomCat-理论"></a>一. TomCat-理论</h1><h2 id="1-Tomcat基础"><a href="#1-Tomcat基础" class="headerlink" title="1. Tomcat基础"></a>1. Tomcat基础</h2><p>TomCat是一个Web服务器，它默认活跃在电脑的8080端口，接收HTTP请求。</p><p>同时，TomCat提供规范的HTTP接口，它接收规范的HTTP请求，对于Response，你也不需要自己编写，因为TomCat帮助你返回标准的Response。</p><p>下面是具体实现：</p><ul><li><p>当你访问此localhost:8080时，浏览器或者其他代理发送的HTTP请求将会被TomCat截获，</p></li><li><p>如果你在SpringBoot框架中使用TomCat，你可以获取HTTP请求，对数据做处理。</p></li><li><p>最后，你希望对这个请求作出响应，TomCat帮助你构建标准的HTTP响应。</p></li></ul><h1 id="二-TomCat-实现"><a href="#二-TomCat-实现" class="headerlink" title="二. TomCat-实现"></a>二. TomCat-实现</h1><h2 id="1-依赖和配置"><a href="#1-依赖和配置" class="headerlink" title="1. 依赖和配置"></a>1. 依赖和配置</h2><p>当你新建一个SpringBoot项目时，该项目集成了TomCat。</p><p>因此，你不必要花时间去配置TomCat。</p><h2 id="2-Controller类"><a href="#2-Controller类" class="headerlink" title="2. Controller类"></a>2. Controller类</h2><p>一般来说，我们把对请求的处理封装在Controller类中。</p><h3 id="RestController"><a href="#RestController" class="headerlink" title="@RestController"></a>@RestController</h3><p>你可以在使用这个注解标注为Controller类，在这个类中你可以定义函数处理HTTP请求。</p><p>@RestController &#x3D; @Controller + @ResponseBody</p><p>@Controller：将当前修饰的类注入SpringBoot IOC容器，使得从该类所在的项目跑起来的过程中，这个类就被实例化。当然也有语义化的作用，即代表该类是充当Controller的作用</p><p>@ResponseBody：它的作用简短截说就是指该类中所有的API接口返回的数据，甭管你对应的方法返回Map或是其他Object，它会以Json字符串的形式返回给客户端，本人尝试了一下，如果返回的是String类型，则仍然是String。</p><h3 id="RequestMapping"><a href="#RequestMapping" class="headerlink" title="@RequestMapping"></a>@RequestMapping</h3><p>你可以使用这个注解标注函数接收的HTTP请求类型和路径，这样函数对应一个接口。</p><p>@RequestMapping有两个参数，你可以指定HTTp方法，以及接收的参数。</p><p>更简单的方法是使用@GetMapping&#x2F;PostMapping&#x2F;DeleteMapping&#x2F;PutMapping这样你只需要指定接收路径。</p><h3 id="RequestParam"><a href="#RequestParam" class="headerlink" title="@RequestParam"></a>@RequestParam</h3><p>指定函数必须从HTTP请求中接收的参数，否则报错。</p><h2 id="3-代码实例"><a href="#3-代码实例" class="headerlink" title="3. 代码实例"></a>3. 代码实例</h2><pre><code>@RestControllerpublic class UserController &#123;    @GetMapping(&quot;/index&quot;)    public String getIndex(@RequestParam String name)&#123;        return &quot;Hello &quot;+name;    &#125;&#125;</code></pre><p>当你访问<a href="http://localhost:8080/index?name=tomcat">http://localhost:8080/index?name=tomcat</a>时，你传入name参数值为tomcat。Controller接收后，在响应中返回hello tomcat。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> Web开发 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> web </tag>
+            
+            <tag> web开发 </tag>
+            
+            <tag> java </tag>
+            
+            <tag> springboot </tag>
+            
+            <tag> tomcat </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>爬虫（二）：响应解析</title>
+      <link href="/2023/09/09/spider_analysis/"/>
+      <url>/2023/09/09/spider_analysis/</url>
+      
+        <content type="html"><![CDATA[<p><em><strong>当你获取响应文件后，你需要做的就是收集其中的关键信息。对不同的响应文件格式你需要选择不同方式解析。</strong></em><br><em><strong>下面是一些常见的响应解析方式</strong></em></p><h1 id="一-Xpath"><a href="#一-Xpath" class="headerlink" title="一. Xpath"></a>一. Xpath</h1><h2 id="1-Xpath基础"><a href="#1-Xpath基础" class="headerlink" title="1. Xpath基础"></a>1. Xpath基础</h2><p>Xpath适用于解析HTML格式文件，并且语法及其简介。</p><h2 id="2-对str对象使用Xpath"><a href="#2-对str对象使用Xpath" class="headerlink" title="2. 对str对象使用Xpath"></a>2. 对str对象使用Xpath</h2><p>对于一般的HTML格式响应对象 <em><strong>response.text()</strong></em> 是字符串类型，因此在使用之前： <code>from lxml import etree</code> </p><h2 id="3-Xpath语法"><a href="#3-Xpath语法" class="headerlink" title="3. Xpath语法"></a>3. Xpath语法</h2><p>这里先举个例子（也是我开始学爬虫的测试网站）</p><p><img src="/img/spider_analysis/image.png" alt="Alt text"></p><p>如果你想拿到 <em><strong>a标签</strong></em> 的href属性：&#x2F;&#x2F;div&#x2F;ul&#x2F;li&#x2F;a&#x2F;@href</p><p>如果你想拿到 <em><strong>img标签</strong></em> 的src属性：&#x2F;&#x2F;div&#x2F;ul&#x2F;li&#x2F;a&#x2F;span&#x2F;img&#x2F;@src</p><p>如果你想拿到 <em><strong>b标签</strong></em> 的内容：&#x2F;&#x2F;div&#x2F;ul&#x2F;li&#x2F;a&#x2F;b&#x2F;text()</p><p>&#x2F;&#x2F;div能够锁定所有div标签，这也是经常使用的Xpath开头，当然你也可以明确定位一个标签&#x2F;&#x2F;div[@class&#x3D;’slist’]</p><p>下面是详细语法</p><p>&#x2F;:子标签<br>&#x2F;&#x2F;:子孙标签<br>@：取属性<br>text()：取内容</p><h1 id="二-JSON"><a href="#二-JSON" class="headerlink" title="二. JSON"></a>二. JSON</h1><h2 id="1-JSON基础"><a href="#1-JSON基础" class="headerlink" title="1. JSON基础"></a>1. JSON基础</h2><p>json用于解析json类型格式响应，这是非常普遍的，在异步加载的网页中，很多后端数据通过json格式传到前端进行渲染，得到浏览器显示的HTML文件。比如微博。</p><h2 id="2-Python字典处理JSON"><a href="#2-Python字典处理JSON" class="headerlink" title="2. Python字典处理JSON"></a>2. Python字典处理JSON</h2><p>Python字典和Java对象很相似，Json（JavaScript Object Notation）也可以通过python字典进行处理。</p><p><code>comment_json = json.loads(response.text)</code></p><h2 id="3-Python字典语法"><a href="#3-Python字典语法" class="headerlink" title="3. Python字典语法"></a>3. Python字典语法</h2><p>这个很简单…</p><p>额..还是记一下吧</p><pre><code class="python">user = &#123;    &#39;uid&#39;: &#39;&#39;    &#39;username&#39;: &#39;&#39;    &#39;password&#39;: &#39;&#39;    &#39;friends&#39;: []&#125;</code></pre><p>dict[“xxx”]:取字典中xxx</p><h1 id="三-BS4"><a href="#三-BS4" class="headerlink" title="三. BS4"></a>三. BS4</h1><h2 id="1-bs4基础"><a href="#1-bs4基础" class="headerlink" title="1. bs4基础"></a>1. bs4基础</h2><h2 id="2-引入bs4"><a href="#2-引入bs4" class="headerlink" title="2. 引入bs4"></a>2. 引入bs4</h2><p><code>from bs4 import BeautifulSoup</code></p><h2 id="3-bs4语法"><a href="#3-bs4语法" class="headerlink" title="3. bs4语法"></a>3. bs4语法</h2><pre><code class="python">soup = BeautifulSoup(resp.content, &#39;html.parser&#39;)tag_div = soup.find_all(&quot;div&quot;,class_=&#39;result c-container xpath-log new-pmd&#39;)link = i.get(&#39;mu&#39;)</code></pre>]]></content>
+      
+      
+      <categories>
+          
+          <category> 爬虫 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Web </tag>
+            
+            <tag> 爬虫 </tag>
+            
+            <tag> Python </tag>
+            
+            <tag> Xpath </tag>
+            
+            <tag> bs4 </tag>
+            
+            <tag> json </tag>
             
         </tags>
       
@@ -126,7 +417,7 @@
     
     
     <entry>
-      <title>爬虫-Requests模块</title>
+      <title>爬虫（一）：请求&amp;响应</title>
       <link href="/2023/09/08/spider_request/"/>
       <url>/2023/09/08/spider_request/</url>
       
@@ -142,13 +433,71 @@
       
         <tags>
             
-            <tag> 爬虫 </tag>
-            
             <tag> Web </tag>
+            
+            <tag> 爬虫 </tag>
             
             <tag> Python </tag>
             
             <tag> Requests </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Web开发（二）-SpringBoot</title>
+      <link href="/2023/09/08/web_springboot/"/>
+      <url>/2023/09/08/web_springboot/</url>
+      
+        <content type="html"><![CDATA[<p><em>你需要先了解…</em></p><p><em>有关此文章…</em></p><h1 id="一-新建SpringBoot项目"><a href="#一-新建SpringBoot项目" class="headerlink" title="一. 新建SpringBoot项目"></a>一. 新建SpringBoot项目</h1><h2 id="1-IDEA新建SpringBoot项目"><a href="#1-IDEA新建SpringBoot项目" class="headerlink" title="1. IDEA新建SpringBoot项目"></a>1. IDEA新建SpringBoot项目</h2><p>(参考文章)[<a href="https://blog.csdn.net/qq_43006591/article/details/106137465]">https://blog.csdn.net/qq_43006591/article/details/106137465]</a></p><h1 id="二-SpringBoot框架解析"><a href="#二-SpringBoot框架解析" class="headerlink" title="二. SpringBoot框架解析"></a>二. SpringBoot框架解析</h1><h2 id="1-idea"><a href="#1-idea" class="headerlink" title="1. .idea"></a>1. .idea</h2><h2 id="2-mvn"><a href="#2-mvn" class="headerlink" title="2. .mvn"></a>2. .mvn</h2><h2 id="3-src"><a href="#3-src" class="headerlink" title="3. src"></a>3. src</h2><h3 id="main"><a href="#main" class="headerlink" title="&#x2F;main"></a>&#x2F;main</h3><ul><li>&#x2F;resource&#x2F;static<br>存放CSS，JS以及图片等</li><li>&#x2F;resource&#x2F;templates<br>存放Web页面</li><li>application.properties&#x2F;application.yml<br>用于存放程序的各种依赖模块的配置信息，比如 服务端口，数据库连接配置等</li><li>&#x2F;main&#x2F;java&#x2F;com.example.xxx<br>存放java源码</li><li>&#x2F;main&#x2F;java&#x2F;Application.java<br>SpringBoot 程序执行的入口，执行该程序中的 main 方法，启动当前SpringBoot项目。</li></ul><h3 id="test"><a href="#test" class="headerlink" title="&#x2F;test"></a>&#x2F;test</h3><p>与mian目录结构类似，没有resource目录。</p><p>存放测试代码。</p><h2 id="4-target"><a href="#4-target" class="headerlink" title="4. target"></a>4. target</h2><p>如果你想测试某个单元，在这里启动它。</p><h2 id="5-gitignore"><a href="#5-gitignore" class="headerlink" title="5. gitignore"></a>5. gitignore</h2><p>使用版本控制工具 git 的时候，设置一些忽略提交的内容</p><h2 id="6-xxx-iml"><a href="#6-xxx-iml" class="headerlink" title="6. xxx.iml"></a>6. xxx.iml</h2><p>intellij idea的工程配置文件，里面是当前project的一些配置信息</p><h2 id="7-HELP-md"><a href="#7-HELP-md" class="headerlink" title="7. HELP.md"></a>7. HELP.md</h2><p>项目的帮助文档，相当于记事本</p><h2 id="8-mvnw"><a href="#8-mvnw" class="headerlink" title="8. mvnw"></a>8. mvnw</h2><p>主要是用于当用户使用maven的命令时，发现本地的maven版本与.mvn文件夹下的maven-wrapper.properties文件中的maven版本不一致，就会下载maven-wrapper.properties文件中的maven版本，然后来执行maven命令，用于Linux环境</p><h2 id="9-mvnw-cmd"><a href="#9-mvnw-cmd" class="headerlink" title="9. mvnw.cmd"></a>9. mvnw.cmd</h2><p>同上，用于Windows环境</p><h2 id="10-pom-xml"><a href="#10-pom-xml" class="headerlink" title="10. pom.xml"></a>10. pom.xml</h2><p>maven依赖的配置</p><h1 id="三-了解更多"><a href="#三-了解更多" class="headerlink" title="三. 了解更多"></a>三. 了解更多</h1><p>(SpringBoot官网)[<a href="https://spring.io/projects/spring-boot]">https://spring.io/projects/spring-boot]</a></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> Web开发 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> web </tag>
+            
+            <tag> web开发 </tag>
+            
+            <tag> java </tag>
+            
+            <tag> springboot </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>爬虫：写在前面</title>
+      <link href="/2023/09/07/spider_pre/"/>
+      <url>/2023/09/07/spider_pre/</url>
+      
+        <content type="html"><![CDATA[<p><em>如果你有任何问题，在评论提出</em></p><h2 id="1-爬虫？"><a href="#1-爬虫？" class="headerlink" title="1. 爬虫？"></a>1. 爬虫？</h2><p>爬虫（Spider）常常用于批量获取网络数据资源。</p><p>依托于大数据时代，爬虫在互联网中的地位逐渐凸显，以下是爬虫一些具体应用。</p><ul><li>爬取社交媒体的热点事件评论可以帮助我们分析舆论倾向。</li><li>爬取资源（图片&#x2F;音乐&#x2F;视频）分享到互联网，做一个资源（图片&#x2F;音乐&#x2F;视频）网站。</li><li>爬取数据可以作为机器学习的数据集，像情感分析模型，AI绘画模型都会依赖大量数据集。</li><li>当然，如果你尝试编写爬虫，相信你会对Web有新的理解同时提高你的python编程能力。</li></ul><h2 id="2-爬虫学习基础？"><a href="#2-爬虫学习基础？" class="headerlink" title="2. 爬虫学习基础？"></a>2. 爬虫学习基础？</h2><p>如果你对Web和HTTP协议没有基本的了解并且没有什么python编程基础，我相信这些都不是什么问题，爬虫并没有那么困难。</p><p>人生的困难和挫折就像薛定谔的猫。当你尝试阅读这篇博客，编写代码并坚持下去，心里成见的大山也变为了晴空万里的草原。</p><p>你什么都不会，你开始你将什么都会。</p><h2 id="3-爬虫的一些理解"><a href="#3-爬虫的一些理解" class="headerlink" title="3. 爬虫的一些理解"></a>3. 爬虫的一些理解</h2><p>这一部分有一定的局限性，你可以参考。</p><ul><li>爬虫或者网络爬虫依靠于Web的HTTP协议，学习爬虫可以让你更加理解Web</li><li>爬虫一般经历三个步骤：向服务器发送请求获取响应文件；分析响应文件提取关键内容；保存内容到本地。</li><li>只要你能在浏览器上看到的，你就能够爬取。因为服务器将数据给你后才能在浏览器显示，所以爬虫也能够请求获取这个数据。</li></ul>]]></content>
+      
+      
+      <categories>
+          
+          <category> 爬虫 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Web </tag>
+            
+            <tag> 爬虫 </tag>
             
         </tags>
       
@@ -182,138 +531,6 @@
             <tag> springboot </tag>
             
             <tag> maven </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>Web开发（三）-TomCat</title>
-      <link href="/2023/09/07/web_tomcat/"/>
-      <url>/2023/09/07/web_tomcat/</url>
-      
-        <content type="html"><![CDATA[<h1 id="一-TomCat-理论"><a href="#一-TomCat-理论" class="headerlink" title="一. TomCat-理论"></a>一. TomCat-理论</h1><h2 id="1-Tomcat基础"><a href="#1-Tomcat基础" class="headerlink" title="1. Tomcat基础"></a>1. Tomcat基础</h2><p>TomCat是一个Web服务器，它默认活跃在电脑的8080端口，接收HTTP请求。</p><p>同时，TomCat提供规范的HTTP接口，它接收规范的HTTP请求，对于Response，你也不需要自己编写，因为TomCat帮助你返回标准的Response。</p><p>下面是具体实现：</p><ul><li><p>当你访问此localhost:8080时，浏览器或者其他代理发送的HTTP请求将会被TomCat截获，</p></li><li><p>如果你在SpringBoot框架中使用TomCat，你可以获取HTTP请求，对数据做处理。</p></li><li><p>最后，你希望对这个请求作出响应，TomCat帮助你构建标准的HTTP响应。</p></li></ul><h1 id="二-TomCat-实现"><a href="#二-TomCat-实现" class="headerlink" title="二. TomCat-实现"></a>二. TomCat-实现</h1><h2 id="1-依赖和配置"><a href="#1-依赖和配置" class="headerlink" title="1. 依赖和配置"></a>1. 依赖和配置</h2><p>当你新建一个SpringBoot项目时，该项目集成了TomCat。</p><p>因此，你不必要花时间去配置TomCat。</p><h2 id="2-Controller类"><a href="#2-Controller类" class="headerlink" title="2. Controller类"></a>2. Controller类</h2><p>一般来说，我们把对请求的处理封装在Controller类中。</p><h3 id="RestController"><a href="#RestController" class="headerlink" title="@RestController"></a>@RestController</h3><p>你可以在使用这个注解标注为Controller类，在这个类中你可以定义函数处理HTTP请求。</p><p>@RestController &#x3D; @Controller + @ResponseBody</p><p>@Controller：将当前修饰的类注入SpringBoot IOC容器，使得从该类所在的项目跑起来的过程中，这个类就被实例化。当然也有语义化的作用，即代表该类是充当Controller的作用</p><p>@ResponseBody：它的作用简短截说就是指该类中所有的API接口返回的数据，甭管你对应的方法返回Map或是其他Object，它会以Json字符串的形式返回给客户端，本人尝试了一下，如果返回的是String类型，则仍然是String。</p><h3 id="RequestMapping"><a href="#RequestMapping" class="headerlink" title="@RequestMapping"></a>@RequestMapping</h3><p>你可以使用这个注解标注函数接收的HTTP请求类型和路径，这样函数对应一个接口。</p><p>@RequestMapping有两个参数，你可以指定HTTp方法，以及接收的参数。</p><p>更简单的方法是使用@GetMapping&#x2F;PostMapping&#x2F;DeleteMapping&#x2F;PutMapping这样你只需要指定接收路径。</p><h3 id="RequestParam"><a href="#RequestParam" class="headerlink" title="@RequestParam"></a>@RequestParam</h3><p>指定函数必须从HTTP请求中接收的参数，否则报错。</p><h2 id="3-代码实例"><a href="#3-代码实例" class="headerlink" title="3. 代码实例"></a>3. 代码实例</h2><pre><code>@RestControllerpublic class UserController &#123;    @GetMapping(&quot;/index&quot;)    public String getIndex(@RequestParam String name)&#123;        return &quot;Hello &quot;+name;    &#125;&#125;</code></pre><p>当你访问<a href="http://localhost:8080/index?name=tomcat">http://localhost:8080/index?name=tomcat</a>时，你传入name参数值为tomcat。Controller接收后，在响应中返回hello tomcat。</p>]]></content>
-      
-      
-      <categories>
-          
-          <category> Web开发 </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> web </tag>
-            
-            <tag> web开发 </tag>
-            
-            <tag> java </tag>
-            
-            <tag> springboot </tag>
-            
-            <tag> tomcat </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>Web开发（二）-SpringBoot</title>
-      <link href="/2023/09/07/web_springboot/"/>
-      <url>/2023/09/07/web_springboot/</url>
-      
-        <content type="html"><![CDATA[<p><em>你需要先了解…</em></p><p><em>有关此文章…</em></p><h1 id="一-新建SpringBoot项目"><a href="#一-新建SpringBoot项目" class="headerlink" title="一. 新建SpringBoot项目"></a>一. 新建SpringBoot项目</h1><h2 id="1-IDEA新建SpringBoot项目"><a href="#1-IDEA新建SpringBoot项目" class="headerlink" title="1. IDEA新建SpringBoot项目"></a>1. IDEA新建SpringBoot项目</h2><p>(参考文章)[<a href="https://blog.csdn.net/qq_43006591/article/details/106137465]">https://blog.csdn.net/qq_43006591/article/details/106137465]</a></p><h1 id="二-SpringBoot框架解析"><a href="#二-SpringBoot框架解析" class="headerlink" title="二. SpringBoot框架解析"></a>二. SpringBoot框架解析</h1><h2 id="1-idea"><a href="#1-idea" class="headerlink" title="1. .idea"></a>1. .idea</h2><h2 id="2-mvn"><a href="#2-mvn" class="headerlink" title="2. .mvn"></a>2. .mvn</h2><h2 id="3-src"><a href="#3-src" class="headerlink" title="3. src"></a>3. src</h2><h3 id="main"><a href="#main" class="headerlink" title="&#x2F;main"></a>&#x2F;main</h3><ul><li>&#x2F;resource&#x2F;static<br>存放CSS，JS以及图片等</li><li>&#x2F;resource&#x2F;templates<br>存放Web页面</li><li>application.properties&#x2F;application.yml<br>用于存放程序的各种依赖模块的配置信息，比如 服务端口，数据库连接配置等</li><li>&#x2F;main&#x2F;java&#x2F;com.example.xxx<br>存放java源码</li><li>&#x2F;main&#x2F;java&#x2F;Application.java<br>SpringBoot 程序执行的入口，执行该程序中的 main 方法，启动当前SpringBoot项目。</li></ul><h3 id="test"><a href="#test" class="headerlink" title="&#x2F;test"></a>&#x2F;test</h3><p>与mian目录结构类似，没有resource目录。</p><p>存放测试代码。</p><h2 id="4-target"><a href="#4-target" class="headerlink" title="4. target"></a>4. target</h2><p>如果你想测试某个单元，在这里启动它。</p><h2 id="5-gitignore"><a href="#5-gitignore" class="headerlink" title="5. gitignore"></a>5. gitignore</h2><p>使用版本控制工具 git 的时候，设置一些忽略提交的内容</p><h2 id="6-xxx-iml"><a href="#6-xxx-iml" class="headerlink" title="6. xxx.iml"></a>6. xxx.iml</h2><p>intellij idea的工程配置文件，里面是当前project的一些配置信息</p><h2 id="7-HELP-md"><a href="#7-HELP-md" class="headerlink" title="7. HELP.md"></a>7. HELP.md</h2><p>项目的帮助文档，相当于记事本</p><h2 id="8-mvnw"><a href="#8-mvnw" class="headerlink" title="8. mvnw"></a>8. mvnw</h2><p>主要是用于当用户使用maven的命令时，发现本地的maven版本与.mvn文件夹下的maven-wrapper.properties文件中的maven版本不一致，就会下载maven-wrapper.properties文件中的maven版本，然后来执行maven命令，用于Linux环境</p><h2 id="9-mvnw-cmd"><a href="#9-mvnw-cmd" class="headerlink" title="9. mvnw.cmd"></a>9. mvnw.cmd</h2><p>同上，用于Windows环境</p><h2 id="10-pom-xml"><a href="#10-pom-xml" class="headerlink" title="10. pom.xml"></a>10. pom.xml</h2><p>maven依赖的配置</p><h1 id="三-了解更多"><a href="#三-了解更多" class="headerlink" title="三. 了解更多"></a>三. 了解更多</h1><p>(SpringBoot官网)[<a href="https://spring.io/projects/spring-boot]">https://spring.io/projects/spring-boot]</a></p>]]></content>
-      
-      
-      <categories>
-          
-          <category> Web开发 </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> web </tag>
-            
-            <tag> web开发 </tag>
-            
-            <tag> java </tag>
-            
-            <tag> springboot </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>Web开发（五）-JWT</title>
-      <link href="/2023/09/06/web_jwt/"/>
-      <url>/2023/09/06/web_jwt/</url>
-      
-        <content type="html"><![CDATA[<p><em>这篇文章将会向你介绍JWT的理论基础和程序实现</em></p><h1 id="一-JWT-理论"><a href="#一-JWT-理论" class="headerlink" title="一. JWT-理论"></a>一. JWT-理论</h1><h2 id="JWT基础"><a href="#JWT基础" class="headerlink" title="JWT基础"></a>JWT基础</h2><p><em>如果你没有任何基础，请耐心看完这一部分</em></p><p>想象一下你登录某个网站的场景。你从登录页面输入账号密码进入到该网站，同时该网站返回你的个人信息，包括你的昵称，头像，个性签名，显示到网页上。更重要的是，登录网站意味着你的身份得到服务器的验证，你获得了访问你的个人信息的权限。</p><p>服务器通过账号密码识别我们的身份吗？是，但不完全是。首先，你需要明白我们浏览器所依靠的http协议是无状态的。这就好像你和一个记忆力差劲的人交流，每一轮对话之后，他都会忘记你的名字。所以，你在每次和他说话之前，都需要重申你的身份。服务器就像这么一个人，尽管你对它说尽千言万语，而服务器只会在众多用户中迷失你的名字。</p><p>那么，这是否意味着我们必须在每一个请求之前都输入我们的账号密码来告知服务器我们的合法身份呢？答案是否定的，有更简单的解决方案。JWT（JSON WEB TOKEN）就是一种实现方式。</p><p>在输入账号密码之后，服务器会返回一个token给我们。以后在每次请求，我们带上token，服务器便会在用户中认出你。但是，如果你企图修改token，服务器能轻易检查出。这一部分是通过签名实现，当服务器用秘钥对token签名后，任何对token的更改都需要这个秘钥。</p><h2 id="JWT"><a href="#JWT" class="headerlink" title="JWT"></a>JWT</h2><p>JWT由三个部分组成：header，payload，signature。header标识类型和签名算法。payload一般会存放标识你的一些信息账号id，用户名等。signnature是服务器的签名，防止你篡改上一部分的信息冒充他人。</p><h3 id="header："><a href="#header：" class="headerlink" title="header："></a>header：</h3><pre><code>&#123;    &#39;typ&#39;: &#39;JWT&#39;,    &#39;alg&#39;: &#39;HS256&#39;&#125;</code></pre><p><em>类型是JWT；签名算法是HS256</em></p><h3 id="一般header会进行base64编码："><a href="#一般header会进行base64编码：" class="headerlink" title="一般header会进行base64编码："></a>一般header会进行base64编码：</h3><pre><code>eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9</code></pre><h3 id="payload："><a href="#payload：" class="headerlink" title="payload："></a>payload：</h3><pre><code>&#123;    &quot;sub&quot;: &quot;1234567890&quot;,    &quot;name&quot;: &quot;John Doe&quot;,    &quot;admin&quot;: true&#125;</code></pre><p><em>iss: jwt签发者；sub: jwt所面向的用户；aud: 接收jwt的一方；exp: jwt的过期时间，这个过期时间必须要大于签发时间；nbf: 定义在什么时间之前，该jwt都是不可用的.；iat: jwt的签发时间；jti: jwt的唯一身份标识，主要用来作为一次性token,从而回避重放攻击。</em></p><h3 id="一般会对payload进行base64编码："><a href="#一般会对payload进行base64编码：" class="headerlink" title="一般会对payload进行base64编码："></a>一般会对payload进行base64编码：</h3><pre><code>eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWV9</code></pre><h2 id="signature："><a href="#signature：" class="headerlink" title="signature："></a>signature：</h2><p>signature对上面两部分的base64编码使用key进行签名</p><pre><code>HMACSHA256（base64(header) . base64(payload) , key）</code></pre><p>一般像这样：<br>      eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWV9.TJVA95OrM7E2cBab30RMHrHDcEfxjoYZgeFONFh7HgQ</p><h2 id="JWT-1"><a href="#JWT-1" class="headerlink" title="JWT"></a>JWT</h2><p>将这三部分合并，中间用“.”分隔，得到一个完整的JWT</p><pre><code>  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWV9.TJVA95OrM7E2cBab30RMHrHDcEfxjoYZgeFONFh7HgQ</code></pre><h1 id="二-JWT-实现"><a href="#二-JWT-实现" class="headerlink" title="二. JWT-实现"></a>二. JWT-实现</h1><h2 id="0-添加依赖"><a href="#0-添加依赖" class="headerlink" title="0. 添加依赖"></a>0. 添加依赖</h2><pre><code>    &lt;!--JWT--&gt;    &lt;dependency&gt;        &lt;groupId&gt;io.jsonwebtoken&lt;/groupId&gt;        &lt;artifactId&gt;jjwt&lt;/artifactId&gt;        &lt;version&gt;0.9.1&lt;/version&gt;    &lt;/dependency&gt;</code></pre><h2 id="1-生成token"><a href="#1-生成token" class="headerlink" title="1. 生成token"></a>1. 生成token</h2><pre><code>//token有效时间private static long expire = 604800;//校验token有效性秘钥private static String key = &quot;aaaabbbbccccddddaaaabbbbccccdddd&quot;;//token生成public static String generateToken(String username)&#123;Date now = new Date();Date expiration = new Date(now.getTime()+1000*expire);return Jwts.builder()//          .setHeaderParams()            .setSubject(username)            .setIssuedAt(now)            .setExpiration(expiration)            .signWith(SignatureAlgorithm.HS512,key)            .compact();&#125;</code></pre><h2 id="2-token校验"><a href="#2-token校验" class="headerlink" title="2. token校验"></a>2. token校验</h2><pre><code>//token校验public static Claims getClaimsByToken(String token)&#123;    return Jwts.parser()            .setSigningKey(key)            .parseClaimsJws(token)            .getBody();&#125;</code></pre><h2 id="3-一个简单的例子"><a href="#3-一个简单的例子" class="headerlink" title="3. 一个简单的例子"></a>3. 一个简单的例子</h2><p>你可以将上面两个函数封装在JwtUtils的类中，在Controller中调用token相关的函数在网络请求中使用token。</p><pre><code>String token = generateToken(name);</code></pre><p>登录之后将token返回到客户端。</p><pre><code>getClaimsByToken(token).getSubject().equals(name)</code></pre><p>校验客户端的token后，允许其访问对应接口。</p>]]></content>
-      
-      
-      <categories>
-          
-          <category> Web开发 </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> web </tag>
-            
-            <tag> web开发 </tag>
-            
-            <tag> java </tag>
-            
-            <tag> springboot </tag>
-            
-            <tag> jwt </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>Web开发（四）-MyBatis</title>
-      <link href="/2023/09/06/web_mybatis/"/>
-      <url>/2023/09/06/web_mybatis/</url>
-      
-        <content type="html"><![CDATA[<h1 id="一-MyBatis-理论"><a href="#一-MyBatis-理论" class="headerlink" title="一. MyBatis-理论"></a>一. MyBatis-理论</h1><p>这一部分我也不是很了解，简单的写点理解。</p><h2 id="1-MyBatis基础"><a href="#1-MyBatis基础" class="headerlink" title="1. MyBatis基础"></a>1. MyBatis基础</h2><p>MyBatis将数据库语句映射到java函数，将一个函数同SQL语句绑定后，当你调用这个函数，对应的SQL语句将会执行，并且返回参数到函数的返回值。</p><p>同时，MyBatis将数据库的表和java的对象做了很好的连接。在MyBatis的作用下，映射SQL查询语句的函数可以返回java对象。</p><h1 id="二-MyBatis实现"><a href="#二-MyBatis实现" class="headerlink" title="二. MyBatis实现"></a>二. MyBatis实现</h1><h2 id="1-依赖和配置"><a href="#1-依赖和配置" class="headerlink" title="1. 依赖和配置"></a>1. 依赖和配置</h2><h3 id="依赖"><a href="#依赖" class="headerlink" title="依赖"></a>依赖</h3><p>你可以直接使用MyBatis-plus版本，它支持MyBatis</p><pre><code>    &lt;!--mybatis-plus--&gt;    &lt;dependency&gt;        &lt;groupId&gt;com.baomidou&lt;/groupId&gt;        &lt;artifactId&gt;mybatis-plus-boot-starter&lt;/artifactId&gt;        &lt;version&gt;3.4.2&lt;/version&gt;    &lt;/dependency&gt;    &lt;!--Mysql jdbc驱动--&gt;    &lt;dependency&gt;        &lt;groupId&gt;mysql&lt;/groupId&gt;        &lt;artifactId&gt;mysql-connector-java&lt;/artifactId&gt;        &lt;version&gt;5.1.47&lt;/version&gt;    &lt;/dependency&gt;    &lt;!--druid 连接池--&gt;    &lt;dependency&gt;        &lt;groupId&gt;com.alibaba&lt;/groupId&gt;        &lt;artifactId&gt;druid&lt;/artifactId&gt;        &lt;version&gt;1.1.20&lt;/version&gt;    &lt;/dependency&gt;</code></pre><h3 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h3><pre><code>spring.datasource.type=com.alibaba.druid.pool.DruidDataSourcespring.datasource.driver-class-name=com.mysql.jdbc.Driverspring.datasource.url=jdbc:mysql://localhost:3306/mybatis?useUnicode=true&amp;characterEncoding=UTF-8&amp;serverTimezone=UTCspring.datasource.username=rootspring.datasource.password=root</code></pre><h2 id="2-新建实体类"><a href="#2-新建实体类" class="headerlink" title="2. 新建实体类"></a>2. 新建实体类</h2><p>这是一个简单的User类，定义了id，name，password三个属性，以及set，get，toString三个方法。</p><pre><code>public class User &#123;    private int id;    private String name;    private String password;    public int getId() &#123;        return id;    &#125;    public String getName()&#123;        return name;    &#125;    public String getPassword()&#123;        return password;    &#125;    public void setName(String name) &#123;        this.name = name;    &#125;    public void setPassword(String password) &#123;        this.password = password;    &#125;    public void setId(int id) &#123;        this.id = id;    &#125;    @Override    public String toString() &#123;        return &quot;User&#123;&quot; +                &quot;id=&quot; + id +                &quot;, name=&#39;&quot; + name + &#39;\&#39;&#39; +                &quot;, password=&#39;&quot; + password + &#39;\&#39;&#39; +                &#39;&#125;&#39;;    &#125;&#125;</code></pre><h2 id="新建Mapper接口"><a href="#新建Mapper接口" class="headerlink" title="新建Mapper接口"></a>新建Mapper接口</h2><p>在下面代码中，你可以阅读注释，你很容易明白这些@注解的作用。</p><pre><code>@Mapperpublic interface UserMapper&#123;    //返回查询对象的集合    @Select(&quot;select * from user&quot;)    public List&lt;User&gt; findAll();    //返回查询对象    @Select(&quot;select * from user where id = #&#123;id&#125;&quot;)    public User findById(int id);    //将数据库insert语句映射到java程序的insert方法    //返回值为插入语句影响的记录数目    @Insert(&quot;insert into user values (#&#123;id&#125;,#&#123;name&#125;,#&#123;password&#125;)&quot;)    public int insert(int id, String name,String password);    //将数据库delete语句映射到java程序的delete方法    //返回值为删除语句影响的记录数目    @Delete(&quot;delete  from user where id = #&#123;id&#125;&quot;)    public int delete(int id);    //将数据库update语句映射到java程序的update方法    //返回值为更新语句影响的记录数目    @Update(&quot;update user set name = #&#123;newName&#125;,password= #&#123;newPassword&#125; where id = #&#123;id&#125;&quot;)    public int update(int id,String newName,String newPassword);&#125;</code></pre><h2 id="3-编写Controller方法"><a href="#3-编写Controller方法" class="headerlink" title="3. 编写Controller方法"></a>3. 编写Controller方法</h2><p>通过Mapper类你可以将数据库表的数据轻松的赋给java对象或者对数据库进行操作。</p><p>下面是一个用户登录的例子</p><pre><code>@RestControllerpublic class UserController &#123;    @Autowired    private UserMapper userMapper;    //登录    @PostMapping(&quot;/&quot;)    public String login(@RequestParam String name,@RequestParam String password)&#123;        //权限标识        int verify = 0;        //检查账号，密码        List&lt;User&gt; list = userMapper.findAll();        for(int i=0; i&lt;list.size(); i++)&#123;            User useri = list.get(i);            if(useri.getName().equals(name) &amp;&amp; useri.getPassword().equals(password))&#123;                verify = 1;                break;            &#125;        &#125;        //权限判断        if(verify==1)&#123;            return &quot;login&quot;;        &#125;else&#123;            return &quot;error&quot;;        &#125;    &#125;    //返回用户个人信息    @GetMapping(&quot;/user&quot;)    public String info(@RequestParam int id,@RequestParam String name,@RequestParam String token) &#123;        if(getClaimsByToken(token).getSubject().equals(name))&#123;        User user = userMapper.findById(id);        return user.toString();        &#125;else&#123;            return &quot;error&quot;;        &#125;    &#125;    //用户注册    @PostMapping(&quot;/user&quot;)    public String register(@RequestParam String name,@RequestParam String password)&#123;        int id = 0;        userMapper.insert(id,name,password);        return &quot;register&quot;;    &#125;    //用户注销    @DeleteMapping(&quot;/user&quot;)    public String delete(@RequestParam int id)&#123;        userMapper.delete(id);        return &quot;delete&quot;;    &#125;    //修改个人信息    @PutMapping(&quot;/user&quot;)    public String update(@RequestParam int id,@RequestParam String newName,@RequestParam String newPassword) &#123;        userMapper.update(id,newName,newPassword);        return &quot;update&quot;;    &#125;&#125;</code></pre>]]></content>
-      
-      
-      <categories>
-          
-          <category> Web开发 </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> web </tag>
-            
-            <tag> web开发 </tag>
-            
-            <tag> java </tag>
-            
-            <tag> springboot </tag>
-            
-            <tag> mybatis </tag>
-            
-            <tag> mysql </tag>
             
         </tags>
       
@@ -404,13 +621,13 @@
             
             <tag> 博客 </tag>
             
-            <tag> Hexo </tag>
-            
-            <tag> Butterfly </tag>
-            
             <tag> nodejs </tag>
             
             <tag> npm </tag>
+            
+            <tag> Hexo </tag>
+            
+            <tag> Butterfly </tag>
             
         </tags>
       
@@ -475,19 +692,6 @@
             <tag> 博客 </tag>
             
         </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>Hello World</title>
-      <link href="/2023/08/20/hello-world/"/>
-      <url>/2023/08/20/hello-world/</url>
-      
-        <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><pre><code class="bash">$ hexo new &quot;My New Post&quot;</code></pre><p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><pre><code class="bash">$ hexo server</code></pre><p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><pre><code class="bash">$ hexo generate</code></pre><p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><pre><code class="bash">$ hexo deploy</code></pre><p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>]]></content>
-      
-      
       
     </entry>
     
