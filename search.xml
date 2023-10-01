@@ -4,29 +4,25 @@
   
     
     <entry>
-      <title>DHCP安全性分析</title>
-      <link href="/2023/09/26/network_protocol_DHCP/"/>
-      <url>/2023/09/26/network_protocol_DHCP/</url>
+      <title>MD5碰撞试验</title>
+      <link href="/2023/10/01/cipher_md5/"/>
+      <url>/2023/10/01/cipher_md5/</url>
       
-        <content type="html"><![CDATA[<p>等我有空了更新</p><p>这个部分也蛮有意思…有一些安全性的东西。</p><p>很刑，日子越来越有判头</p><h1 id="一-DHCP协议概述"><a href="#一-DHCP协议概述" class="headerlink" title="一. DHCP协议概述"></a>一. DHCP协议概述</h1><h1 id="1-饿死攻击"><a href="#1-饿死攻击" class="headerlink" title="1. 饿死攻击"></a>1. 饿死攻击</h1>]]></content>
+        <content type="html"><![CDATA[<h1 id="一、作业题目"><a href="#一、作业题目" class="headerlink" title="一、作业题目"></a>一、作业题目</h1><p>本次实验主要是加深大家对MD5碰撞及其原理的理解，使用SEED实验环境中的工具及编程语言，完成以下任务：</p><p><em><strong>1.使用md5collgen生成两个MD5值相同的文件，并利用bless十六进制编辑器查看输出的两个文件，描述你观察到的情况；</strong></em></p><p><em><strong>2.参考Lab3_task2.c的代码，生成两个MD5值相同但输出不同的两个可执行文件。</strong></em></p><p><em><strong>3.参考Lab3_task3.c的代码，生成两个MD5值相同但代码行为不相同的可执行文件。</strong></em></p><p><em><strong>4.回答问题：通过上面的实验，请解释为什么可以做到不同行为的两个可执行文件具有相同的MD5值？</strong></em></p><h1 id="二、实验步骤及结果"><a href="#二、实验步骤及结果" class="headerlink" title="二、实验步骤及结果"></a>二、实验步骤及结果</h1><h2 id="1-md5collgen生成碰撞文件"><a href="#1-md5collgen生成碰撞文件" class="headerlink" title="1.md5collgen生成碰撞文件"></a>1.md5collgen生成碰撞文件</h2><h3 id="新建前缀文件prefix-txt"><a href="#新建前缀文件prefix-txt" class="headerlink" title="新建前缀文件prefix.txt"></a>新建前缀文件prefix.txt</h3><p> <img src="/img/cipher_md5/image.png" alt="Alt text"><br>###用md5collgen生成碰撞文件out1.bin和out2.bin<br>.&#x2F;md5collgen -p prefix.txt -o out1.bin out2.bin<br> <img src="/img/cipher_md5/image-1.png" alt="Alt text"><br>###使用bless比较两个文件内容<br>两个文件小部分内容不同。<br> <img src="/img/cipher_md5/image-2.png" alt="Alt text"><br> <img src="/img/cipher_md5/image-3.png" alt="Alt text"><br>###比价两个文件md5值<br>md5sum xxx检查文件md5值，发现这两个不同内容的文件有相同的md5值。（md5算法将文件压缩到128位）<br> <img src="/img/cipher_md5/image-4.png" alt="Alt text"><br>###分析<br>首先，out1.bin和out2.bin文件前面部分都是prefix.txt文件内容，但进行了补全，补全的部分是前64字节。</p><p>其次，out1,bin和out2.bin文件后半部分都是128字节，且这部分包含了这两个文件的差异，并且两个文件的差异比较小。</p><h2 id="2-Lab3-task2-c文件碰撞"><a href="#2-Lab3-task2-c文件碰撞" class="headerlink" title="2.Lab3_task2.c文件碰撞"></a>2.Lab3_task2.c文件碰撞</h2><h3 id="新建文件task2-c"><a href="#新建文件task2-c" class="headerlink" title="新建文件task2.c"></a>新建文件task2.c</h3><p> <img src="/img/cipher_md5/image-5.png" alt="Alt text"><br> <img src="/img/cipher_md5/image-6.png" alt="Alt text"><br>###编译文件<br>gcc task.c -o task<br>###寻找替换程序字符串部分<br>因为md5collgen的prefix部分需要是64字节的倍数，否则补全可能会造成task程序无法运行。因此在task程序找到字符串部分中64字节倍数作为前缀。<br> <img src="/img/cipher_md5/image-7.png" alt="Alt text"><br>（0x3040 &#x3D;&gt; 12352；12352&#x2F;64 &#x3D; 193）<br>###剪切出前缀文件，并生成替换文件<br>从12352字节开始剪切，注意的是生成文件会额外占据128字节，因此要将中间的128字节去掉。<br> <img src="/img/cipher_md5/image-8.png" alt="Alt text"><br>生成替换文件task_out1.bin和task_out2.bin文件<br> <img src="/img/cipher_md5/image-9.png" alt="Alt text"><br>###拼接生成的文件和后缀，并执行这两个文件。<br>可以发现这两个文件输出是不一样的，原因就是md5collgen生成的两个文件128字节不同导致输出字符发生改变。<br> <img src="/img/cipher_md5/image-10.png" alt="Alt text"><br>###分析<br>查看两个文件md5值，发现一样，但是输出不一样（也就是程序中的字符串不一样）。原理就是md5collgen生成的文件改变了字符串，但是没有让md5值发生改变。<br> <img src="/img/cipher_md5/image-11.png" alt="Alt text"></p><h2 id="3-Lab3-task3-c文件碰撞"><a href="#3-Lab3-task3-c文件碰撞" class="headerlink" title="3.Lab3_task3.c文件碰撞"></a>3.Lab3_task3.c文件碰撞</h2><h3 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h3><p>题目分析：代码判断两个变量是否相等导致不同的输出路径；构造两个程序相同md5值有不同输出路径。</p><p>思路：源程序A构造两个相同变量x，y；程序B利用md5构造两个相同变量，输出路径为：&#x3D;&#x3D;；程序C利用md5collgen构造两个不同变量保持和程序A相同的md5值，输出路径为：!&#x3D;，<br>###编写程序task3_a.c<br>上面未显示的部分定义了两个相同的字符串x和y，都是200个0x41（“A”）。<br> <img src="/img/cipher_md5/image-12.png" alt="Alt text"><br>###这里task3_a程序与之前程序类似，我们定位到字符串内容依旧可以选取0x3040进行截取（对应下一个字符串0x3120）。截取的程序头部为task3_pre。<br> <img src="/img/cipher_md5/image-13.png" alt="Alt text"></p><p>利用截取的头部tsak3_pre生成程序头task3_b，task3_c<br> <img src="/img/cipher_md5/image-14.png" alt="Alt text"><br>###拼接字符串x得到程序task3_b，task3_c<br> <img src="/img/cipher_md5/image-15.png" alt="Alt text"><br>###在bless调整字符串y得到task3_b，task3_c<br>Task3_b的x，y字符串相同<br> <img src="/img/cipher_md5/image-16.png" alt="Alt text"><br> <img src="/img/cipher_md5/image-17.png" alt="Alt text"><br>task3_c的x，y字符串不同，y字符串来自task3_b<br> <img src="/img/cipher_md5/image-18.png" alt="Alt text"><br>###运行两个文件<br>检查两个程序md5值<br> <img src="/img/cipher_md5/image-19.png" alt="Alt text"></p><p>可以发现这两个程序走向了两个不同的方向。因为程序B字符串x，y都是md5collgen生成的同一个，然而程序C的x，y字符串则是md5collgen生成的两个不同的。但是它们的md5值相等。<br> <img src="/img/cipher_md5/image-20.png" alt="Alt text"></p><h2 id="4-相同md5值，不同行为的程序？"><a href="#4-相同md5值，不同行为的程序？" class="headerlink" title="4.相同md5值，不同行为的程序？"></a>4.相同md5值，不同行为的程序？</h2><p>从本质上来说，md5值是有限的（2的128次方个），然而程序是无穷的，因此两个不同行为程序完全可能有相同的md5值，碰撞不可避免。</p><p>就这道题分析：使用md5collgen可以生成两个相同md5值但是不同的文件。利用这个特性去替换程序中的字符串，使得一个程序是同一个md5collgen生成值替换，所以两个字符串一样，判断为same；另一个程序使用不同md5collgen生成值，两个字符串不一致，判断为diff，然而同为一个前缀生成，两个md5collgen生成值md5相等，两个程序的md5值也相等。</p>]]></content>
       
       
       <categories>
           
-          <category> 计算机网络 </category>
+          <category> 密码学 </category>
           
       </categories>
       
       
         <tags>
             
-            <tag> internet </tag>
+            <tag> 密码学 </tag>
             
-            <tag> 计算机网络 </tag>
-            
-            <tag> Protocol </tag>
-            
-            <tag> DHCP </tag>
+            <tag> MD5 </tag>
             
         </tags>
       
@@ -58,6 +54,37 @@
             <tag> 计算机网络 </tag>
             
             <tag> Protocol </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>DHCP安全性分析</title>
+      <link href="/2023/09/26/network_DHCP/"/>
+      <url>/2023/09/26/network_DHCP/</url>
+      
+        <content type="html"><![CDATA[<h1 id="一-DHCP协议概述"><a href="#一-DHCP协议概述" class="headerlink" title="一. DHCP协议概述"></a>一. DHCP协议概述</h1><h2 id="1-上网配置信息"><a href="#1-上网配置信息" class="headerlink" title="1. 上网配置信息"></a>1. 上网配置信息</h2><p>计算机在连入WIFI后，需要获取网络配置信息才能正常上网，这些信息包括以下：</p><ul><li>主机IP地址</li><li>子网掩码</li><li>网关IP地址</li><li>DNS服务器IP地址</li></ul><h2 id="2-DHCP报文"><a href="#2-DHCP报文" class="headerlink" title="2. DHCP报文"></a>2. DHCP报文</h2><p>当你连入WIFI之前，使用Warshark对进行抓包，可以捕获到到以下DHCP报文：</p><ul><li>DISCOVER</li><li>OFFER</li><li>REQUEST</li><li>ACK</li></ul><p>如果你已经接入WIFI，你可以在终端输入命令 <em><strong>ipconfig release</strong></em> 释放你已经获取的网络配置信息。重新接入WIFI。</p><p>如果你只是单纯断开WIFI，那么原来的网络配置信息并不会清空。相比正常的DHCP交互缺少 <em><strong>DISCOVER</strong></em> 和 <em><strong>OFFER</strong></em> 报文。</p><h1 id="二-DHCP饿死攻击"><a href="#二-DHCP饿死攻击" class="headerlink" title="二. DHCP饿死攻击"></a>二. DHCP饿死攻击</h1><h2 id="1-概述"><a href="#1-概述" class="headerlink" title="1. 概述"></a>1. 概述</h2><p>DHCP服务器根据DHCP报文中提供的MAC地址分发IP地址。</p><p>因此，使用主机伪造DHCP报文中的MAC地址，耗尽DHCP能够分配的IP地址，那么正常连接网络的主机将不能够接入网络，攻击完成。</p><h2 id="2-试试？"><a href="#2-试试？" class="headerlink" title="2. 试试？"></a>2. 试试？</h2><h3 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h3><p>Windows7（虚拟机）；Ubuntu20.04（虚拟机）</p><h3 id="下载Yersinia"><a href="#下载Yersinia" class="headerlink" title="下载Yersinia"></a>下载Yersinia</h3><p><em><strong>sudo apt install yersinia</strong></em></p><p><img src="/img/network_dhcp/image-6.png" alt="Alt text"></p><h3 id="打开Yersinia图形界面"><a href="#打开Yersinia图形界面" class="headerlink" title="打开Yersinia图形界面"></a>打开Yersinia图形界面</h3><p><em><strong>yersinia -G</strong></em></p><p>作者还挺幽默哈</p><p><img src="/img/network_dhcp/image-5.png" alt="Alt text"></p><h3 id="发起攻击"><a href="#发起攻击" class="headerlink" title="发起攻击"></a>发起攻击</h3><p><img src="/img/network_dhcp/image-9.png" alt="Alt text"></p><h3 id="攻击情况"><a href="#攻击情况" class="headerlink" title="攻击情况"></a>攻击情况</h3><p>warshark抓包分析<br>yersinia发包速度很快，电脑受不了没做太多测试。</p><p><img src="/img/network_dhcp/image-8.png" alt="Alt text"></p><h1 id="三-冒充DHCP服务器"><a href="#三-冒充DHCP服务器" class="headerlink" title="三. 冒充DHCP服务器"></a>三. 冒充DHCP服务器</h1><h2 id="1-概述-1"><a href="#1-概述-1" class="headerlink" title="1. 概述"></a>1. 概述</h2><p>当你向你的主机安装一个DHCP Server程序后，你的计算机也成为了一台DHCP服务器，但是你可以配置错误的网络配置信息，这可以使得接入网络的计算机无法获取正确的网络配置从而无法上网。</p><h2 id="2-试试？-1"><a href="#2-试试？-1" class="headerlink" title="2. 试试？"></a>2. 试试？</h2><h3 id="实验环境"><a href="#实验环境" class="headerlink" title="实验环境"></a>实验环境</h3><p><em><strong>Ubuntu20.04（虚拟机）：</strong></em></p><p><img src="/img/network_dhcp/image.png" alt="Alt text"></p><p><em><strong>Windows7（虚拟机）：</strong></em></p><p><img src="/img/network_dhcp/image-2.png" alt="Alt text"></p><h3 id="在Ubuntu中安装dhcp服务器："><a href="#在Ubuntu中安装dhcp服务器：" class="headerlink" title="在Ubuntu中安装dhcp服务器："></a>在Ubuntu中安装dhcp服务器：</h3><pre><code>sudo apt-get install isc-dhcp-server</code></pre><h3 id="配置dhcp服务器相关信息："><a href="#配置dhcp服务器相关信息：" class="headerlink" title="配置dhcp服务器相关信息："></a>配置dhcp服务器相关信息：</h3><p><em><strong>vim &#x2F;etc&#x2F;default&#x2F;isc-dhcp-server</strong></em></p><pre><code># Defaults for isc-dhcp-server (sourced by /etc/init.d/isc-dhcp-server)# Path to dhcpd&#39;s config file (default: /etc/dhcp/dhcpd.conf).#DHCPDv4_CONF=/etc/dhcp/dhcpd.conf#DHCPDv6_CONF=/etc/dhcp/dhcpd6.conf# Path to dhcpd&#39;s PID file (default: /var/run/dhcpd.pid).#DHCPDv4_PID=/var/run/dhcpd.pid#DHCPDv6_PID=/var/run/dhcpd6.pid# Additional options to start dhcpd with.#Don&#39;t use options -cf or -pf here; use DHCPD_CONF/ DHCPD_PID instead#OPTIONS=&quot;&quot;# On what interfaces should the DHCP server (dhcpd) serve DHCP requests?#Separate multiple interfaces with spaces, e.g. &quot;eth0 eth1&quot;.INTERFACESv4=&quot;ens33&quot;INTERFACESv6=&quot;&quot;</code></pre><p><em><strong>vim &#x2F;etc&#x2F;dhcp&#x2F;dhcpd.conf</strong></em></p><pre><code># dhcpd.conf## Sample configuration file for ISC dhcpd## Attention: If /etc/ltsp/dhcpd.conf exists, that will be used as# configuration file instead of this file.## option definitions common to all supported networks...option domain-name &quot;example.org&quot;;option domain-name-servers 8.8.8.8;# option domain-name-servers ns1.example.org, ns2.example.org;default-lease-time 600;max-lease-time 7200;# The ddns-updates-style parameter controls whether or not the server will# attempt to do a DNS update when a lease is confirmed. We default to the# behavior of the version 2 packages (&#39;none&#39;, since DHCP v2 didn&#39;t# have support for DDNS.)ddns-update-style none;# If this DHCP server is the official DHCP server for the local# network, the authoritative directive should be uncommented.authoritative;# Use this to send dhcp log messages to a different log file (you also# have to hack syslog.conf to complete the redirection).# log-facility local7;# No service will be given on this subnet, but declaring it helps the # DHCP server to understand the network topology.#subnet 10.152.187.0 netmask 255.255.255.0 &#123;#&#125;# This is a very basic subnet declaration.subnet 192.168.59.0 netmask 255.255.255.0 &#123;   range 192.168.59.50 192.168.59.200;   option routers 192.168.59.2;   option subnet-mask 255.255.255.0;   option broadcast-address 192.168.59.255;&#125;# This declaration allows BOOTP clients to get dynamic addresses,# which we don&#39;t really recommend.#subnet 10.254.239.32 netmask 255.255.255.224 &#123;#  range dynamic-bootp 10.254.239.40 10.254.239.60;#  option broadcast-address 10.254.239.31;#  option routers rtr-239-32-1.example.org;#&#125;# A slightly different configuration for an internal subnet.#subnet 10.5.5.0 netmask 255.255.255.224 &#123;#  range 10.5.5.26 10.5.5.30;#  option domain-name-servers ns1.internal.example.org;#  option domain-name &quot;internal.example.org&quot;;#  option subnet-mask 255.255.255.224;#  option routers 10.5.5.1;#  option broadcast-address 10.5.5.31;#  default-lease-time 600;#  max-lease-time 7200;#&#125;# Hosts which require special configuration options can be listed in# host statements.   If no address is specified, the address will be# allocated dynamically (if possible), but the host-specific information# will still come from the host declaration.#host passacaglia &#123;#  hardware ethernet 0:0:c0:5d:bd:95;#  filename &quot;vmunix.passacaglia&quot;;#  server-name &quot;toccata.example.com&quot;;#&#125;# Fixed IP addresses can also be specified for hosts.   These addresses# should not also be listed as being available for dynamic assignment.# Hosts for which fixed IP addresses have been specified can boot using# BOOTP or DHCP.   Hosts for which no fixed address is specified can only# be booted with DHCP, unless there is an address range on the subnet# to which a BOOTP client is connected which has the dynamic-bootp flag# set.#host fantasia &#123;#  hardware ethernet 08:00:07:26:c0:a5;#  fixed-address fantasia.example.com;#&#125;# You can declare a class of clients and then do address allocation# based on that.   The example below shows a case where all clients# in a certain class get addresses on the 10.17.224/24 subnet, and all# other clients get addresses on the 10.0.29/24 subnet.#class &quot;foo&quot; &#123;#  match if substring (option vendor-class-identifier, 0, 4) = &quot;SUNW&quot;;#&#125;#shared-network 224-29 &#123;#  subnet 10.17.224.0 netmask 255.255.255.0 &#123;#    option routers rtr-224.example.org;#  &#125;#  subnet 10.0.29.0 netmask 255.255.255.0 &#123;#    option routers rtr-29.example.org;#  &#125;#  pool &#123;#    allow members of &quot;foo&quot;;#    range 10.17.224.10 10.17.224.250;#  &#125;#  pool &#123;#    deny members of &quot;foo&quot;;#    range 10.0.29.10 10.0.29.230;#  &#125;#&#125;</code></pre><h3 id="启动DHCP服务器"><a href="#启动DHCP服务器" class="headerlink" title="启动DHCP服务器"></a>启动DHCP服务器</h3><p><em><strong>启动DHCP服务器：sudo systemctl start isc-dhcp-server.service</strong></em></p><p><em><strong>查看DHCP服务器运行状态：sudo systemctl status isc-dhcp-server.service</strong></em></p><p><em><strong>关闭DHCP服务器：sudo systemctl stop isc-dhcp-server.service</strong></em></p><p><img src="/img/network_dhcp/image-1.png" alt="Alt text"></p><h3 id="Windows7获取Ubuntu20-04的DHCP服务器网络配置"><a href="#Windows7获取Ubuntu20-04的DHCP服务器网络配置" class="headerlink" title="Windows7获取Ubuntu20.04的DHCP服务器网络配置"></a>Windows7获取Ubuntu20.04的DHCP服务器网络配置</h3><p>如果你已经连接网络，使用 <em><strong>ipconfig &#x2F;release</strong></em> 释放获取的网络配置</p><p>然后，使用 <em><strong>ipconfig &#x2F;renew</strong></em> 重新连接DHCP服务器获取网络配置</p><p><img src="/img/network_dhcp/image-3.png" alt="Alt text"></p><p>可以看见Windows7网络配置发生了改变</p><p><img src="/img/network_dhcp/image-4.png" alt="Alt text"></p><h1 id="四-DHCP中间人攻击"><a href="#四-DHCP中间人攻击" class="headerlink" title="四. DHCP中间人攻击"></a>四. DHCP中间人攻击</h1><p>这部分原理与ARP中间人攻击一致…</p><p>中间人攻击基本都是用ARP实现吗？…</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 计算机网络 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> internet </tag>
+            
+            <tag> 计算机网络 </tag>
+            
+            <tag> Protocol </tag>
+            
+            <tag> DHCP </tag>
             
         </tags>
       
