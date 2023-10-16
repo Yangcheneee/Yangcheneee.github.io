@@ -4,6 +4,146 @@
   
     
     <entry>
+      <title>恶意URL检测</title>
+      <link href="/2023/10/11/ai_maliciousurldetection/"/>
+      <url>/2023/10/11/ai_maliciousurldetection/</url>
+      
+        <content type="html"><![CDATA[<h1 id="源代码"><a href="#源代码" class="headerlink" title="源代码"></a>源代码</h1><pre><code class="python"># 数据提取&amp;处理（csv）import pandas as pdfrom sklearn.utils import shuffle# 特征提取import refrom sklearn.feature_extraction.text import TfidfVectorizer# 训练集和测试集划分from sklearn.model_selection import train_test_split# 逻辑回归算法训练模型from sklearn.linear_model import LogisticRegression# 模型评估报告打印from sklearn.metrics import classification_report# 模型保存import pickledef read_dmoz0409(file_path, lable):    normal_pd = pd.read_csv(file_path, header=None, names=[&quot;url&quot;], usecols=[1], nrows=14989)    normal_pd[&quot;lable&quot;] = lable    # print(normal_pd)    return normal_pddef read_phishing_verified_online(file_path, lable):    malicious_pd = pd.read_csv(file_path, usecols=[1], nrows=14989)    malicious_pd[&quot;lable&quot;] = lable    # print(malicious_pd)    return malicious_pddef data_process(normal, malicious):    all = pd.concat([normal, malicious])    data = all[&quot;url&quot;]    lable = all[&quot;lable&quot;]    data, lable = shuffle(data, lable, random_state=42)    return data, labledef data_tokenizer(data):    return re.findall(r&#39;\w+&#39;, data)def data_vectorizer(data, lable):    vectorizer = TfidfVectorizer(tokenizer=data_tokenizer)    x = vectorizer.fit_transform(data)    y = lable    return x, y, vectorizerdef model_train(x_train, y_train):    model = LogisticRegression()    model.fit(x_train, y_train)    return modeldef model_test(model, x_test, y_test):    # accuracy = model.score(x_test, y_test)    # print(&quot;模型准确率:&quot;, accuracy)    y_predict = model.predict(x_test)    report = classification_report(y_test, y_predict, labels=[&quot;malicious&quot;, &quot;normal&quot;], target_names=[&quot;恶意URL&quot;, &quot;正常URL&quot;],digits=2)    return reportdef model_save(model, vectorizer, report):    save = input(&quot;是否保存训练的模型（y/n）：&quot;)    if save == &quot;y&quot; or save == &quot;Y&quot;:        with open(&#39;model.pkl&#39;, &#39;wb&#39;) as f:            pickle.dump(model, f)        with open(&#39;vectorizer.pkl&#39;, &#39;wb&#39;) as f:            pickle.dump(vectorizer, f)        with open(&#39;report.txt&#39;, &#39;w&#39;) as f:            f.write(report)        print(&quot;保存成功！&quot;)        return True    else:        return Falsedef new_model():    # 数据提取    print(&quot;数据提取...&quot;)    normal = read_dmoz0409(&quot;dmoz0409.csv&quot;, &quot;normal&quot;)    malicious = read_phishing_verified_online(&quot;phishing_verified_online.csv&quot;, &quot;malicious&quot;)    # 数据处理（合并，打乱数据集）    print(&quot;数据处理...&quot;)    data, lable = data_process(normal, malicious)    # 特征提取    print(&quot;向量化...&quot;)    x, y, vectorizer = data_vectorizer(data, lable)    # print(vectorizer.vocabulary_)    # print(x.toarray)    # 数据集划分    x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.3)    # 模型训练    print(&quot;模型训练...&quot;)    model = model_train(x_train, y_train)    # 模型评估    report = model_test(model, x_test, y_test)    print(&quot;模型评估报告：&quot; + &quot;\n&quot;, report)    # 模型保存?    model_save(model, vectorizer, report)def use_model():    while True:        url_list = input(&quot;输入需要测试的url：&quot;).split(&quot;\n&quot;)        with open(&quot;vectorizer.pkl&quot;, &quot;rb&quot;) as f:            vectorizer = pickle.load(f)        x = vectorizer.transform(url_list)        with open(&quot;model.pkl&quot;, &quot;rb&quot;) as f:            model = pickle.load(f)        y_predict = model.predict(x)        for i in range(len(url_list)):            print(url_list[i], y_predict[i])if __name__ == &quot;__main__&quot;:    choice = input(&quot;训练新的模型或是使用已经训练的模型（train/use）：&quot;)    if choice == &quot;train&quot;:        new_model()    elif choice==&quot;use&quot;:        print(&quot;-------恶意URL检测-------&quot;)        use_model()    else:        print(&quot;无效的输入！&quot;)</code></pre>]]></content>
+      
+      
+      <categories>
+          
+          <category> AI </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Python </tag>
+            
+            <tag> AI </tag>
+            
+            <tag> 人工智能 </tag>
+            
+            <tag> 机器学习 </tag>
+            
+            <tag> sklearn </tag>
+            
+            <tag> url </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>机器学习：写在前面</title>
+      <link href="/2023/10/10/ai_readme/"/>
+      <url>/2023/10/10/ai_readme/</url>
+      
+        <content type="html"><![CDATA[<h1 id="机器学习"><a href="#机器学习" class="headerlink" title="机器学习"></a>机器学习</h1><h2 id="额"><a href="#额" class="headerlink" title="额"></a>额</h2><ul><li><p>文件数据</p></li><li><p>程序数据</p></li><li><p>特征向量</p></li><li><p>训练集&amp;测试集</p></li><li><p>模型</p></li></ul><h2 id="库相关"><a href="#库相关" class="headerlink" title="库相关"></a>库相关</h2><h3 id="sklearn库："><a href="#sklearn库：" class="headerlink" title="sklearn库："></a>sklearn库：</h3><ul><li>数据打乱<br>from sklearn.utils import shuffle</li><li>特征提取<br>from sklearn.feature_extraction.text import TfidfVectorizer</li><li>逻辑回归算法训练模型<br>from sklearn.linear_model import LogisticRegression</li><li>训练集和测试集划分<br>from sklearn.model_selection import train_test_split</li><li>模型评估报告打印<br>from sklearn.metrics import classification_report</li></ul><h3 id="pandans库："><a href="#pandans库：" class="headerlink" title="pandans库："></a>pandans库：</h3><p>文件读取相关<br>csv文件读取：</p><h3 id="pickle"><a href="#pickle" class="headerlink" title="pickle"></a>pickle</h3><p>保存模型</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> AI </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Python </tag>
+            
+            <tag> AI </tag>
+            
+            <tag> 人工智能 </tag>
+            
+            <tag> 机器学习 </tag>
+            
+            <tag> sklearn </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>XSS注入检测</title>
+      <link href="/2023/10/10/ai_xssdetection/"/>
+      <url>/2023/10/10/ai_xssdetection/</url>
+      
+        <content type="html"><![CDATA[<h1 id="源代码"><a href="#源代码" class="headerlink" title="源代码"></a>源代码</h1><p><em><strong>pd对象和python字典类似，行为属性，列为列表</strong></em></p><h3 id="pd-read-csv-函数："><a href="#pd-read-csv-函数：" class="headerlink" title="pd.read_csv()函数："></a>pd.read_csv()函数：</h3><ul><li>参数header：pandas是否选择csv文件第一行作为列名</li><li>参数usecols：pandas读取csv文件列</li></ul><h3 id="pd-to-csv-函数："><a href="#pd-to-csv-函数：" class="headerlink" title="pd.to_csv()函数："></a>pd.to_csv()函数：</h3><ul><li>参数header：pandas是否将属性名写入csv文件</li><li>参数columns：pandas写入csv文件的属性（<em>影响写入的顺序</em>）</li><li>参数index：pandas是否写入序号</li></ul><pre><code class="python"># 数据提取&amp;处理import pandas as pdfrom sklearn.utils import shuffle# 特征提取import refrom sklearn.feature_extraction.text import TfidfVectorizer# 训练集和测试集划分from sklearn.model_selection import train_test_split# 逻辑回归算法训练模型from sklearn.linear_model import LogisticRegression# 模型评估报告打印from sklearn.metrics import classification_report# 模型保存import pickledef read_csv(file_path, lable):    data = pd.read_csv(file_path, header=None, names=[&quot;str&quot;], usecols=[0])    data[&quot;lable&quot;] = lable    return data# normal = read_csv(&quot;dmzo_nomal.csv&quot;, &quot;normal&quot;)# xss = read_csv(&quot;xssed.csv&quot;, &quot;xss&quot;)def data_process(normal, xss):    all = pd.concat([normal, xss])    data = all[&quot;str&quot;]    lable = all[&quot;lable&quot;]    data, lable = shuffle(data, lable, random_state=42)    return data, lable# data ,lable = data_process(normal, xss)def data_tokenizer(data):    return re.findall(r&#39;\w+&#39;, data)def data_vectorizer(data,lable):    vectorizer = TfidfVectorizer(tokenizer=data_tokenizer)    x = vectorizer.fit_transform(data)    y = lable    return x, y, vectorizer# x, y ,vectorizer = data_vectorizer(data, lable)# x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.3)def model_train(x_train, y_train):    model = LogisticRegression()    model.fit(x_train, y_train)    return model# model = model_train(x_train, y_train)def model_evaluate(x_test,y_test):    y_predict = model.predict(x_test)    report = classification_report(y_test, y_predict, labels=[&quot;xss&quot;, &quot;normal&quot;], target_names=[&quot;xss字符串&quot;, &quot;正常字符串&quot;],digits=2)    return report# report = model_evaluate(x_test, y_test)# print(report)def model_save(model, vectorizer):    save = input(&quot;是否保存训练的模型（y/n）：&quot;)    if save == &quot;y&quot; or &quot;Y&quot;:        print(save)        with open(&#39;model.pkl&#39;, &#39;wb&#39;) as f:            pickle.dump(model, f)        with open(&#39;vectorizer.pkl&#39;, &#39;wb&#39;) as f:            pickle.dump(vectorizer, f)        print(&quot;保存成功！&quot;)        return True    else:        return False# model_save(model, vectorizer)if __name__ == &quot;__main__&quot;:    print(&quot;-------XSS检测-------&quot;)    while True:        with open(&quot;model.pkl&quot;, &#39;rb&#39;) as f:            model = pickle.load(f)        with open(&#39;vectorizer.pkl&#39;, &#39;rb&#39;) as f:            vectorizer = pickle.load(f)        str_list = input(&quot;输入需要检测的字符串:&quot;).split(&quot;\n&quot;)        x = vectorizer.transform(str_list)        y_predict = model.predict(x)        print(&quot;检测结果为：&quot;,y_predict)</code></pre>]]></content>
+      
+      
+      <categories>
+          
+          <category> AI </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Python </tag>
+            
+            <tag> AI </tag>
+            
+            <tag> 人工智能 </tag>
+            
+            <tag> 机器学习 </tag>
+            
+            <tag> sklearn </tag>
+            
+            <tag> XSS </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>垃圾邮件检测</title>
+      <link href="/2023/10/07/ai_spamdetection/"/>
+      <url>/2023/10/07/ai_spamdetection/</url>
+      
+        <content type="html"><![CDATA[<h2 id="1-数据集"><a href="#1-数据集" class="headerlink" title="1. 数据集"></a>1. 数据集</h2><h3 id="tre06c"><a href="#tre06c" class="headerlink" title="tre06c"></a>tre06c</h3><p>tre06c&#x2F;data：邮件数据，包括真实世界的正常邮件和垃圾邮件</p><p>tre06c&#x2F;full：标签</p><h2 id="2-数据提取-处理"><a href="#2-数据提取-处理" class="headerlink" title="2. 数据提取&amp;处理"></a>2. 数据提取&amp;处理</h2><p><em><strong><a href="https://github.com/fxsjy/jieba/blob/master/README.md">jieba官方文档</a></strong></em></p><p><em><strong>列表推导式（expression for li in list if condition）</strong></em></p><h3 id="读取邮件数据"><a href="#读取邮件数据" class="headerlink" title="读取邮件数据"></a>读取邮件数据</h3><p>递归读取目录trec06c&#x2F;data的文件，获取邮件数据并进行分词处理，返回处理后的邮件列表。</p><pre><code class="python"># 读取邮件数据def read_file(file_path):    # print(file_path)    email_list = []    files = os.listdir(file_path)    for file in files:        if os.path.isdir(file_path + &#39;/&#39; + file):            email_list = email_list + read_file(file_path + &#39;/&#39; + file)        else:            with open(file_path + &#39;/&#39; + file, &#39;r&#39;, encoding=&#39;gbk&#39;, errors=&#39;ignore&#39;) as f:                email = f.read()            # 替换非汉字字符            email = re.sub(r&quot;[^\u4e00-\u9fff]&quot;, &quot; &quot;, email)            # 替换连续的空格            email = re.sub(r&quot;\s&#123;2,&#125;&quot;, &quot; &quot;, email)            # 去除首尾的空格            email = email.strip()            # 结巴分词            email = [word for word in jieba.lcut(email) if word.strip() != &#39; &#39;]            email = &#39; &#39;.join(email)            email_list.append(email)    return email_list# email = read_file(&quot;trec06c/data&quot;)</code></pre><h3 id="读取标签数据"><a href="#读取标签数据" class="headerlink" title="读取标签数据"></a>读取标签数据</h3><p>读取文件trec06c&#x2F;full&#x2F;index，获取邮件标签列表。</p><pre><code class="python"># 读取标签数据def read_lable(file_path):    lable = []    with open(file_path, &quot;r&quot;) as f:        for l in f.readlines():            if &quot;s&quot; in l:                lable.append(&quot;spam&quot;)            else:                lable.append(&quot;ham&quot;)    return lable# lable = read_lable(&quot;trec06c/full/index&quot;)</code></pre><h3 id="打乱数据顺序"><a href="#打乱数据顺序" class="headerlink" title="打乱数据顺序"></a>打乱数据顺序</h3><pre><code class="python">def data_process(email, lable):    email, lable = shuffle(email, lable, random_state=42)    return email, lable# email, lable = data_process(email, lable)</code></pre><h2 id="3-词云"><a href="#3-词云" class="headerlink" title="3. 词云"></a>3. 词云</h2><p>随便写写，感觉词云有一些bug，同一个词重复出现</p><pre><code class="python"># 词云def word_cloud(text):    wc = WordCloud(        background_color = &quot;white&quot;,        max_words = 200,        # 可以使用其他字体        # 但是如果无法正常显示，需要更换字体        font_path = &quot;C:\Windows\Fonts\SIMYOU.ttf&quot;,        min_font_size = 15,        max_font_size = 50,        width = 600    )    wordcloud = wc.generate(text)    wordcloud.to_file(&#39;jieba.jpg&#39;)with open(&#39;./jieba.txt&#39;, &#39;r&#39;, encoding=&#39;utf-8&#39;) as f:    txt = f.readlines()showWordCloud(&#39; &#39;.join(txt))</code></pre><p>全部邮件词云：</p><p><img src="/img/ai_spamdetection/email.jpg" alt="Alt text"></p><pre><code class="python">spam_list = []ham_list = []with open(&quot;./full.txt&quot;, &quot;r&quot;, encoding=&#39;utf-8&#39;) as f:    tag_list = f.readlines()    with open(&quot;./jb.txt&quot;, &quot;r&quot;, encoding=&quot;utf-8&quot;) as g:        email_list = g.readlines()        i = 0        for tag in tag_list:            if tag[0] == &#39;1&#39;:                spam = email_list[i]                spam_list.append(spam)            elif tag[0] == &#39;0&#39;:                ham = email_list[i]                ham_list.append(ham)            i = i + 1</code></pre><p>垃圾邮件词云：</p><p><img src="/img/ai_spamdetection/ham.jpg" alt="Alt text"></p><p>正常邮件词云：</p><p><img src="/img/ai_spamdetection/spam.jpg" alt="Alt text"></p><h2 id="4-特征提取"><a href="#4-特征提取" class="headerlink" title="4. 特征提取"></a>4. 特征提取</h2><pre><code class="python">def data_vectorizer(email,lable):    # 邮件样本已经分好了词，词之间用空格隔开，所以 tokenizer=tokenizer_space    vectoring = TfidfVectorizer(input=&#39;content&#39;, analyzer=&#39;word&#39;)    x = vectoring.fit_transform(email)    y = lable    return x, y, vectoring# x, y, vectorizer = data_vectorizer(email, lable)</code></pre><h2 id="5-换分数据集"><a href="#5-换分数据集" class="headerlink" title="5. 换分数据集"></a>5. 换分数据集</h2><pre><code class="python"># x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.3)</code></pre><h2 id="6-模型训练"><a href="#6-模型训练" class="headerlink" title="6. 模型训练"></a>6. 模型训练</h2><pre><code class="python">def model_train(x_train, y_train):    model = svm.LinearSVC()    model.fit(x_train, y_train)    return model# model = model_train(x_train, y_train)</code></pre><h2 id="7-模型测试"><a href="#7-模型测试" class="headerlink" title="7. 模型测试"></a>7. 模型测试</h2><pre><code class="python">def model_test(x_test, y_test):    y_pred = model.predict(x_test)    report = classification_report(y_test, y_pred, digits=2)    return report# report = model_test(model)</code></pre><h2 id="8-模型保存"><a href="#8-模型保存" class="headerlink" title="8. 模型保存"></a>8. 模型保存</h2><pre><code class="python">def model_save(model,vectorizer,report):    save = input(&quot;是否保存训练的模型（y/n）：&quot;)    if save == &quot;y&quot; or &quot;Y&quot;:        with open(&#39;model.pkl&#39;, &#39;wb&#39;) as f:            pickle.dump(model, f)        with open(&#39;vectorizer.pkl&#39;, &#39;wb&#39;) as f:            pickle.dump(vectorizer, f)        with open(&#39;report.txt&#39;, &#39;w&#39;) as f:            f.write(report)        print(&quot;保存成功！&quot;)        return True    else:        return False# model_save(model, vectorizer, report)</code></pre><h2 id="9-模型使用"><a href="#9-模型使用" class="headerlink" title="9. 模型使用"></a>9. 模型使用</h2><pre><code class="python">if __name__ == &quot;__main__&quot;:    print(&quot;-------垃圾邮件检测-------&quot;)    while True:        with open(&quot;model.pkl&quot;, &#39;rb&#39;) as f:            model = pickle.load(f)        with open(&#39;vectorizer.pkl&#39;, &#39;rb&#39;) as f:            vectorizer = pickle.load(f)        file_path = input(&quot;输入需要检测的邮件文件的路径:&quot;)        with open(file_path, &quot;r&quot;, encoding=&quot;gbk&quot;, errors=&quot;ignore&quot;) as f:            email = f.read()        email_list = [email]        print(email)        x = vectorizer.transform(email_list)        y_predict = model.predict(x)        print(&quot;检测结果为：&quot;, y_predict[0])</code></pre><h2 id="源代码-数据集"><a href="#源代码-数据集" class="headerlink" title="源代码&amp;数据集"></a>源代码&amp;数据集</h2><p>注释的代码用于生成模型。</p><p>如果已经生成了模型，main函数用于调用模型检测邮件。</p><pre><code class="python"># 数据提取import os# 数据处理from sklearn.utils import shuffleimport reimport jieba# 提取特征from sklearn.feature_extraction.text import TfidfVectorizer# 划分训练集，测试集from sklearn.model_selection import train_test_split# 训练模型from sklearn import svm# 模型评估报告from sklearn import metrics# 模型保存import pickle# # 递归读取文件夹内所有文件# def list_file(file_path):#     file_list = []#     files = os.listdir(file_path)#     for file in files:#         if os.path.isdir(file_path + &#39;/&#39; + file):#             file_list = file_list + list_file(file_path + &#39;/&#39; + file)#         else:#             file_list.append(file_path + &#39;/&#39; + file)##     return file_list# # 读取邮件数据# def read_email(file_list):#     email = []#     for file in file_list:#         with open(file, &quot;r&quot;, encoding=&#39;gbk&#39;, errors=&#39;ignore&#39;) as f:#             email = email + f.readlines()##     return email# 读取邮件数据def read_file(file_path):    # print(file_path)    email_list = []    files = os.listdir(file_path)    for file in files:        if os.path.isdir(file_path + &#39;/&#39; + file):            email_list = email_list + read_file(file_path + &#39;/&#39; + file)        else:            with open(file_path + &#39;/&#39; + file, &#39;r&#39;, encoding=&#39;gbk&#39;, errors=&#39;ignore&#39;) as f:                email = f.read()            # 替换连续的空格            email = re.sub(r&quot;[^\u4e00-\u9fff]&quot;, &quot; &quot;, email)            # 替换非汉字字符            email = re.sub(r&quot;\s&#123;2,&#125;&quot;, &quot; &quot;, email)            # 去除首尾的空格            email = email.strip()            # 结巴分词            email = [word for word in jieba.lcut(email) if word.strip() != &#39; &#39;]            email = &#39; &#39;.join(email)            email_list.append(email)    return email_list# email = read_file(&quot;trec06c/data&quot;)# 读取标签数据def read_lable(file_path):    lable = []    with open(file_path, &quot;r&quot;) as f:        for l in f.readlines():            if &quot;s&quot; in l:                lable.append(&quot;spam&quot;)            else:                lable.append(&quot;ham&quot;)    return lable# lable = read_lable(&quot;trec06c/full/index&quot;)# 数据处理def data_process(email, lable):    email, lable = shuffle(email, lable, random_state=42)    return email, lable# email, lable = data_process(email, lable)# 特征提取def data_vectorizer(email,lable):    # 邮件样本已经分好了词，词之间用空格隔开，所以 tokenizer=tokenizer_space    vectoring = TfidfVectorizer(input=&#39;content&#39;, analyzer=&#39;word&#39;)    x = vectoring.fit_transform(email)    y = lable    return x, y, vectoring# x, y, vectorizer = data_vectorizer(email, lable)# 划分训练集和测试集# x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.3)def model_train(x_train, y_train):    model = svm.LinearSVC()    model.fit(x_train, y_train)    return model# model = model_train(x_train, y_train)def model_test(x_test, y_test):    y_pred = model.predict(x_test)    print(&quot;模型评估报告：\n&quot;, metrics.classification_report(y_test, y_pred, digits=2))# model_test(model)def model_save(model, vectorizer):    save = input(&quot;是否保存训练的模型（y/n）：&quot;)    if save == &quot;y&quot; or &quot;Y&quot;:        with open(&#39;model.pkl&#39;, &#39;wb&#39;) as f:            pickle.dump(model, f)        with open(&#39;vectorizer.pkl&#39;, &#39;wb&#39;) as f:            pickle.dump(vectorizer, f)        print(&quot;保存成功！&quot;)        return True    else:        return False# model_save(model, vectorizer)if __name__ == &quot;__main__&quot;:    print(&quot;-------垃圾邮件检测-------&quot;)    while True:        with open(&quot;model.pkl&quot;, &#39;rb&#39;) as f:            model = pickle.load(f)        with open(&#39;vectorizer.pkl&#39;, &#39;rb&#39;) as f:            vectorizer = pickle.load(f)        file_path = input(&quot;输入需要检测的邮件文件的路径:&quot;)        with open(file_path, &quot;r&quot;, encoding=&quot;gbk&quot;, errors=&quot;ignore&quot;) as f:            email = f.read()        email_list = [email]        print(email)        x = vectorizer.transform(email_list)        y_predict = model.predict(x)        print(&quot;检测结果为：&quot;, y_predict[0])</code></pre>]]></content>
+      
+      
+      <categories>
+          
+          <category> AI </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Python </tag>
+            
+            <tag> spam </tag>
+            
+            <tag> jieba </tag>
+            
+            <tag> AI </tag>
+            
+            <tag> 人工智能 </tag>
+            
+            <tag> 机器学习 </tag>
+            
+            <tag> sklearn </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>MD5碰撞试验</title>
       <link href="/2023/10/01/cipher_md5/"/>
       <url>/2023/10/01/cipher_md5/</url>
