@@ -4,6 +4,176 @@
   
     
     <entry>
+      <title>Web安全-XSS</title>
+      <link href="/2023/11/06/web_xss/"/>
+      <url>/2023/11/06/web_xss/</url>
+      
+        <content type="html"><![CDATA[<h1 id="一-XSS"><a href="#一-XSS" class="headerlink" title="一. XSS"></a>一. XSS</h1><h2 id="1-反射-DOM"><a href="#1-反射-DOM" class="headerlink" title="1. 反射&amp;DOM"></a>1. 反射&amp;DOM</h2><h2 id="2-存储"><a href="#2-存储" class="headerlink" title="2. 存储"></a>2. 存储</h2>]]></content>
+      
+      
+      <categories>
+          
+          <category> Web安全 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Web </tag>
+            
+            <tag> XSS </tag>
+            
+            <tag> Web安全 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>dga域名检测</title>
+      <link href="/2023/10/26/ai_dgadetection/"/>
+      <url>/2023/10/26/ai_dgadetection/</url>
+      
+        <content type="html"><![CDATA[<h2 id="源代码"><a href="#源代码" class="headerlink" title="源代码"></a>源代码</h2>]]></content>
+      
+      
+      <categories>
+          
+          <category> AI </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 深度学习 </tag>
+            
+            <tag> LSTM </tag>
+            
+            <tag> Keras </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>实验：shellcode</title>
+      <link href="/2023/10/22/os_shellcode/"/>
+      <url>/2023/10/22/os_shellcode/</url>
+      
+        <content type="html"><![CDATA[<h1 id="一-shellcode"><a href="#一-shellcode" class="headerlink" title="一. shellcode"></a>一. shellcode</h1><p>shellcode广泛用于许多涉及代码注入的攻击中。编写shellcode是相当有挑战性的。虽然我们可以很容易地从互联网上找到现有的shellcode，但是能够从头开始编写我们自己的shellcode总是令人兴奋的。shellcode中涉及到几种有趣的技术。本实验室的目的是帮助学生理解这些技术，以便他们能够编写自己的shellcode。</p><p>编写shellcode有几个挑战，一个是确保二进制文件中没有0x00，另一个是找出命令中使用的数据的地址。第一个挑战不是很难解决，有几种方法可以解决它。第二个挑战的解决方案导致了编写外壳代码的两种典型方法。在一种方法中，数据在执行期间被推入堆栈，因此可以从堆栈指针获得它们的地址。在第二种方法中，数据存储在代码区域中，就在调用指令之后，因此在调用调用函数时，其地址被推入堆栈（作为返回地址）。两种解决方案都非常优雅，我们希望学生能够学习这两种技术。 </p><h1 id="二-实验"><a href="#二-实验" class="headerlink" title="二. 实验"></a>二. 实验</h1><h2 id="1-Task1-Writing-Shellcode"><a href="#1-Task1-Writing-Shellcode" class="headerlink" title="1. Task1 Writing Shellcode"></a>1. Task1 Writing Shellcode</h2><h3 id="1-1-Task1-a-The-Entire-Process"><a href="#1-1-Task1-a-The-Entire-Process" class="headerlink" title="1.1. Task1.a The Entire Process"></a>1.1. Task1.a The Entire Process</h3><h3 id="Compiling-to-object-code"><a href="#Compiling-to-object-code" class="headerlink" title="Compiling to object code"></a>Compiling to object code</h3><p>使用汇编软件nasm将mysh.s（汇编程序）汇编为mysh.o（目标文件）：<br> <img src="/img/os_shellcode/image-1.png" alt="Alt text"></p><h3 id="Linking-to-generate-final-binary"><a href="#Linking-to-generate-final-binary" class="headerlink" title="Linking to generate final binary"></a>Linking to generate final binary</h3><p>使用链接程序ld链接mysh.o（目标文件）为mysh（ELF可执行文件）：<br> <img src="/img/os_shellcode/image-2.png" alt="Alt text"><br>使用命令”echo $$”获取shellcode进程PID：<br> <img src="/img/os_shellcode/image-3.png" alt="Alt text"></p><h3 id="Getting-the-machine-code"><a href="#Getting-the-machine-code" class="headerlink" title="Getting the machine code"></a>Getting the machine code</h3><p>使用objdump命令反汇编mysh.o文件，并使用intel格式显示汇编代码，左边一列为机器码，右边一列为汇编代码：<br><img src="/img/os_shellcode/image-4.png" alt="Alt text"></p><p>使用xxd命令获取目标文件数据内容。这里-p代表16进制显示，-c 20代表一行显示20字节数据（这里截取了前三行内容）：<br> <img src="/img/os_shellcode/image-5.png" alt="Alt text"><br>可以发现的是xxd命令显示了目标文件全部的16进制数据，然而objdump命令反汇编内容只是目标文件的机器代码部分，这是因为目标文件协议包括其他字段内容：<br> <img src="/img/os_shellcode/image-6.png" alt="Alt text"></p><h3 id="Using-the-shellcode-in-attacking-code"><a href="#Using-the-shellcode-in-attacking-code" class="headerlink" title="Using the shellcode in attacking code"></a>Using the shellcode in attacking code</h3><p>打开文件convert.py，将上面16进制数据中的机器码部分复制到代码中的ori_sh变量中（这个程序将这个字符串转化为shellcode）：<br> <img src="/img/os_shellcode/image-7.png" alt="Alt text"><br>运行convert.py将字符串转化为shellcode：<br> <img src="/img/os_shellcode/image-8.png" alt="Alt text"></p><h3 id="1-2-Task1-b-Eliminating-Zero-from-the-Code"><a href="#1-2-Task1-b-Eliminating-Zero-from-the-Code" class="headerlink" title="1.2. Task1.b Eliminating Zero from the Code"></a>1.2. Task1.b Eliminating Zero from the Code</h3><p>字符串复制是注入恶意代码的一个常用手段，然而字符串复制例如函数strcpy通常会从零截断。因此，为了保证shellcode不被截断，更加范用，要对一般的shellcode做去零的处理。<br>去零方式：自异或；使用短位寄存器；移位</p><h3 id="找出mysh-s中的去零操作"><a href="#找出mysh-s中的去零操作" class="headerlink" title="找出mysh.s中的去零操作"></a>找出mysh.s中的去零操作</h3><p>汇编指令xor eax eax将eax置零，之后push eax相当于push 0，但是不会像push 0一样将shellcode引入0。<br> <img src="/img/os_shellcode/image-9.png" alt="Alt text"><br>同理，在下面eax的值没有发生改变，push eax相当于push 0：<br> <img src="/img/os_shellcode/image-10.png" alt="Alt text"><br>指令xor edx,edx将edx置零：<br> <img src="/img/os_shellcode/image-11.png" alt="Alt text"><br>由于al寄存器占eax寄存器的低8位，因此将0xb存入寄存器al，相当于将0x000b存入寄存器eax，push eax则避免了eax高位为零的情况：<br> <img src="/img/os_shellcode/image-12.png" alt="Alt text"></p><h3 id="Task：编写shellcode执行程序-bin-bash，不能有多余的“-”"><a href="#Task：编写shellcode执行程序-bin-bash，不能有多余的“-”" class="headerlink" title="Task：编写shellcode执行程序&#x2F;bin&#x2F;bash，不能有多余的“&#x2F;”"></a>Task：编写shellcode执行程序&#x2F;bin&#x2F;bash，不能有多余的“&#x2F;”</h3><p>这里使用al寄存器存储“h”，push eax相当于push 0x000h。<br> <img src="/img/os_shellcode/image-13.png" alt="Alt text"><br>对编译后的shellcode进行查看，没有字节为0，即没有出现0x00：<br> <img src="/img/os_shellcode/image-14.png" alt="Alt text"></p><h3 id="1-3-Task1-c-Providing-Arguments-for-System-Calls"><a href="#1-3-Task1-c-Providing-Arguments-for-System-Calls" class="headerlink" title="1.3. Task1.c Providing Arguments for System Calls"></a>1.3. Task1.c Providing Arguments for System Calls</h3><p>对于执行程序&#x2F;bin&#x2F;sh的shellcode，这里给出了参数argv数组需要填写的值：&#x2F;bin&#x2F;sh；-c；ls -la；0。也就是说我们需要将这些参数构造在堆栈上，然后执行系统调用即可。<br>首先使用eax寄存器将字符串压入栈中，中间使用0分隔；然后使用寄存器寄存器将argv数组的值压入栈中；最后将ecx指向argv即可。<br> <img src="/img/os_shellcode/image-15.png" alt="Alt text"><br> <img src="/img/os_shellcode/image-16.png" alt="Alt text"><br>编译链接以后成功执行&#x2F;bin&#x2F;sh -c ls -la：<br> <img src="/img/os_shellcode/image-17.png" alt="Alt text"></p><h3 id="1-4-Task1-d-Providing-Environment-Variables-for-execve"><a href="#1-4-Task1-d-Providing-Environment-Variables-for-execve" class="headerlink" title="1.4 Task1.d Providing Environment Variables for execve()"></a>1.4 Task1.d Providing Environment Variables for execve()</h3><p>对比上一个任务，这个任务压入四个环境变量aaa,bbb,cccc,0并将edx指向env数组即可。然后argv的参数少了几个。</p><p> <img src="/img/os_shellcode/image-18.png" alt="Alt text"><br> <img src="/img/os_shellcode/image-19.png" alt="Alt text"><br> <img src="/img/os_shellcode/image-20.png" alt="Alt text"><br><img src="/img/os_shellcode/image-21.png" alt="Alt text"></p><h2 id="2-Task2-Using-Code-Segment"><a href="#2-Task2-Using-Code-Segment" class="headerlink" title="2. Task2 Using Code Segment"></a>2. Task2 Using Code Segment</h2><h3 id="解释mysh2-s为什么能够成功执行程序-bin-sh："><a href="#解释mysh2-s为什么能够成功执行程序-bin-sh：" class="headerlink" title="解释mysh2.s为什么能够成功执行程序&#x2F;bin&#x2F;sh："></a>解释mysh2.s为什么能够成功执行程序&#x2F;bin&#x2F;sh：</h3><p> <img src="/img/os_shellcode/image-22.png" alt="Alt text"><br>程序mysh2.s通过构造db字符串实现shellcode注入。首先构造db字符串占位；其次替换掉字符串中的零，写入参数地址；最后将ecx指向参数地址，执行系统调用。</p><h3 id="使用mysh2-s中的方法执行程序-usr-bin-env"><a href="#使用mysh2-s中的方法执行程序-usr-bin-env" class="headerlink" title="使用mysh2.s中的方法执行程序&#x2F;usr&#x2F;bin&#x2F;env"></a>使用mysh2.s中的方法执行程序&#x2F;usr&#x2F;bin&#x2F;env</h3><p>重新编写mysh2.s：<br> <img src="/img/os_shellcode/image-23.png" alt="Alt text"><br> <img src="/img/os_shellcode/image-24.png" alt="Alt text"><br>编译并链接汇编程序mysh2.s，需要注意的是这里链接时需要加入“–omagic”指示代码区可修改，否则会出现segment fault<br> <img src="/img/os_shellcode/image-25.png" alt="Alt text"></p><h2 id="3-Task3-Writing-64-bit-Shellcode"><a href="#3-Task3-Writing-64-bit-Shellcode" class="headerlink" title="3. Task3 Writing 64-bit Shellcode"></a>3. Task3 Writing 64-bit Shellcode</h2><p>对于64位系统架构：寄存器存储8字节数据；系统调用的参数使用寄存器rdx，rsi，rdi。</p><h3 id="编写程序mysh-64-s，执行程序-bin-bash（即在64位环境下完成Task1-b中的Task）"><a href="#编写程序mysh-64-s，执行程序-bin-bash（即在64位环境下完成Task1-b中的Task）" class="headerlink" title="编写程序mysh_64.s，执行程序&#x2F;bin&#x2F;bash（即在64位环境下完成Task1.b中的Task）"></a>编写程序mysh_64.s，执行程序&#x2F;bin&#x2F;bash（即在64位环境下完成Task1.b中的Task）</h3><p>思路和mysh.s的编写一致，只有寄存器使用变化。使用rax寄存器将“&#x2F;bin&#x2F;bash”入栈，使用寄存器rdi作为argv直指向字符串，rsi寄存器指向argv即可。<br> <img src="/img/os_shellcode/image-26.png" alt="Alt text"></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 操作系统 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 操作系统 </tag>
+            
+            <tag> shellcode </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Web 登录实现&amp;身份认证</title>
+      <link href="/2023/10/16/web_login/"/>
+      <url>/2023/10/16/web_login/</url>
+      
+        <content type="html"><![CDATA[<h2 id="开发工具-环境"><a href="#开发工具-环境" class="headerlink" title="开发工具&amp;环境"></a>开发工具&amp;环境</h2><h3 id="前端"><a href="#前端" class="headerlink" title="前端"></a>前端</h3><p>vue集成html，css，javascript</p><h3 id="后端"><a href="#后端" class="headerlink" title="后端"></a>后端</h3><p>SpringBoot集成mybatis，java，tomcat</p><h3 id="数据库"><a href="#数据库" class="headerlink" title="数据库"></a>数据库</h3><p>Mysql以及图形化界面SQLyogEnt</p><h3 id="具体过程"><a href="#具体过程" class="headerlink" title="具体过程"></a>具体过程</h3><p>数据库数据-java对象&#x2F;Dao(mapper)—&gt; 程序数据 (controller)—&gt; 后端数据 —tomcat—&gt; 前端数据 -vue-&gt; html数据</p><h1 id="数据结构-接口文档"><a href="#数据结构-接口文档" class="headerlink" title="数据结构&amp;接口文档"></a>数据结构&amp;接口文档</h1><h2 id="数据结构"><a href="#数据结构" class="headerlink" title="数据结构"></a>数据结构</h2><h3 id="数据库-1"><a href="#数据库-1" class="headerlink" title="数据库"></a>数据库</h3><p>user表id，username，password；将id设置为主键</p><h3 id="Java类"><a href="#Java类" class="headerlink" title="Java类"></a>Java类</h3><p>新建User类：int id，String username，String password</p><h2 id="接口文档"><a href="#接口文档" class="headerlink" title="接口文档"></a>接口文档</h2><h3 id="1-用户注册："><a href="#1-用户注册：" class="headerlink" title="1. 用户注册："></a>1. 用户注册：</h3><p>POST localhost&#x2F;auth&#x2F;register</p><p>username: “xxx”</p><p>hash_password: “xxx” </p><h3 id="2-用户登录："><a href="#2-用户登录：" class="headerlink" title="2. 用户登录："></a>2. 用户登录：</h3><p>POST localhost&#x2F;auth&#x2F;login</p><p>username: “xxx”</p><p>password: “xxx”</p><p>return token</p><h3 id="2-拉取用户信息："><a href="#2-拉取用户信息：" class="headerlink" title="2. 拉取用户信息："></a>2. 拉取用户信息：</h3><p>GET localhost&#x2F;user</p><p>token: “xxx”</p><p>return：id,username,password</p><h3 id="3-修改用户信息："><a href="#3-修改用户信息：" class="headerlink" title="3. 修改用户信息："></a>3. 修改用户信息：</h3><p>PUT localhost&#x2F;user</p><p>token: “xxx”</p><p>username: “xxx”</p><p>hash_password: “xxx”</p><h1 id="后端实现"><a href="#后端实现" class="headerlink" title="后端实现"></a>后端实现</h1><h2 id="数据库实现"><a href="#数据库实现" class="headerlink" title="数据库实现"></a>数据库实现</h2><p>user表id，username，password；将id设置为主键</p><h2 id="连接数据库"><a href="#连接数据库" class="headerlink" title="连接数据库"></a>连接数据库</h2><h3 id="application-properties文件："><a href="#application-properties文件：" class="headerlink" title="application.properties文件："></a>application.properties文件：</h3><pre><code class="java">spring.datasource.type=com.alibaba.druid.pool.DruidDataSource# ????spring.datasource.driver-class-name=com.mysql.jdbc.Driver# ?????spring.datasource.url=jdbc:mysql://localhost:3306/mybatis?useUnicode=true&amp;characterEncoding=UTF-8&amp;serverTimezone=UTCspring.datasource.username=rootspring.datasource.password=root</code></pre><h2 id="Dao层实现"><a href="#Dao层实现" class="headerlink" title="Dao层实现"></a>Dao层实现</h2><pre><code class="java">package com.example.bbb.entity;public class User &#123;    private int id;    private String username;    private String password;    public int getId() &#123;        return id;    &#125;    public String getUsername()&#123;        return username;    &#125;    public String getPassword()&#123;        return password;    &#125;    public void setUsername(String username) &#123;        this.username = username;    &#125;    public void setPassword(String password) &#123;        this.password = password;    &#125;    public void setId(int id) &#123;        this.id = id;    &#125;    public String toString() &#123;        return &quot;User&#123;&quot; +                &quot;id=&quot; + id +                &quot;, username=&#39;&quot; + username + &#39;\&#39;&#39; +                &quot;, password=&#39;&quot; + password + &#39;\&#39;&#39; +                &#39;&#125;&#39;;    &#125;&#125;</code></pre><h2 id="Mapper层实现"><a href="#Mapper层实现" class="headerlink" title="Mapper层实现"></a>Mapper层实现</h2><pre><code class="java">package com.example.bbb.mapper;import java.util.List;import com.baomidou.mybatisplus.core.mapper.BaseMapper;import com.example.bbb.entity.User;import org.apache.ibatis.annotations.*;@Mapperpublic interface UserMapper&#123;    @Select(&quot;select id from user where username = #&#123;username&#125;&quot;)    public int getId(String username);    //返回查询对象的集合    @Select(&quot;select * from user&quot;)    public List&lt;User&gt; findAll();    //返回查询对象    @Select(&quot;select * from user where id = #&#123;id&#125;&quot;)    public User getInfo(int id);    @Select(&quot;select username from user&quot;)    public List&lt;String&gt; getAllUsername();    @Select(&quot;select * from user where username = #&#123;username&#125;&quot;)    public User findByUsername(String username);    //将数据库insert语句映射到java程序的insert方法    //返回值为插入语句影响的记录数目    @Insert(&quot;insert into user values (#&#123;id&#125;,#&#123;name&#125;,#&#123;password&#125;)&quot;)    public int insert(int id, String name,String password);    //将数据库delete语句映射到java程序的delete方法    //返回值为删除语句影响的记录数目    @Delete(&quot;delete  from user where id = #&#123;id&#125;&quot;)    public int delete(int id);    //将数据库update语句映射到java程序的update方法    //返回值为更新语句影响的记录数目    @Update(&quot;update user set username = #&#123;newName&#125;,password= #&#123;newPassword&#125; where id = #&#123;id&#125;&quot;)    public int update(int id,String newName,String newPassword);    @Select(&quot;select username from user where username != #&#123;username&#125;&quot;)    public List&lt;String&gt; otherUserName(String username);&#125;</code></pre><h2 id="Controller层实现"><a href="#Controller层实现" class="headerlink" title="Controller层实现"></a>Controller层实现</h2><pre><code class="java">package com.example.bbb.controller;import com.example.bbb.entity.User;import com.example.bbb.mapper.UserMapper;import com.fasterxml.jackson.core.JsonProcessingException;import org.springframework.beans.factory.annotation.Autowired;import org.springframework.web.bind.annotation.*;import java.util.List;import com.fasterxml.jackson.databind.ObjectMapper;import static com.example.bbb.utils.JwtUtils.*;@RestController@CrossOriginpublic class UserController &#123;    @Autowired    private UserMapper userMapper;    //登录    @PostMapping(&quot;/auth/login&quot;)    public String login(@RequestParam(&quot;username&quot;) String username,@RequestParam(&quot;password&quot;) String password)&#123;        //权限标识        int verify = 0;        //检查账号，密码        List&lt;User&gt; list = userMapper.findAll();        for(int i=0; i&lt;list.size(); i++)&#123;            User useri = list.get(i);            if(useri.getUsername().equals(username) &amp;&amp; useri.getPassword().equals(password))&#123;                verify = 1;                break;            &#125;        &#125;        //权限判断        if(verify==1)&#123;            String token = generateToken(username);            int id = userMapper.getId(username);            System.out.println(&quot;用户&quot;+id+&quot;登录成功！&quot;);            return token;        &#125;else&#123;            System.out.println(&quot;用户&quot;+username+&quot;登录失败！！&quot;);            return &quot;error&quot;;        &#125;    &#125;    //返回用户个人信息    @GetMapping(&quot;/user&quot;)    public String info(@RequestParam String token) throws JsonProcessingException &#123;        if(verifyToken(token)) &#123;            String username = getUsernameFromToken(token);            int id = userMapper.getId(username);            User user = userMapper.getInfo(id);            ObjectMapper objectMapper = new ObjectMapper();            String userJson = objectMapper.writeValueAsString(user);            System.out.println(&quot;用户&quot;+id+&quot;查看个人信息！&quot;);            return userJson;        &#125; else&#123;            System.out.println(&quot;错误的token！！！&quot;);            return &quot;error&quot;;        &#125;    &#125;    //用户注册    @PostMapping(&quot;/auth/register&quot;)    public String register(@RequestParam(&quot;username&quot;) String newusername,@RequestParam String password)&#123;        int id = 0;        List&lt;String&gt; usernameList = userMapper.getAllUsername();        for(int i=0; i&lt;usernameList.size(); i++)&#123;            String username = usernameList.get(i);            if(username.equals(newusername))&#123;                System.out.println(&quot;注册存在的用户名！&quot;);                return(&quot;error&quot;);            &#125;        &#125;        userMapper.insert(id,newusername,password);        int newid = userMapper.getId(newusername);        System.out.println(&quot;用户&quot;+newid+&quot;注册成功！！&quot;);        return &quot;用户名：&quot;+newusername + &#39;\n&#39; +&quot;密码（hash）：&quot;+password;    &#125;//    //用户注销//    @DeleteMapping(&quot;/user&quot;)//    public String delete(@RequestParam int id)&#123;//        userMapper.delete(id);//        return &quot;delete&quot;;//    &#125;    //修改个人信息    @PutMapping(&quot;/user&quot;)    public String update(@RequestParam String token,@RequestParam String newUsername,@RequestParam String newPassword) &#123;        if(verifyToken(token)) &#123;            String username = getUsernameFromToken(token);            int id = userMapper.getId(username);            List&lt;String&gt; list = userMapper.otherUserName(username);            for (int i = 0; i &lt; list.size(); i++) &#123;                String usernamei = list.get(i);                if (usernamei.equals(newUsername)) &#123;                    System.out.println(&quot;用户&quot; + id + &quot;使用重复的用户名！&quot;);                    return &quot;error&quot;;                &#125;            &#125;            userMapper.update(id, newUsername, newPassword);            System.out.println(&quot;用户&quot; + id + &quot;更新用户名&quot; + username + &quot;为&quot; + newUsername);            return &quot;ok&quot;;        &#125; else&#123;            System.out.println(&quot;错误的token！！！&quot;);            return &quot;error&quot;;        &#125;    &#125;&#125;</code></pre><h2 id="JWT实现"><a href="#JWT实现" class="headerlink" title="JWT实现"></a>JWT实现</h2><pre><code class="java">package com.example.bbb.utils;import io.jsonwebtoken.Claims;import io.jsonwebtoken.Jwts;import io.jsonwebtoken.SignatureAlgorithm;import java.util.Date;public class JwtUtils &#123;    //token有效时间    private static long expire = 604800;    //token秘钥    private static String key = &quot;aaaabbbbccccddddaaaabbbbccccdddd&quot;;    //生成token    public static String generateToken(String username)&#123;        Date now = new Date();        Date expiration = new Date(now.getTime()+1000*expire);        return Jwts.builder()                .setSubject(username)                .setIssuedAt(now)                .setExpiration(expiration)                .signWith(SignatureAlgorithm.HS512,key)                .compact();    &#125;    // 校验token合法性    public static boolean verifyToken(String token) &#123;        try &#123;            Jwts.parser().setSigningKey(key).parseClaimsJws(token);            return true;        &#125; catch (Exception e) &#123;            // 处理异常            System.out.println(&quot;错误的token&quot;);        &#125;        return false;    &#125;    //提取token中的username    public static String getUsernameFromToken(String token)&#123;        Claims claims = Jwts.parser()                .setSigningKey(key)                .parseClaimsJws(token)                .getBody();        return claims.getSubject();    &#125;&#125;</code></pre>]]></content>
+      
+      
+      <categories>
+          
+          <category> Web开发 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> web开发 </tag>
+            
+            <tag> java </tag>
+            
+            <tag> springboot </tag>
+            
+            <tag> vue </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>栈溢出</title>
+      <link href="/2023/10/15/os_stackoverflow/"/>
+      <url>/2023/10/15/os_stackoverflow/</url>
+      
+        <content type="html"><![CDATA[<h1 id="实验：Buffer-Overflow-Attack-Lab"><a href="#实验：Buffer-Overflow-Attack-Lab" class="headerlink" title="实验：Buffer Overflow Attack Lab"></a>实验：Buffer Overflow Attack Lab</h1><h2 id="1-Task1-Get-Familiar-with-the-Shellcode"><a href="#1-Task1-Get-Familiar-with-the-Shellcode" class="headerlink" title="1. Task1 Get Familiar with the Shellcode"></a>1. Task1 Get Familiar with the Shellcode</h2><h3 id="修改shellcode-32-py文件，使其能够删除文件。"><a href="#修改shellcode-32-py文件，使其能够删除文件。" class="headerlink" title="修改shellcode_32.py文件，使其能够删除文件。"></a>修改shellcode_32.py文件，使其能够删除文件。</h3><p> <img src="/img/os_stackoverflow/image.png" alt="Alt text"></p><h3 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h3><p>在该目录下创建文件task1，通过ls命令发现task1文件创建成功。<br> <img src="/img/os_stackoverflow/image-1.png" alt="Alt text"><br>可以看到执行a32.out文件后，通过ls命令发现task1文件被删除。<br> <img src="/img/os_stackoverflow/image-2.png" alt="Alt text"></p><h2 id="2-Task2-Level-1-Attack"><a href="#2-Task2-Level-1-Attack" class="headerlink" title="2. Task2 Level-1 Attack"></a>2. Task2 Level-1 Attack</h2><h3 id="attack-code传入hello，获取server的堆栈信息。"><a href="#attack-code传入hello，获取server的堆栈信息。" class="headerlink" title="attack-code传入hello，获取server的堆栈信息。"></a>attack-code传入hello，获取server的堆栈信息。</h3><p> <img src="/img/os_stackoverflow/image-3.png" alt="Alt text"><br>Buf基地址为：0xffffd598<br>Ebp地址为：0xffffd608</p><h3 id="编写exploit-py文件。"><a href="#编写exploit-py文件。" class="headerlink" title="编写exploit.py文件。"></a>编写exploit.py文件。</h3><p>在32位环境下，ret地址为ebp地址+4（单位为字节），已知buf基地址，则偏移量为ebp地址+4-buf基地址。<br>ret的值存储指令地址，要执行shellcode，因此要将ret指向shellcode地址。而shellcode使用了Nop填充，所以ret指向ret+4即可空转跳转到shellcode。<br><img src="/img/os_stackoverflow/image-4.png" alt="Alt text"></p><h3 id="生成badfile，获取服务器权限"><a href="#生成badfile，获取服务器权限" class="headerlink" title="生成badfile，获取服务器权限"></a>生成badfile，获取服务器权限</h3><p> <img src="/img/os_stackoverflow/image-5.png" alt="Alt text"><br>3. Task3 Level-2 Attack</p><h3 id="attack-code传入hello，获取server堆栈信息。"><a href="#attack-code传入hello，获取server堆栈信息。" class="headerlink" title="attack-code传入hello，获取server堆栈信息。"></a>attack-code传入hello，获取server堆栈信息。</h3><p> <img src="/img/os_stackoverflow/image-6.png" alt="Alt text"><br>Buf基地址：0xffffd548<br>Ebp地址：由于buf大小在100-300字节，因此ebp地址在buf基地址+100到buf基地址+300之间。</p><h3 id="编写exploit-py文件。-1"><a href="#编写exploit-py文件。-1" class="headerlink" title="编写exploit.py文件。"></a>编写exploit.py文件。</h3><p>Ret地址等于ebp地址+4，因此ret地址可能在buf基地址+104到buf基地址+304之间，所以offset的值可能在104到304之间。将这段content都填入ret指向地址即可。<br>Ret的值需要指向shellcode，而buf大小不确定，因此ret指向地址必须大于buf最大值+8，以执行ret上方的shellcode，避免从下面空转到ret陷入循环。<br> <img src="/img/os_stackoverflow/image-7.png" alt="Alt text"></p><h3 id="生成badfile，获取服务器权限。"><a href="#生成badfile，获取服务器权限。" class="headerlink" title="生成badfile，获取服务器权限。"></a>生成badfile，获取服务器权限。</h3><h2 id="4-Task4-Level-3-Attack"><a href="#4-Task4-Level-3-Attack" class="headerlink" title="4. Task4 Level-3 Attack"></a>4. Task4 Level-3 Attack</h2><h3 id="attack-code传入hello获取server堆栈信息。"><a href="#attack-code传入hello获取server堆栈信息。" class="headerlink" title="attack-code传入hello获取server堆栈信息。"></a>attack-code传入hello获取server堆栈信息。</h3><p> <img src="/img/os_stackoverflow/image-8.png" alt="Alt text"><br>Rbp指针：0x00007fffffffe540<br>Buf基地址：0x00007fffffffe470</p><h3 id="编写exploit-py文件。-2"><a href="#编写exploit-py文件。-2" class="headerlink" title="编写exploit.py文件。"></a>编写exploit.py文件。</h3><p>首先插入64位的shellcode，并把执行命令改为反弹shell。<br>start的值设置为0，此时shellcode在content头部，位置为content[0,len(shellcode)]。<br>Ret地址为rbp地址+8（64位环境），offset的值为ret地址-buf基地址。<br>ret的值指向shellcode地址，此时shellcode代码在content头部，即buf基地址0x470。<br> <img src="/img/os_stackoverflow/image-9.png" alt="Alt text"></p><h3 id="生成badfile，获取服务器权限-1"><a href="#生成badfile，获取服务器权限-1" class="headerlink" title="生成badfile，获取服务器权限"></a>生成badfile，获取服务器权限</h3><p> <img src="/img/os_stackoverflow/image-10.png" alt="Alt text"></p><h2 id="5-Task5-Level-4-Attack"><a href="#5-Task5-Level-4-Attack" class="headerlink" title="5. Task5 Level-4 Attack"></a>5. Task5 Level-4 Attack</h2><h3 id="attack-code传入hello，获取server堆栈信息。-1"><a href="#attack-code传入hello，获取server堆栈信息。-1" class="headerlink" title="attack-code传入hello，获取server堆栈信息。"></a>attack-code传入hello，获取server堆栈信息。</h3><p> <img src="/img/os_stackoverflow/image-11.png" alt="Alt text"><br>Rbp指针：0x00007fffffffe540<br>Buf基地址：0x00007fffffffe470</p><h3 id="编写exploit-py文件"><a href="#编写exploit-py文件" class="headerlink" title="编写exploit.py文件"></a>编写exploit.py文件</h3><p>相比于上一个task，这个task实行shellcode依靠于Return-to-libc，因此需要改变ret指向地址。<br>        经过尝试以后，ret为rbp+1400的时候能够实现反弹shell。<br><img src="/img/os_stackoverflow/image-12.png" alt="Alt text"> </p><h3 id="生成badfile，获取服务器权限。-1"><a href="#生成badfile，获取服务器权限。-1" class="headerlink" title="生成badfile，获取服务器权限。"></a>生成badfile，获取服务器权限。</h3><p> <img src="/img/os_stackoverflow/image-13.png" alt="Alt text"></p><h2 id="6-Task6-Level-5-Attack"><a href="#6-Task6-Level-5-Attack" class="headerlink" title="6. Task6 Level-5 Attack"></a>6. Task6 Level-5 Attack</h2><h3 id="打开地址随机化。"><a href="#打开地址随机化。" class="headerlink" title="打开地址随机化。"></a>打开地址随机化。</h3><p> <img src="/img/os_stackoverflow/image-14.png" alt="Alt text"></p><h3 id="attack-code传入hello，获取server堆栈信息。-2"><a href="#attack-code传入hello，获取server堆栈信息。-2" class="headerlink" title="attack-code传入hello，获取server堆栈信息。"></a>attack-code传入hello，获取server堆栈信息。</h3><p>可以发现随着地址随机化的打开，server堆栈地址发生改变。<br> <img src="/img/os_stackoverflow/image-15.png" alt="Alt text"><br> <img src="/img/os_stackoverflow/image-16.png" alt="Alt text"></p><h3 id="编写exploit-py文件。-3"><a href="#编写exploit-py文件。-3" class="headerlink" title="编写exploit.py文件。"></a>编写exploit.py文件。</h3><p> <img src="/img/os_stackoverflow/image-17.png" alt="Alt text"></p><h3 id="生成badfile，运行脚本brute-force-sh不断向server传入badfile。"><a href="#生成badfile，运行脚本brute-force-sh不断向server传入badfile。" class="headerlink" title="生成badfile，运行脚本brute-force.sh不断向server传入badfile。"></a>生成badfile，运行脚本brute-force.sh不断向server传入badfile。</h3><p>当server程序满足badfile的堆栈条件时，脚本停止，成功获取服务器权限。<br> <img src="/img/os_stackoverflow/image-18.png" alt="Alt text"><br> <img src="/img/os_stackoverflow/image-19.png" alt="Alt text"><br> <img src="/img/os_stackoverflow/image-20.png" alt="Alt text"></p><h2 id="7-Task7-Level-6-Attack"><a href="#7-Task7-Level-6-Attack" class="headerlink" title="7.Task7 Level-6 Attack"></a>7.Task7 Level-6 Attack</h2><h3 id="在server-code目录下："><a href="#在server-code目录下：" class="headerlink" title="在server-code目录下："></a>在server-code目录下：</h3><p>去除-fon-stack-protector选项（即打开栈保护机制）编译stack.c，将badfile输入。<br>Server成功检测到stack smashing（堆栈溢出漏洞）<br> <img src="/img/os_stackoverflow/image-21.png" alt="Alt text"></p><h3 id="在shellcode目录下："><a href="#在shellcode目录下：" class="headerlink" title="在shellcode目录下："></a>在shellcode目录下：</h3><p>去除-z execstack（这个选项会认为栈空间的指令可以被执行，因此我们才能之前的实验运行栈溢出的shellcode和空转指令）编译call_shellcode.c编译并运行。<br><img src="/img/os_stackoverflow/image-22.png" alt="Alt text"></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 操作系统 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 操作系统 </tag>
+            
+            <tag> 栈溢出 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>栈溢出</title>
+      <link href="/2023/10/15/os_setuid/"/>
+      <url>/2023/10/15/os_setuid/</url>
+      
+        <content type="html"><![CDATA[<h1 id="实验：Buffer-Overflow-Attack-Lab"><a href="#实验：Buffer-Overflow-Attack-Lab" class="headerlink" title="实验：Buffer Overflow Attack Lab"></a>实验：Buffer Overflow Attack Lab</h1><h2 id="1-Task1-Get-Familiar-with-the-Shellcode"><a href="#1-Task1-Get-Familiar-with-the-Shellcode" class="headerlink" title="1. Task1 Get Familiar with the Shellcode"></a>1. Task1 Get Familiar with the Shellcode</h2><h3 id="修改shellcode-32-py文件，使其能够删除文件。"><a href="#修改shellcode-32-py文件，使其能够删除文件。" class="headerlink" title="修改shellcode_32.py文件，使其能够删除文件。"></a>修改shellcode_32.py文件，使其能够删除文件。</h3><p> <img src="/img/os_stackoverflow/image.png" alt="Alt text"></p><h3 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h3><p>在该目录下创建文件task1，通过ls命令发现task1文件创建成功。<br> <img src="/img/os_stackoverflow/image-1.png" alt="Alt text"><br>可以看到执行a32.out文件后，通过ls命令发现task1文件被删除。<br> <img src="/img/os_stackoverflow/image-2.png" alt="Alt text"></p><h2 id="2-Task2-Level-1-Attack"><a href="#2-Task2-Level-1-Attack" class="headerlink" title="2. Task2 Level-1 Attack"></a>2. Task2 Level-1 Attack</h2><h3 id="attack-code传入hello，获取server的堆栈信息。"><a href="#attack-code传入hello，获取server的堆栈信息。" class="headerlink" title="attack-code传入hello，获取server的堆栈信息。"></a>attack-code传入hello，获取server的堆栈信息。</h3><p> <img src="/img/os_stackoverflow/image-3.png" alt="Alt text"><br>Buf基地址为：0xffffd598<br>Ebp地址为：0xffffd608</p><h3 id="编写exploit-py文件。"><a href="#编写exploit-py文件。" class="headerlink" title="编写exploit.py文件。"></a>编写exploit.py文件。</h3><p>在32位环境下，ret地址为ebp地址+4（单位为字节），已知buf基地址，则偏移量为ebp地址+4-buf基地址。<br>ret的值存储指令地址，要执行shellcode，因此要将ret指向shellcode地址。而shellcode使用了Nop填充，所以ret指向ret+4即可空转跳转到shellcode。<br><img src="/img/os_stackoverflow/image-4.png" alt="Alt text"></p><h3 id="生成badfile，获取服务器权限"><a href="#生成badfile，获取服务器权限" class="headerlink" title="生成badfile，获取服务器权限"></a>生成badfile，获取服务器权限</h3><p> <img src="/img/os_stackoverflow/image-5.png" alt="Alt text"><br>3. Task3 Level-2 Attack</p><h3 id="attack-code传入hello，获取server堆栈信息。"><a href="#attack-code传入hello，获取server堆栈信息。" class="headerlink" title="attack-code传入hello，获取server堆栈信息。"></a>attack-code传入hello，获取server堆栈信息。</h3><p> <img src="/img/os_stackoverflow/image-6.png" alt="Alt text"><br>Buf基地址：0xffffd548<br>Ebp地址：由于buf大小在100-300字节，因此ebp地址在buf基地址+100到buf基地址+300之间。</p><h3 id="编写exploit-py文件。-1"><a href="#编写exploit-py文件。-1" class="headerlink" title="编写exploit.py文件。"></a>编写exploit.py文件。</h3><p>Ret地址等于ebp地址+4，因此ret地址可能在buf基地址+104到buf基地址+304之间，所以offset的值可能在104到304之间。将这段content都填入ret指向地址即可。<br>Ret的值需要指向shellcode，而buf大小不确定，因此ret指向地址必须大于buf最大值+8，以执行ret上方的shellcode，避免从下面空转到ret陷入循环。<br> <img src="/img/os_stackoverflow/image-7.png" alt="Alt text"></p><h3 id="生成badfile，获取服务器权限。"><a href="#生成badfile，获取服务器权限。" class="headerlink" title="生成badfile，获取服务器权限。"></a>生成badfile，获取服务器权限。</h3><h2 id="4-Task4-Level-3-Attack"><a href="#4-Task4-Level-3-Attack" class="headerlink" title="4. Task4 Level-3 Attack"></a>4. Task4 Level-3 Attack</h2><h3 id="attack-code传入hello获取server堆栈信息。"><a href="#attack-code传入hello获取server堆栈信息。" class="headerlink" title="attack-code传入hello获取server堆栈信息。"></a>attack-code传入hello获取server堆栈信息。</h3><p> <img src="/img/os_stackoverflow/image-8.png" alt="Alt text"><br>Rbp指针：0x00007fffffffe540<br>Buf基地址：0x00007fffffffe470</p><h3 id="编写exploit-py文件。-2"><a href="#编写exploit-py文件。-2" class="headerlink" title="编写exploit.py文件。"></a>编写exploit.py文件。</h3><p>首先插入64位的shellcode，并把执行命令改为反弹shell。<br>start的值设置为0，此时shellcode在content头部，位置为content[0,len(shellcode)]。<br>Ret地址为rbp地址+8（64位环境），offset的值为ret地址-buf基地址。<br>ret的值指向shellcode地址，此时shellcode代码在content头部，即buf基地址0x470。<br> <img src="/img/os_stackoverflow/image-9.png" alt="Alt text"></p><h3 id="生成badfile，获取服务器权限-1"><a href="#生成badfile，获取服务器权限-1" class="headerlink" title="生成badfile，获取服务器权限"></a>生成badfile，获取服务器权限</h3><p> <img src="/img/os_stackoverflow/image-10.png" alt="Alt text"></p><h2 id="5-Task5-Level-4-Attack"><a href="#5-Task5-Level-4-Attack" class="headerlink" title="5. Task5 Level-4 Attack"></a>5. Task5 Level-4 Attack</h2><h3 id="attack-code传入hello，获取server堆栈信息。-1"><a href="#attack-code传入hello，获取server堆栈信息。-1" class="headerlink" title="attack-code传入hello，获取server堆栈信息。"></a>attack-code传入hello，获取server堆栈信息。</h3><p> <img src="/img/os_stackoverflow/image-11.png" alt="Alt text"><br>Rbp指针：0x00007fffffffe540<br>Buf基地址：0x00007fffffffe470</p><h3 id="编写exploit-py文件"><a href="#编写exploit-py文件" class="headerlink" title="编写exploit.py文件"></a>编写exploit.py文件</h3><p>相比于上一个task，这个task实行shellcode依靠于Return-to-libc，因此需要改变ret指向地址。<br>        经过尝试以后，ret为rbp+1400的时候能够实现反弹shell。<br><img src="/img/os_stackoverflow/image-12.png" alt="Alt text"> </p><h3 id="生成badfile，获取服务器权限。-1"><a href="#生成badfile，获取服务器权限。-1" class="headerlink" title="生成badfile，获取服务器权限。"></a>生成badfile，获取服务器权限。</h3><p> <img src="/img/os_stackoverflow/image-13.png" alt="Alt text"></p><h2 id="6-Task6-Level-5-Attack"><a href="#6-Task6-Level-5-Attack" class="headerlink" title="6. Task6 Level-5 Attack"></a>6. Task6 Level-5 Attack</h2><h3 id="打开地址随机化。"><a href="#打开地址随机化。" class="headerlink" title="打开地址随机化。"></a>打开地址随机化。</h3><p> <img src="/img/os_stackoverflow/image-14.png" alt="Alt text"></p><h3 id="attack-code传入hello，获取server堆栈信息。-2"><a href="#attack-code传入hello，获取server堆栈信息。-2" class="headerlink" title="attack-code传入hello，获取server堆栈信息。"></a>attack-code传入hello，获取server堆栈信息。</h3><p>可以发现随着地址随机化的打开，server堆栈地址发生改变。<br> <img src="/img/os_stackoverflow/image-15.png" alt="Alt text"><br> <img src="/img/os_stackoverflow/image-16.png" alt="Alt text"></p><h3 id="编写exploit-py文件。-3"><a href="#编写exploit-py文件。-3" class="headerlink" title="编写exploit.py文件。"></a>编写exploit.py文件。</h3><p> <img src="/img/os_stackoverflow/image-17.png" alt="Alt text"></p><h3 id="生成badfile，运行脚本brute-force-sh不断向server传入badfile。"><a href="#生成badfile，运行脚本brute-force-sh不断向server传入badfile。" class="headerlink" title="生成badfile，运行脚本brute-force.sh不断向server传入badfile。"></a>生成badfile，运行脚本brute-force.sh不断向server传入badfile。</h3><p>当server程序满足badfile的堆栈条件时，脚本停止，成功获取服务器权限。<br> <img src="/img/os_stackoverflow/image-18.png" alt="Alt text"><br> <img src="/img/os_stackoverflow/image-19.png" alt="Alt text"><br> <img src="/img/os_stackoverflow/image-20.png" alt="Alt text"></p><h2 id="7-Task7-Level-6-Attack"><a href="#7-Task7-Level-6-Attack" class="headerlink" title="7.Task7 Level-6 Attack"></a>7.Task7 Level-6 Attack</h2><h3 id="在server-code目录下："><a href="#在server-code目录下：" class="headerlink" title="在server-code目录下："></a>在server-code目录下：</h3><p>去除-fon-stack-protector选项（即打开栈保护机制）编译stack.c，将badfile输入。<br>Server成功检测到stack smashing（堆栈溢出漏洞）<br> <img src="/img/os_stackoverflow/image-21.png" alt="Alt text"></p><h3 id="在shellcode目录下："><a href="#在shellcode目录下：" class="headerlink" title="在shellcode目录下："></a>在shellcode目录下：</h3><p>去除-z execstack（这个选项会认为栈空间的指令可以被执行，因此我们才能之前的实验运行栈溢出的shellcode和空转指令）编译call_shellcode.c编译并运行。<br><img src="/img/os_stackoverflow/image-22.png" alt="Alt text"></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 操作系统 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 操作系统 </tag>
+            
+            <tag> 栈溢出 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>恶意URL检测</title>
       <link href="/2023/10/11/ai_maliciousurldetection/"/>
       <url>/2023/10/11/ai_maliciousurldetection/</url>
@@ -39,39 +209,6 @@
     
     
     <entry>
-      <title>机器学习：写在前面</title>
-      <link href="/2023/10/10/ai_readme/"/>
-      <url>/2023/10/10/ai_readme/</url>
-      
-        <content type="html"><![CDATA[<h1 id="机器学习"><a href="#机器学习" class="headerlink" title="机器学习"></a>机器学习</h1><h2 id="额"><a href="#额" class="headerlink" title="额"></a>额</h2><ul><li><p>文件数据</p></li><li><p>程序数据</p></li><li><p>特征向量</p></li><li><p>训练集&amp;测试集</p></li><li><p>模型</p></li></ul><h2 id="库相关"><a href="#库相关" class="headerlink" title="库相关"></a>库相关</h2><h3 id="sklearn库："><a href="#sklearn库：" class="headerlink" title="sklearn库："></a>sklearn库：</h3><ul><li>数据打乱<br>from sklearn.utils import shuffle</li><li>特征提取<br>from sklearn.feature_extraction.text import TfidfVectorizer</li><li>逻辑回归算法训练模型<br>from sklearn.linear_model import LogisticRegression</li><li>训练集和测试集划分<br>from sklearn.model_selection import train_test_split</li><li>模型评估报告打印<br>from sklearn.metrics import classification_report</li></ul><h3 id="pandans库："><a href="#pandans库：" class="headerlink" title="pandans库："></a>pandans库：</h3><p>文件读取相关<br>csv文件读取：</p><h3 id="pickle"><a href="#pickle" class="headerlink" title="pickle"></a>pickle</h3><p>保存模型</p>]]></content>
-      
-      
-      <categories>
-          
-          <category> AI </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> Python </tag>
-            
-            <tag> AI </tag>
-            
-            <tag> 人工智能 </tag>
-            
-            <tag> 机器学习 </tag>
-            
-            <tag> sklearn </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
       <title>XSS注入检测</title>
       <link href="/2023/10/10/ai_xssdetection/"/>
       <url>/2023/10/10/ai_xssdetection/</url>
@@ -99,6 +236,35 @@
             <tag> sklearn </tag>
             
             <tag> XSS </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>机器学习：写在前面</title>
+      <link href="/2023/10/10/ai_pre/"/>
+      <url>/2023/10/10/ai_pre/</url>
+      
+        <content type="html"><![CDATA[<h1 id="机器学习"><a href="#机器学习" class="headerlink" title="机器学习"></a>机器学习</h1><p>在很多场景，</p><h2 id="分类-回归"><a href="#分类-回归" class="headerlink" title="分类&amp;回归"></a>分类&amp;回归</h2><p>简单来说，分类解决离散问题；回归解决连续问题。</p><p>分类（Binary Classification）：一个例子，对于给定的一个字符串，检测是否为恶意的，那么这种就是分类问题，一般来说二分类问题比较常见。</p><p>回归（Regression）：给定一个人的各方面信息，评估他的个人收入，他的收入显然是有大量可能的，因此这是回归问题。</p><h2 id="分类模型"><a href="#分类模型" class="headerlink" title="分类模型"></a>分类模型</h2><h3 id="线性回归"><a href="#线性回归" class="headerlink" title="线性回归"></a>线性回归</h3><h2 id="回归模型"><a href="#回归模型" class="headerlink" title="回归模型"></a>回归模型</h2><h3 id="Logist回归"><a href="#Logist回归" class="headerlink" title="Logist回归"></a>Logist回归</h3><h3 id="朴素贝叶斯"><a href="#朴素贝叶斯" class="headerlink" title="朴素贝叶斯"></a>朴素贝叶斯</h3><p><a href="https://zhuanlan.zhihu.com/p/26262151">了解更多</a></p><h3 id="决策树"><a href="#决策树" class="headerlink" title="决策树"></a>决策树</h3><h2 id="机器学习一般步骤："><a href="#机器学习一般步骤：" class="headerlink" title="机器学习一般步骤："></a>机器学习一般步骤：</h2><ul><li>文件读取</li><li>数据处理</li><li>特征提取&amp;向量化</li><li>训练集&amp;测试集划分</li><li>模型训练</li><li>模型测试</li><li>模型保存</li><li>模型使用</li></ul><h3 id="1-文件读取"><a href="#1-文件读取" class="headerlink" title="1. 文件读取"></a>1. 文件读取</h3><p>一般来说，数据集存储在txt或者csv文件中，它包括数据和标签两个部分。</p><p>需要注意的是数据集的并没有统一格式，需要根据具体情况便携代码。</p><p>首先将其读入程序，以便我们能够处理，可以将其读入列表，字典或者pd对象当中。</p><p>下面提供pandas读取csv文件的代码，并将数据集存储到pd对象中：</p><pre><code class="python">def read_file(file_path):    file_pd = pd.read_csv(file_path, usecols=[&quot;data&quot;,&quot;lable&quot;])    return file_pd</code></pre><ul><li>程序数据处理</li></ul><pre><code class="Python">def data_process(normal, malicious):    all = pd.concat([normal, malicious])    data = all[&quot;data&quot;]    lable = all[&quot;lable&quot;]    data, lable = shuffle(data, lable, random_state=42)    return data, labledata, lable = data_process(normal, malicious)</code></pre><ul><li>特征向量</li></ul><pre><code class="Python">def data_tokenizer(data):    return re.findall(r&#39;\w+&#39;, data)def data_vectorizer(data, lable):    vectorizer = TfidfVectorizer(stop_words=None, tokenizer=data_tokenizer)    x = vectorizer.fit_transform(data)    y = lable    return x, y, vectorizer</code></pre><ul><li>训练集&amp;测试集</li></ul><pre><code class="Python">    x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.3)</code></pre><ul><li>模型训练</li></ul><pre><code class="Python">def model_train(x_train, y_train):    # 在这里选择适合适的模型    model = modelname()    model.fit(x_train, y_train)    return model</code></pre><ul><li>模型测试</li></ul><pre><code class="Python">def model_test(model, x_test, y_test):    y_predict = model.predict(x_test)    report = classification_report(y_test, y_predict, labels=[&quot;malicious&quot;, &quot;normal&quot;], target_names=[&quot;恶意URL&quot;, &quot;正常URL&quot;],digits=2)    return report</code></pre><ul><li>优化</li></ul>]]></content>
+      
+      
+      <categories>
+          
+          <category> AI </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Python </tag>
+            
+            <tag> 机器学习 </tag>
+            
+            <tag> sklearn </tag>
             
         </tags>
       
@@ -153,7 +319,7 @@
       
       <categories>
           
-          <category> 密码学 </category>
+          <category> 杂项 </category>
           
       </categories>
       
@@ -739,9 +905,38 @@
     
     
     <entry>
-      <title>在线AI绘画</title>
-      <link href="/2023/08/25/ai_%E5%9C%A8%E7%BA%BFAI%E7%BB%98%E7%94%BB/"/>
-      <url>/2023/08/25/ai_%E5%9C%A8%E7%BA%BFAI%E7%BB%98%E7%94%BB/</url>
+      <title>ChatGPT</title>
+      <link href="/2023/08/25/ai_chatgpt/"/>
+      <url>/2023/08/25/ai_chatgpt/</url>
+      
+        <content type="html"><![CDATA[<h2 id="国内接口"><a href="#国内接口" class="headerlink" title="国内接口"></a>国内接口</h2><ul><li><a href="https://c.binjie.fun/">ALchatOS</a></li></ul><h2 id="ChatGPT官网"><a href="#ChatGPT官网" class="headerlink" title="ChatGPT官网"></a>ChatGPT官网</h2><p>…</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> AI </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> AI </tag>
+            
+            <tag> 人工智能 </tag>
+            
+            <tag> ChatGPT </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>AI绘画</title>
+      <link href="/2023/08/25/ai_aipainting/"/>
+      <url>/2023/08/25/ai_aipainting/</url>
       
         <content type="html"><![CDATA[<h1 id="在线AI绘画"><a href="#在线AI绘画" class="headerlink" title="在线AI绘画"></a>在线AI绘画</h1><h2 id="网址：LiblibAI·哩布哩布AI-中国领先原创AI模型分享社区"><a href="#网址：LiblibAI·哩布哩布AI-中国领先原创AI模型分享社区" class="headerlink" title="网址：LiblibAI·哩布哩布AI-中国领先原创AI模型分享社区"></a>网址：<a href="LiblibAI%C2%B7%E5%93%A9%E5%B8%83%E5%93%A9%E5%B8%83AI-%E4%B8%AD%E5%9B%BD%E9%A2%86%E5%85%88%E5%8E%9F%E5%88%9BAI%E6%A8%A1%E5%9E%8B%E5%88%86%E4%BA%AB%E7%A4%BE%E5%8C%BA">LiblibAI·哩布哩布AI-中国领先原创AI模型分享社区</a></h2><h2 id="教程："><a href="#教程：" class="headerlink" title="教程："></a>教程：</h2><h3 id="1-进入绘画页面"><a href="#1-进入绘画页面" class="headerlink" title="1. 进入绘画页面"></a>1. 进入绘画页面</h3><p>点击网址，来到在线 AI 绘画首页。登录你的账号（QQ 就行）。点击右上角<em><strong>在线Stable Diffusion</strong></em>，进入在线绘画页面。</p><p><img src="/img/ai_%E5%9C%A8%E7%BA%BFAI%E7%BB%98%E7%94%BB/image.png" alt="Alt text"></p><p><img src="/img/ai_%E5%9C%A8%E7%BA%BFAI%E7%BB%98%E7%94%BB/image-1.png" alt="Alt text"></p><h3 id="2-选择模型"><a href="#2-选择模型" class="headerlink" title="2. 选择模型"></a>2. 选择模型</h3><p>在首页中选择一个模型，这里选择<em><strong>麦橘写实</strong></em>。<em>不同的模型适用于不同的类型的图画创作。</em></p><p><img src="/img/ai_%E5%9C%A8%E7%BA%BFAI%E7%BB%98%E7%94%BB/image-2.png" alt="Alt text"></p><h3 id="3-复制图片参数"><a href="#3-复制图片参数" class="headerlink" title="3. 复制图片参数"></a>3. 复制图片参数</h3><p>点击模型进入页面查看图片<em><strong>详细信息</strong></em>，这里是图片生成的一些参数，<em><strong>复制</strong></em>就行。</p><p><img src="/img/ai_%E5%9C%A8%E7%BA%BFAI%E7%BB%98%E7%94%BB/image-3.png" alt="Alt text"></p><p><img src="/img/ai_%E5%9C%A8%E7%BA%BFAI%E7%BB%98%E7%94%BB/image-4.png" alt="Alt text"></p><h3 id="4-填写参数绘画"><a href="#4-填写参数绘画" class="headerlink" title="4. 填写参数绘画"></a>4. 填写参数绘画</h3><p>返回绘画页面，<em><strong>Stable Diffusion 模型选择麦橘写实</strong></em>，<em><strong>粘贴</strong></em>刚才复制的的信息。</p><p><img src="/img/ai_%E5%9C%A8%E7%BA%BFAI%E7%BB%98%E7%94%BB/image-9.png" alt="Alt text"></p><p><em>如果你想生成多张图片，修改以下内容。</em></p><p><img src="/img/ai_%E5%9C%A8%E7%BA%BFAI%E7%BB%98%E7%94%BB/image-5.png" alt="Alt text"></p><h3 id="5-耐心等待生成图片"><a href="#5-耐心等待生成图片" class="headerlink" title="5. 耐心等待生成图片"></a>5. 耐心等待生成图片</h3><p>点击<em><strong>生成图片</strong></em>，耐心等待就好了。下面是图片展示，AI绘画并不一定完美，可以 PS等工具完善。</p><p><img src="/img/ai_%E5%9C%A8%E7%BA%BFAI%E7%BB%98%E7%94%BB/image-6.png" alt="Alt text"></p><p><img src="/img/ai_%E5%9C%A8%E7%BA%BFAI%E7%BB%98%E7%94%BB/image-7.png" alt="Alt text"></p><p><img src="/img/ai_%E5%9C%A8%E7%BA%BFAI%E7%BB%98%E7%94%BB/image-8.png" alt="Alt text"></p><h3 id="6-最后"><a href="#6-最后" class="headerlink" title="6.最后"></a>6.最后</h3><p>恭喜你，已经学会了基础的绘图。接下来，选择你喜欢的模型，慢慢了解并调节各种参数，绘画出你喜欢的图片吧！</p><p>对了，上面介绍了文生图模式，图生图模式一样有趣。赶快试试吧，你就是下一个 AI 调教大师。</p>]]></content>
       
@@ -755,13 +950,13 @@
       
         <tags>
             
-            <tag> ai </tag>
-            
-            <tag> ai绘画 </tag>
-            
-            <tag> 在线ai绘画 </tag>
-            
             <tag> 哩布哩布 </tag>
+            
+            <tag> AI </tag>
+            
+            <tag> AI绘画 </tag>
+            
+            <tag> 在线AI绘画 </tag>
             
         </tags>
       
