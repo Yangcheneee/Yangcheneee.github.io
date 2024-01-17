@@ -1,0 +1,496 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Buffer Overflow Attack Lab (Server Version) | 良月的小窝</title><meta name="author" content="良月"><meta name="copyright" content="良月"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="你可以到SEED官网获取实验资料：Buffer-Overflow Attack Lab (Server Version) 网络攻防技术——缓冲区溢出攻击（基于服务器） 一 缓存区溢出攻击概述C语言和堆栈局部变量函数中定义的变量 堆内存大，链表，碎片化 栈（堆栈）内存小，编译器决定1-8MB，后进先出LIFO，快 局部变量和堆栈c语言进阶：堆栈原理揭秘 C语言有很多不同类别的数据，他们有不同的生命周">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Buffer Overflow Attack Lab (Server Version)">
+<meta property="og:url" content="http://yangcheneee.github.io/posts/os_stackoverflow/index.html">
+<meta property="og:site_name" content="良月的小窝">
+<meta property="og:description" content="你可以到SEED官网获取实验资料：Buffer-Overflow Attack Lab (Server Version) 网络攻防技术——缓冲区溢出攻击（基于服务器） 一 缓存区溢出攻击概述C语言和堆栈局部变量函数中定义的变量 堆内存大，链表，碎片化 栈（堆栈）内存小，编译器决定1-8MB，后进先出LIFO，快 局部变量和堆栈c语言进阶：堆栈原理揭秘 C语言有很多不同类别的数据，他们有不同的生命周">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://yangcheneee.github.io/img/5.jpg">
+<meta property="article:published_time" content="2023-10-14T16:00:00.000Z">
+<meta property="article:modified_time" content="2024-01-05T11:27:13.338Z">
+<meta property="article:author" content="良月">
+<meta property="article:tag" content="SEED">
+<meta property="article:tag" content="Buffer Overflow Attack Lab (Server Version)">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yangcheneee.github.io/img/5.jpg"><link rel="shortcut icon" href="/img/favicon.jpg"><link rel="canonical" href="http://yangcheneee.github.io/posts/os_stackoverflow/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: undefined,
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Buffer Overflow Attack Lab (Server Version)',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-01-05 19:27:13'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = (url,id = false) => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      if (id) link.id = id
+      link.onerror = reject
+      link.onload = link.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        link.onload = link.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/background.css"><meta name="generator" content="Hexo 6.3.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">39</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">70</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">9</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa fa-graduation-cap"></i><span> 博文</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fa fa-archive"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fa fa-folder-open"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/messageboard/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于笔者</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/img/5.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="良月的小窝"><span class="site-name">良月的小窝</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa fa-graduation-cap"></i><span> 博文</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fa fa-archive"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fa fa-folder-open"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/messageboard/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于笔者</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Buffer Overflow Attack Lab (Server Version)</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-10-14T16:00:00.000Z" title="发表于 2023-10-15 00:00:00">2023-10-15</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-01-05T11:27:13.338Z" title="更新于 2024-01-05 19:27:13">2024-01-05</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/SEED/">SEED</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">2.5k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>8分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Buffer Overflow Attack Lab (Server Version)"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p><em>你可以到SEED官网获取实验资料：<a target="_blank" rel="noopener" href="https://seedsecuritylabs.org/Labs_20.04/Software/Buffer_Overflow_Server/">Buffer-Overflow Attack Lab (Server Version)</a></em></p>
+<p><em><a target="_blank" rel="noopener" href="https://blog.csdn.net/wion03/article/details/133856446">网络攻防技术——缓冲区溢出攻击（基于服务器）</a></em></p>
+<h1 id="一-缓存区溢出攻击概述"><a href="#一-缓存区溢出攻击概述" class="headerlink" title="一 缓存区溢出攻击概述"></a>一 缓存区溢出攻击概述</h1><h2 id="C语言和堆栈"><a href="#C语言和堆栈" class="headerlink" title="C语言和堆栈"></a>C语言和堆栈</h2><h3 id="局部变量"><a href="#局部变量" class="headerlink" title="局部变量"></a>局部变量</h3><p>函数中定义的变量</p>
+<h3 id="堆"><a href="#堆" class="headerlink" title="堆"></a>堆</h3><p>内存大，链表，碎片化</p>
+<h3 id="栈（堆栈）"><a href="#栈（堆栈）" class="headerlink" title="栈（堆栈）"></a>栈（堆栈）</h3><p>内存小，编译器决定1-8MB，后进先出LIFO，快</p>
+<h3 id="局部变量和堆栈"><a href="#局部变量和堆栈" class="headerlink" title="局部变量和堆栈"></a>局部变量和堆栈</h3><p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/142964520">c语言进阶：堆栈原理揭秘</a></p>
+<p>C语言有很多不同类别的数据，他们有不同的生命周期，这不是C语言本身决定的，而是操作系统存放这些数据的位置决定了他们的生命周期。</p>
+<p>运行一个程序，操作系统会将数据其映射到内存中，不同的数据将会映射到不同的内存中栈&#x2F;堆&#x2F;代码区等。</p>
+<h3 id="函数调用和堆栈"><a href="#函数调用和堆栈" class="headerlink" title="函数调用和堆栈"></a>函数调用和堆栈</h3><h3 id="缓冲区溢出原理"><a href="#缓冲区溢出原理" class="headerlink" title="缓冲区溢出原理"></a>缓冲区溢出原理</h3><p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/186812518">一文理解缓冲区溢出</a></p>
+<p>缓冲区溢出被定义为程序试图将数据写入缓冲区边界之外的情况。恶意用户可以利用此漏洞更改程序的流控制，从而导致恶意代码的执行。</p>
+<h3 id="栈溢出详解"><a href="#栈溢出详解" class="headerlink" title="栈溢出详解"></a>栈溢出详解</h3><p>缓冲区溢出在栈溢出上应用很多，因为当程序调用函数时，会将返回地址ret暂时存在栈区上。如果构造一次恶意溢出使用恶意抵制覆盖返回地址ret的值，那么将可以控制程序流甚至执行以进程权限执行任意程序。如果这个进程是根权限，那么shellcode也将获取到根权限。</p>
+<h3 id="shellcode和栈溢出"><a href="#shellcode和栈溢出" class="headerlink" title="shellcode和栈溢出"></a>shellcode和栈溢出</h3><p>可以这样理解，攻击方式就像武器库，而攻击载荷就像弹药库。</p>
+<p>栈溢出就像攻击者的导弹，瞄准程序的弱点，但是实际造成攻击还需要弹药，也就是shellcode，shellcode决定对目标主机造成什么攻击。</p>
+<h1 id="二-实验环境"><a href="#二-实验环境" class="headerlink" title="二 实验环境"></a>二 实验环境</h1><p>在这个实验中，有四个不同的服务器，不同服务器上以根权限运行着不同难度的缓冲区溢出漏洞的程序，对应关系如下：</p>
+<ul>
+<li>level-1：10.9.0.5:9090运行32位缓冲区溢出漏洞程序</li>
+<li>level-2：10.9.0.6:9090运行32位缓冲区溢出漏洞程序</li>
+<li>level-3：10.9.0.7:9090运行64位缓冲区溢出漏洞程序</li>
+<li>level-4：10.9.0.8:9090运行64位缓冲区溢出漏洞程序</li>
+<li>level-5：10.9.0.9:9090运行32位缓冲区溢出漏洞程序</li>
+</ul>
+<p>任务是开发一种利用该漏洞的方案，并最终获得这些服务器上的根权限。除了攻击之外，还将尝试几种对抗缓冲区溢出攻击的对策。</p>
+<h3 id="关闭地址随机化"><a href="#关闭地址随机化" class="headerlink" title="关闭地址随机化"></a>关闭地址随机化</h3><p>在开始这个实验之前，需要确保地址随机化对策被关闭;否则，进攻会很困难。可以使用以下命令：<code>sudo /sbin/sysctl -w kernel.randomize_va_space=0</code></p>
+<h3 id="漏洞程序：stack-c"><a href="#漏洞程序：stack-c" class="headerlink" title="漏洞程序：stack.c"></a>漏洞程序：stack.c</h3><pre><code class="c">#include &lt;stdlib.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+/* Changing this size will change the layout of the stack.
+* Instructors can change this value each year, so students
+* won’t be able to use the solutions from the past.
+#ifndef BUF_SIZE
+#define BUF_SIZE 100
+#endif
+int bof(char *str)
+&#123;
+char buffer[BUF_SIZE];
+/* The following statement has a buffer overflow problem */
+strcpy(buffer, str); ✰
+return 1;
+&#125;
+int main(int argc, char **argv)
+&#123;
+char str[517];
+int length = fread(str, sizeof(char), 517, stdin);
+bof(str);
+fprintf(stdout, &quot;==== Returned Properly ====\n&quot;);
+return 1;
+&#125;
+</code></pre>
+<p>上述程序有缓冲区溢出漏洞。它从标准输入中读取数据，然后将数据传递给函数bof()中的另一个缓冲区。原始输入的最大长度为517字节，但bof()中的缓冲区只有BUF SIZE字节长，小于517字节。因为strcpy()不检查边界，所以会发生缓冲区溢出。</p>
+<h3 id="服务器程序：server-c"><a href="#服务器程序：server-c" class="headerlink" title="服务器程序：server.c"></a>服务器程序：server.c</h3><p>在server-code文件夹中，可以找到一个名为server.c的程序。这是服务器的主要入口点。它监听端口9090。当它接收到TCP连接时，它调用堆栈程序，并将TCP连接设置为堆栈程序的标准输入。这样，当stack从stdin读取数据时，它实际上是从TCP连接中读取的，也就是说，这些数据是由TCP客户端用户提供的。由于程序stack.c将在具有root权限的服务器上运行，如果用户可以利用这个缓冲区溢出漏洞，他们就可以在服务器上获得根shell。学生不需要阅读server.c的源代码。</p>
+<h3 id="容器启动"><a href="#容器启动" class="headerlink" title="容器启动"></a>容器启动</h3><p>了解完实验的整个流程和配置信息，通过下面命令操作容器，开始实验。</p>
+<p>进入Labsetup目录，使用命令<code>dcbuild</code> <code>dcup</code> <code>dcdown</code>。 </p>
+<h3 id="熟悉Shellcode"><a href="#熟悉Shellcode" class="headerlink" title="熟悉Shellcode"></a>熟悉Shellcode</h3><p>缓冲区溢出攻击的最终目的是将恶意代码注入到目标程序中，这样代码就可以使用目标程序的特权来执行。Shellcode被广泛用于大多数代码注入攻击。让我们在这个任务中熟悉它。</p>
+<p>Shellcode通常用于代码注入攻击。它基本上是一段启动shell的代码，通常用汇编语言编写。在这个实验中，我们只提供一个通用shellcode的二进制版本，而不解释它是如何工作的，因为它很重要。如果您对shellcode的工作原理感兴趣，并且想从头开始编写一个shellcode，您可以从一个名为shellcode lab的独立SEED实验室中学习。我们的通用shellcode如下所示(我们只列出32位版本):</p>
+<pre><code class="python">shellcode = (
+&quot;\xeb\x29\x5b\x31\xc0\x88\x43\x09\x88\x43\x0c\x88\x43\x47\x89\x5b&quot;
+&quot;\x48\x8d\x4b\x0a\x89\x4b\x4c\x8d\x4b\x0d\x89\x4b\x50\x89\x43\x54&quot;
+&quot;\x8d\x4b\x48\x31\xd2\x31\xc0\xb0\x0b\xcd\x80\xe8\xd2\xff\xff\xff&quot;
+&quot;/bin/bash*&quot;                                                 
+&quot;-c*&quot;                                                        
+&quot;/bin/ls -l; echo Hello; /bin/tail -n 2 /etc/passwd        *&quot;
+# The * in this line serves as the position marker         *
+&quot;AAAA&quot; # Placeholder for argv[0] --&gt; &quot;/bin/bash&quot;
+&quot;BBBB&quot; # Placeholder for argv[1] --&gt; &quot;-c&quot;
+&quot;CCCC&quot; # Placeholder for argv[2] --&gt; the command string
+&quot;DDDD&quot; # Placeholder for argv[3] --&gt; NULL
+).encode(’latin-1’)
+</code></pre>
+<p>您可以在shellcode文件夹中找到通用的shellcode。在里面，您将看到两个Python程序，shellcode 32.py和shellcode 64.py。它们分别适用于32位和64位的shellcode。这两个Python程序将分别将二进制shellcode写入codefile 32和codefile 64。然后可以使用call shellcode来执行其中的shellcode。</p>
+<pre><code class="shell">// Generate the shellcode binary
+$ ./shellcode_32.py ¨ generate codefile_32
+$ ./shellcode_64.py ¨ generate codefile_64
+// Compile call_shellcode.c
+$ make
+¨ generate a32.out and a64.out
+// Test the shellcode
+$ a32.out
+¨ execute the shellcode in codefile_32
+$ a64.out
+¨ execute the shellcode in codefile_64
+</code></pre>
+<h4 id="任务：修改shellcode-32-py文件，使其能够删除文件。"><a href="#任务：修改shellcode-32-py文件，使其能够删除文件。" class="headerlink" title="任务：修改shellcode_32.py文件，使其能够删除文件。"></a>任务：修改shellcode_32.py文件，使其能够删除文件。</h4><p> <img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/os_stackoverflow/image.png" alt="Alt text"></p>
+<h4 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h4><p>在该目录下创建文件task1，通过ls命令发现task1文件创建成功。<br> <img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/os_stackoverflow/image-1.png" alt="Alt text"><br>可以看到执行a32.out文件后，通过ls命令发现task1文件被删除。<br> <img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/os_stackoverflow/image-2.png" alt="Alt text"></p>
+<h3 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h3><p>实验开发者在程序中添加了一点随机性，让不同学生可能看到不同的缓冲区地址和帧地址，为了让不同学生作业有些区别。但是这些值在容器启动后保持不变，因此只要不关闭容器每次实验结果仍然是相同的。</p>
+<h1 id="三-实验任务"><a href="#三-实验任务" class="headerlink" title="三 实验任务"></a>三 实验任务</h1><h2 id="Task-1-Level-1-Attack"><a href="#Task-1-Level-1-Attack" class="headerlink" title="Task 1: Level-1 Attack"></a>Task 1: Level-1 Attack</h2><p>运行level-1漏洞程序的容器是10.9.0.5，端口是9090，漏洞程序是32位。</p>
+<h3 id="获取server的堆栈信息"><a href="#获取server的堆栈信息" class="headerlink" title="获取server的堆栈信息"></a>获取server的堆栈信息</h3><p>先向服务器发送一条正常消息获取堆栈信息。</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/os_stackoverflow/image-3.png" alt="Alt text"></p>
+<p>Buf基地址为：0xffffd598</p>
+<p>Ebp地址为：0xffffd608</p>
+<h3 id="编写exploit-py文件"><a href="#编写exploit-py文件" class="headerlink" title="编写exploit.py文件"></a>编写exploit.py文件</h3><p>在32位环境下，ret地址为ebp地址+4（单位为字节），已知buf基地址，则偏移量为ebp地址+4-buf基地址。</p>
+<p>ret的值存储指令地址，要执行shellcode，因此要将ret指向shellcode地址。而shellcode使用了Nop填充，所以ret指向ret+4即可空转跳转到shellcode。<br><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/os_stackoverflow/image-4.png" alt="Alt text"></p>
+<h3 id="生成badfile，获取服务器权限"><a href="#生成badfile，获取服务器权限" class="headerlink" title="生成badfile，获取服务器权限"></a>生成badfile，获取服务器权限</h3><p> <img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/os_stackoverflow/image-5.png" alt="Alt text"></p>
+<h2 id="Task-3-Level-2-Attack"><a href="#Task-3-Level-2-Attack" class="headerlink" title="Task 3: Level-2 Attack"></a>Task 3: Level-2 Attack</h2><h3 id="attack-code传入hello，获取server堆栈信息。"><a href="#attack-code传入hello，获取server堆栈信息。" class="headerlink" title="attack-code传入hello，获取server堆栈信息。"></a>attack-code传入hello，获取server堆栈信息。</h3><p> <img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/os_stackoverflow/image-6.png" alt="Alt text"><br>Buf基地址：0xffffd548<br>Ebp地址：由于buf大小在100-300字节，因此ebp地址在buf基地址+100到buf基地址+300之间。</p>
+<h3 id="编写exploit-py文件。"><a href="#编写exploit-py文件。" class="headerlink" title="编写exploit.py文件。"></a>编写exploit.py文件。</h3><p>Ret地址等于ebp地址+4，因此ret地址可能在buf基地址+104到buf基地址+304之间，所以offset的值可能在104到304之间。将这段content都填入ret指向地址即可。<br>Ret的值需要指向shellcode，而buf大小不确定，因此ret指向地址必须大于buf最大值+8，以执行ret上方的shellcode，避免从下面空转到ret陷入循环。<br> <img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/os_stackoverflow/image-7.png" alt="Alt text"></p>
+<h3 id="生成badfile，获取服务器权限。"><a href="#生成badfile，获取服务器权限。" class="headerlink" title="生成badfile，获取服务器权限。"></a>生成badfile，获取服务器权限。</h3><h2 id="4-Task4-Level-3-Attack"><a href="#4-Task4-Level-3-Attack" class="headerlink" title="4. Task4 Level-3 Attack"></a>4. Task4 Level-3 Attack</h2><h3 id="attack-code传入hello获取server堆栈信息。"><a href="#attack-code传入hello获取server堆栈信息。" class="headerlink" title="attack-code传入hello获取server堆栈信息。"></a>attack-code传入hello获取server堆栈信息。</h3><p> <img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/os_stackoverflow/image-8.png" alt="Alt text"><br>Rbp指针：0x00007fffffffe540<br>Buf基地址：0x00007fffffffe470</p>
+<h3 id="编写exploit-py文件。-1"><a href="#编写exploit-py文件。-1" class="headerlink" title="编写exploit.py文件。"></a>编写exploit.py文件。</h3><p>首先插入64位的shellcode，并把执行命令改为反弹shell。<br>start的值设置为0，此时shellcode在content头部，位置为content[0,len(shellcode)]。<br>Ret地址为rbp地址+8（64位环境），offset的值为ret地址-buf基地址。<br>ret的值指向shellcode地址，此时shellcode代码在content头部，即buf基地址0x470。<br> <img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/os_stackoverflow/image-9.png" alt="Alt text"></p>
+<h3 id="生成badfile，获取服务器权限-1"><a href="#生成badfile，获取服务器权限-1" class="headerlink" title="生成badfile，获取服务器权限"></a>生成badfile，获取服务器权限</h3><p> <img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/os_stackoverflow/image-10.png" alt="Alt text"></p>
+<h2 id="5-Task5-Level-4-Attack"><a href="#5-Task5-Level-4-Attack" class="headerlink" title="5. Task5 Level-4 Attack"></a>5. Task5 Level-4 Attack</h2><h3 id="attack-code传入hello，获取server堆栈信息。-1"><a href="#attack-code传入hello，获取server堆栈信息。-1" class="headerlink" title="attack-code传入hello，获取server堆栈信息。"></a>attack-code传入hello，获取server堆栈信息。</h3><p> <img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/os_stackoverflow/image-11.png" alt="Alt text"><br>Rbp指针：0x00007fffffffe540<br>Buf基地址：0x00007fffffffe470</p>
+<h3 id="编写exploit-py文件-1"><a href="#编写exploit-py文件-1" class="headerlink" title="编写exploit.py文件"></a>编写exploit.py文件</h3><p>相比于上一个task，这个task实行shellcode依靠于Return-to-libc，因此需要改变ret指向地址。<br>        经过尝试以后，ret为rbp+1400的时候能够实现反弹shell。<br><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/os_stackoverflow/image-12.png" alt="Alt text"> </p>
+<h3 id="生成badfile，获取服务器权限。-1"><a href="#生成badfile，获取服务器权限。-1" class="headerlink" title="生成badfile，获取服务器权限。"></a>生成badfile，获取服务器权限。</h3><p> <img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/os_stackoverflow/image-13.png" alt="Alt text"></p>
+<h2 id="6-Task6-Level-5-Attack"><a href="#6-Task6-Level-5-Attack" class="headerlink" title="6. Task6 Level-5 Attack"></a>6. Task6 Level-5 Attack</h2><h3 id="打开地址随机化。"><a href="#打开地址随机化。" class="headerlink" title="打开地址随机化。"></a>打开地址随机化。</h3><p> <img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/os_stackoverflow/image-14.png" alt="Alt text"></p>
+<h3 id="attack-code传入hello，获取server堆栈信息。-2"><a href="#attack-code传入hello，获取server堆栈信息。-2" class="headerlink" title="attack-code传入hello，获取server堆栈信息。"></a>attack-code传入hello，获取server堆栈信息。</h3><p>可以发现随着地址随机化的打开，server堆栈地址发生改变。<br> <img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/os_stackoverflow/image-15.png" alt="Alt text"><br> <img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/os_stackoverflow/image-16.png" alt="Alt text"></p>
+<h3 id="编写exploit-py文件。-2"><a href="#编写exploit-py文件。-2" class="headerlink" title="编写exploit.py文件。"></a>编写exploit.py文件。</h3><p> <img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/os_stackoverflow/image-17.png" alt="Alt text"></p>
+<h3 id="生成badfile，运行脚本brute-force-sh不断向server传入badfile。"><a href="#生成badfile，运行脚本brute-force-sh不断向server传入badfile。" class="headerlink" title="生成badfile，运行脚本brute-force.sh不断向server传入badfile。"></a>生成badfile，运行脚本brute-force.sh不断向server传入badfile。</h3><p>当server程序满足badfile的堆栈条件时，脚本停止，成功获取服务器权限。<br> <img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/os_stackoverflow/image-18.png" alt="Alt text"><br> <img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/os_stackoverflow/image-19.png" alt="Alt text"><br> <img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/os_stackoverflow/image-20.png" alt="Alt text"></p>
+<h2 id="7-Task7-Level-6-Attack"><a href="#7-Task7-Level-6-Attack" class="headerlink" title="7.	Task7 Level-6 Attack"></a>7.	Task7 Level-6 Attack</h2><h3 id="在server-code目录下："><a href="#在server-code目录下：" class="headerlink" title="在server-code目录下："></a>在server-code目录下：</h3><p>去除-fon-stack-protector选项（即打开栈保护机制）编译stack.c，将badfile输入。<br>Server成功检测到stack smashing（堆栈溢出漏洞）<br> <img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/os_stackoverflow/image-21.png" alt="Alt text"></p>
+<h3 id="在shellcode目录下："><a href="#在shellcode目录下：" class="headerlink" title="在shellcode目录下："></a>在shellcode目录下：</h3><p>去除-z execstack（这个选项会认为栈空间的指令可以被执行，因此我们才能之前的实验运行栈溢出的shellcode和空转指令）编译call_shellcode.c编译并运行。<br><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/os_stackoverflow/image-22.png" alt="Alt text"></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="http://yangcheneee.github.io">良月</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://yangcheneee.github.io/posts/os_stackoverflow/">http://yangcheneee.github.io/posts/os_stackoverflow/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://yangcheneee.github.io" target="_blank">良月的小窝</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/SEED/">SEED</a><a class="post-meta__tags" href="/tags/Buffer-Overflow-Attack-Lab-Server-Version/">Buffer Overflow Attack Lab (Server Version)</a></div><div class="post_share"><div class="social-share" data-image="/img/5.jpg" data-sites="wechat,qq,weibo"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i> 打赏</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechat.jpg" target="_blank"><img class="post-qr-code-img" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/wechat.jpg" alt="wechat"/></a><div class="post-qr-code-desc">wechat</div></li><li class="reward-item"><a href="/img/alipay.jpg" target="_blank"><img class="post-qr-code-img" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/alipay.jpg" alt="alipay"/></a><div class="post-qr-code-desc">alipay</div></li></ul></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/posts/web_login/" title="Web 登录实现&amp;身份认证"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/cover/5.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Web 登录实现&amp;身份认证</div></div></a></div><div class="next-post pull-right"><a href="/posts/ai_maliciousurldetection/" title="恶意URL检测"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/cover/20.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">恶意URL检测</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/posts/os_setuid/" title="Environment Variable and Set-UID Program Lab"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/6.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-10-29</div><div class="title">Environment Variable and Set-UID Program Lab</div></div></a></div><div><a href="/posts/os_shellcode/" title="Shellcode Development Lab"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/1.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-10-22</div><div class="title">Shellcode Development Lab</div></div></a></div><div><a href="/posts/seed_cipher_md5/" title="Crypto_MD5_Collision"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/cover/16.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-10-01</div><div class="title">Crypto_MD5_Collision</div></div></a></div><div><a href="/posts/seed_spectre/" title="SEED：Spectre_Attack"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/cover/5.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-01-01</div><div class="title">SEED：Spectre_Attack</div></div></a></div></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div><div id="comment-switch"><span class="first-comment">Valine</span><span class="switch-btn"></span><span class="second-comment">Disqus</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div><div><div id="disqus_thread"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">良月</div><div class="author-info__description">郎朗晴天</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">39</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">70</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">9</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Yangcheneee"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/Yangcheneee" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="tencent://AddContact/?fromId=45&amp;fromSubId=1&amp;subcmd=all&amp;uin=2657761647&amp;website=www.oicqzone.com" target="_blank" title="QQ"><i class="fab fa-qq"></i></a><a class="social-icon" href="mailto:2657761647@qq.com" target="_blank" title="Email"><i class="fas fa-envelope-open-text"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">欢迎来到我的个人博客</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%80-%E7%BC%93%E5%AD%98%E5%8C%BA%E6%BA%A2%E5%87%BA%E6%94%BB%E5%87%BB%E6%A6%82%E8%BF%B0"><span class="toc-text">一 缓存区溢出攻击概述</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#C%E8%AF%AD%E8%A8%80%E5%92%8C%E5%A0%86%E6%A0%88"><span class="toc-text">C语言和堆栈</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B1%80%E9%83%A8%E5%8F%98%E9%87%8F"><span class="toc-text">局部变量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A0%86"><span class="toc-text">堆</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%88%EF%BC%88%E5%A0%86%E6%A0%88%EF%BC%89"><span class="toc-text">栈（堆栈）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B1%80%E9%83%A8%E5%8F%98%E9%87%8F%E5%92%8C%E5%A0%86%E6%A0%88"><span class="toc-text">局部变量和堆栈</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E8%B0%83%E7%94%A8%E5%92%8C%E5%A0%86%E6%A0%88"><span class="toc-text">函数调用和堆栈</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BC%93%E5%86%B2%E5%8C%BA%E6%BA%A2%E5%87%BA%E5%8E%9F%E7%90%86"><span class="toc-text">缓冲区溢出原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%88%E6%BA%A2%E5%87%BA%E8%AF%A6%E8%A7%A3"><span class="toc-text">栈溢出详解</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#shellcode%E5%92%8C%E6%A0%88%E6%BA%A2%E5%87%BA"><span class="toc-text">shellcode和栈溢出</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%8C-%E5%AE%9E%E9%AA%8C%E7%8E%AF%E5%A2%83"><span class="toc-text">二 实验环境</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B3%E9%97%AD%E5%9C%B0%E5%9D%80%E9%9A%8F%E6%9C%BA%E5%8C%96"><span class="toc-text">关闭地址随机化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%BC%8F%E6%B4%9E%E7%A8%8B%E5%BA%8F%EF%BC%9Astack-c"><span class="toc-text">漏洞程序：stack.c</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%A8%8B%E5%BA%8F%EF%BC%9Aserver-c"><span class="toc-text">服务器程序：server.c</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%B9%E5%99%A8%E5%90%AF%E5%8A%A8"><span class="toc-text">容器启动</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%86%9F%E6%82%89Shellcode"><span class="toc-text">熟悉Shellcode</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BB%BB%E5%8A%A1%EF%BC%9A%E4%BF%AE%E6%94%B9shellcode-32-py%E6%96%87%E4%BB%B6%EF%BC%8C%E4%BD%BF%E5%85%B6%E8%83%BD%E5%A4%9F%E5%88%A0%E9%99%A4%E6%96%87%E4%BB%B6%E3%80%82"><span class="toc-text">任务：修改shellcode_32.py文件，使其能够删除文件。</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95"><span class="toc-text">测试</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B3%A8%E6%84%8F"><span class="toc-text">注意</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%89-%E5%AE%9E%E9%AA%8C%E4%BB%BB%E5%8A%A1"><span class="toc-text">三 实验任务</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Task-1-Level-1-Attack"><span class="toc-text">Task 1: Level-1 Attack</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96server%E7%9A%84%E5%A0%86%E6%A0%88%E4%BF%A1%E6%81%AF"><span class="toc-text">获取server的堆栈信息</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BC%96%E5%86%99exploit-py%E6%96%87%E4%BB%B6"><span class="toc-text">编写exploit.py文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%9F%E6%88%90badfile%EF%BC%8C%E8%8E%B7%E5%8F%96%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%9D%83%E9%99%90"><span class="toc-text">生成badfile，获取服务器权限</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Task-3-Level-2-Attack"><span class="toc-text">Task 3: Level-2 Attack</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#attack-code%E4%BC%A0%E5%85%A5hello%EF%BC%8C%E8%8E%B7%E5%8F%96server%E5%A0%86%E6%A0%88%E4%BF%A1%E6%81%AF%E3%80%82"><span class="toc-text">attack-code传入hello，获取server堆栈信息。</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BC%96%E5%86%99exploit-py%E6%96%87%E4%BB%B6%E3%80%82"><span class="toc-text">编写exploit.py文件。</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%9F%E6%88%90badfile%EF%BC%8C%E8%8E%B7%E5%8F%96%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%9D%83%E9%99%90%E3%80%82"><span class="toc-text">生成badfile，获取服务器权限。</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-Task4-Level-3-Attack"><span class="toc-text">4. Task4 Level-3 Attack</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#attack-code%E4%BC%A0%E5%85%A5hello%E8%8E%B7%E5%8F%96server%E5%A0%86%E6%A0%88%E4%BF%A1%E6%81%AF%E3%80%82"><span class="toc-text">attack-code传入hello获取server堆栈信息。</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BC%96%E5%86%99exploit-py%E6%96%87%E4%BB%B6%E3%80%82-1"><span class="toc-text">编写exploit.py文件。</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%9F%E6%88%90badfile%EF%BC%8C%E8%8E%B7%E5%8F%96%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%9D%83%E9%99%90-1"><span class="toc-text">生成badfile，获取服务器权限</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-Task5-Level-4-Attack"><span class="toc-text">5. Task5 Level-4 Attack</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#attack-code%E4%BC%A0%E5%85%A5hello%EF%BC%8C%E8%8E%B7%E5%8F%96server%E5%A0%86%E6%A0%88%E4%BF%A1%E6%81%AF%E3%80%82-1"><span class="toc-text">attack-code传入hello，获取server堆栈信息。</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BC%96%E5%86%99exploit-py%E6%96%87%E4%BB%B6-1"><span class="toc-text">编写exploit.py文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%9F%E6%88%90badfile%EF%BC%8C%E8%8E%B7%E5%8F%96%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%9D%83%E9%99%90%E3%80%82-1"><span class="toc-text">生成badfile，获取服务器权限。</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-Task6-Level-5-Attack"><span class="toc-text">6. Task6 Level-5 Attack</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%89%93%E5%BC%80%E5%9C%B0%E5%9D%80%E9%9A%8F%E6%9C%BA%E5%8C%96%E3%80%82"><span class="toc-text">打开地址随机化。</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#attack-code%E4%BC%A0%E5%85%A5hello%EF%BC%8C%E8%8E%B7%E5%8F%96server%E5%A0%86%E6%A0%88%E4%BF%A1%E6%81%AF%E3%80%82-2"><span class="toc-text">attack-code传入hello，获取server堆栈信息。</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BC%96%E5%86%99exploit-py%E6%96%87%E4%BB%B6%E3%80%82-2"><span class="toc-text">编写exploit.py文件。</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%9F%E6%88%90badfile%EF%BC%8C%E8%BF%90%E8%A1%8C%E8%84%9A%E6%9C%ACbrute-force-sh%E4%B8%8D%E6%96%AD%E5%90%91server%E4%BC%A0%E5%85%A5badfile%E3%80%82"><span class="toc-text">生成badfile，运行脚本brute-force.sh不断向server传入badfile。</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-Task7-Level-6-Attack"><span class="toc-text">7.	Task7 Level-6 Attack</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9C%A8server-code%E7%9B%AE%E5%BD%95%E4%B8%8B%EF%BC%9A"><span class="toc-text">在server-code目录下：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9C%A8shellcode%E7%9B%AE%E5%BD%95%E4%B8%8B%EF%BC%9A"><span class="toc-text">在shellcode目录下：</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/posts/steg_lsb/" title="图像空域隐写技术：LSB及其改进"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/cover/6.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="图像空域隐写技术：LSB及其改进"/></a><div class="content"><a class="title" href="/posts/steg_lsb/" title="图像空域隐写技术：LSB及其改进">图像空域隐写技术：LSB及其改进</a><time datetime="2024-01-11T16:00:00.000Z" title="发表于 2024-01-12 00:00:00">2024-01-12</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/steg/" title="信息隐藏"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/cover/6.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="信息隐藏"/></a><div class="content"><a class="title" href="/posts/steg/" title="信息隐藏">信息隐藏</a><time datetime="2024-01-10T16:00:00.000Z" title="发表于 2024-01-11 00:00:00">2024-01-11</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/steg_dct/" title="图像频域隐写技术：DCT系数隐写"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/cover/6.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="图像频域隐写技术：DCT系数隐写"/></a><div class="content"><a class="title" href="/posts/steg_dct/" title="图像频域隐写技术：DCT系数隐写">图像频域隐写技术：DCT系数隐写</a><time datetime="2024-01-10T16:00:00.000Z" title="发表于 2024-01-11 00:00:00">2024-01-11</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/seed_spectre/" title="SEED：Spectre_Attack"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/cover/5.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="SEED：Spectre_Attack"/></a><div class="content"><a class="title" href="/posts/seed_spectre/" title="SEED：Spectre_Attack">SEED：Spectre_Attack</a><time datetime="2023-12-31T16:00:00.000Z" title="发表于 2024-01-01 00:00:00">2024-01-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/network_dns/" title="无题"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/1.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="无题"/></a><div class="content"><a class="title" href="/posts/network_dns/" title="无题">无题</a><time datetime="2023-12-03T03:18:42.811Z" title="发表于 2023-12-03 11:18:42">2023-12-03</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('/img/5.jpg')"><div id="footer-wrap"><div class="copyright">&copy;2023 - 2024 By 良月</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: 'O8LBtcEHpDlrpdpmT4vFkCno-gzGzoHsz',
+      appKey: 'YYdyOhbCGoVEYggTt2icfUHj',
+      avatar: 'mp',
+      serverURLs: 'https://o8lbtceh.lc-cn-n1-shared.com',
+      emojiMaps: "",
+      path: window.location.pathname,
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !true) {
+  if (true) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script><script>function loadDisqus () {
+  const disqus_config = function () {
+    this.page.url = 'http://yangcheneee.github.io/posts/os_stackoverflow/'
+    this.page.identifier = '/posts/os_stackoverflow/'
+    this.page.title = 'Buffer Overflow Attack Lab (Server Version)'
+  }
+
+  const disqusReset = () => {
+    DISQUS.reset({
+      reload: true,
+      config: disqus_config
+    })
+  }
+
+  btf.addModeChange('disqus', disqusReset)
+
+  if (window.DISQUS) disqusReset()
+  else {
+    (function() { 
+      var d = document, s = d.createElement('script');
+      s.src = 'https://.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  }
+}
+
+if ('Valine' === 'Disqus' || !true) {
+  if (true) btf.loadComment(document.getElementById('disqus_thread'), loadDisqus)
+  else loadDisqus()
+} else {
+  function loadOtherComment () {
+    loadDisqus()
+  }
+}
+</script></div><script src="https://cdn.jsdelivr.net/npm/blueimp-md5/js/md5.min.js"></script><script>window.addEventListener('load', () => {
+  const changeContent = (content) => {
+    if (content === '') return content
+
+    content = content.replace(/<img.*?src="(.*?)"?[^\>]+>/ig, '[图片]') // replace image link
+    content = content.replace(/<a[^>]+?href=["']?([^"']+)["']?[^>]*>([^<]+)<\/a>/gi, '[链接]') // replace url
+    content = content.replace(/<pre><code>.*?<\/pre>/gi, '[代码]') // replace code
+    content = content.replace(/<[^>]+>/g,"") // remove html tag
+
+    if (content.length > 150) {
+      content = content.substring(0,150) + '...'
+    }
+    return content
+  }
+
+  const getIcon = (icon, mail) => {
+    if (icon) return icon
+    let defaultIcon = '?d=mp'
+    let iconUrl = `https://gravatar.loli.net/avatar/${md5(mail.toLowerCase()) + defaultIcon}`
+    return iconUrl
+  }
+
+  const generateHtml = array => {
+    let result = ''
+
+    if (array.length) {
+      for (let i = 0; i < array.length; i++) {
+        result += '<div class=\'aside-list-item\'>'
+
+        if (true) {
+          const name = 'data-lazy-src'
+          result += `<a href='${array[i].url}' class='thumbnail'><img ${name}='${array[i].avatar}' alt='${array[i].nick}'></a>`
+        }
+
+        result += `<div class='content'>
+        <a class='comment' href='${array[i].url}' title='${array[i].content}'>${array[i].content}</a>
+        <div class='name'><span>${array[i].nick} / </span><time datetime="${array[i].date}">${btf.diffDate(array[i].date, true)}</time></div>
+        </div></div>`
+      }
+    } else {
+      result += '没有评论'
+    }
+
+    let $dom = document.querySelector('#card-newest-comments .aside-list')
+    $dom.innerHTML= result
+    window.lazyLoadInstance && window.lazyLoadInstance.update()
+    window.pjax && window.pjax.refresh($dom)
+  }
+
+  const getComment = () => {
+    const serverURL = 'https://o8lbtceh.lc-cn-n1-shared.com'
+
+    var settings = {
+      "method": "GET",
+      "headers": {
+        "X-LC-Id": 'O8LBtcEHpDlrpdpmT4vFkCno-gzGzoHsz',
+        "X-LC-Key": 'YYdyOhbCGoVEYggTt2icfUHj',
+        "Content-Type": "application/json"
+      },
+    }
+
+    fetch(`${serverURL}/1.1/classes/Comment?limit=6&order=-createdAt`,settings)
+      .then(response => response.json())
+      .then(data => {
+        const valineArray = data.results.map(function (e) {
+          return {
+            'avatar': getIcon(e.QQAvatar, e.mail),
+            'content': changeContent(e.comment),
+            'nick': e.nick,
+            'url': e.url + '#' + e.objectId,
+            'date': e.updatedAt,
+          }
+        })
+        saveToLocal.set('valine-newest-comments', JSON.stringify(valineArray), 10/(60*24))
+        generateHtml(valineArray)
+      }).catch(e => {
+        const $dom = document.querySelector('#card-newest-comments .aside-list')
+        $dom.textContent= "无法获取评论，请确认相关配置是否正确"
+      }) 
+  }
+
+  const newestCommentInit = () => {
+    if (document.querySelector('#card-newest-comments .aside-list')) {
+      const data = saveToLocal.get('valine-newest-comments')
+      if (data) {
+        generateHtml(JSON.parse(data))
+      } else {
+        getComment()
+      }
+    }
+  }
+
+  newestCommentInit()
+  document.addEventListener('pjax:complete', newestCommentInit)
+})</script><div class="aplayer no-destroy" data-id="8674547170" data-server="netease" data-type="playlist" data-fixed="true" data-autoplay="true" data-lrcType="-1"> </div><canvas class="fireworks" mobile="false"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/fireworks.min.js"></script><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-nest.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = false;
+POWERMODE.mobile = true;
+document.body.addEventListener('input', POWERMODE);
+</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/metingjs/dist/Meting.min.js"></script><script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script><script>let pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener scroll 
+  window.tocScrollFn && window.removeEventListener('scroll', window.tocScrollFn)
+  window.scrollCollect && window.removeEventListener('scroll', scrollCollect)
+
+  document.getElementById('rightside').style.cssText = "opacity: ''; transform: ''"
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+  typeof disqusjs === 'object' && disqusjs.destroy()
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+})
+
+document.addEventListener('pjax:error', (e) => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div class="no-result" id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div></body></html>
