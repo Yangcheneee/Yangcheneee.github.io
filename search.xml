@@ -31,31 +31,6 @@
     
     
     <entry>
-      <title>信息隐藏</title>
-      <link href="/2024/01/11/steg/"/>
-      <url>/2024/01/11/steg/</url>
-      
-        <content type="html"><![CDATA[<h1 id="技术概述"><a href="#技术概述" class="headerlink" title="技术概述"></a>技术概述</h1><p>信息隐藏有两个具体的应用方面，隐写术和数字水印。</p><p>隐写术用于秘密的隐藏在正常的载体文件中，比如文档，图片，音频，视频等文件，为了秘密的传输信息而不被发现。</p><p>数字水印一般用作版权保护，将水印可见或者不可见的隐写于载体文件中，当发生盗版时可以溯源盗版方。然而对抗数字水印的对抗技术也很多，比如加入各种噪声，使用手机拍摄文件，这些都是数字水印需要克服的问题。</p><h3 id="课程笔记"><a href="#课程笔记" class="headerlink" title="课程笔记"></a>课程笔记</h3><p>(⊙o⊙)…</p><h3 id="视频资料"><a href="#视频资料" class="headerlink" title="视频资料"></a>视频资料</h3><p><a href="https://www.bilibili.com/video/BV1Su411X7vY/">隐写术鉴赏</a></p><p><a href="https://www.bilibili.com/video/BV17v411p7gV/">jpeg-dct</a></p><p><a href="https://www.bilibili.com/video/BV1TZ4y1S7iG/">【中英双字】JPEG算法原理 jpeg图片是如何压缩的？</a></p><p><a href="https://www.bilibili.com/video/BV1iv4y1N7sq/">JPEG不可思议的压缩率——归功于信号处理理论 @圆桌字幕组</a></p><p><a href="https://www.bilibili.com/video/BV17M4y1u7Ek/">JPEG 有损压缩 离散余弦变换 DCT 一条视频讲清楚</a></p><p><a href="https://www.bilibili.com/video/BV1AY411S75C/">“电子包浆”是因为被反复压缩吗？其实没那么简单</a></p><h3 id="博客"><a href="#博客" class="headerlink" title="博客"></a>博客</h3><p>链接1<br>链接2<br>链接3</p>]]></content>
-      
-      
-      <categories>
-          
-          <category> 信息隐藏 </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> 信息隐藏 </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
       <title>图像频域隐写技术：DCT系数隐写</title>
       <link href="/2024/01/11/steg_dct/"/>
       <url>/2024/01/11/steg_dct/</url>
@@ -75,6 +50,31 @@
             <tag> 信息隐藏 </tag>
             
             <tag> DCT </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>信息隐藏</title>
+      <link href="/2024/01/11/steg/"/>
+      <url>/2024/01/11/steg/</url>
+      
+        <content type="html"><![CDATA[<h1 id="技术概述"><a href="#技术概述" class="headerlink" title="技术概述"></a>技术概述</h1><p>信息隐藏有两个具体的应用方面，隐写术和数字水印。</p><p>隐写术用于秘密的隐藏在正常的载体文件中，比如文档，图片，音频，视频等文件，为了秘密的传输信息而不被发现。</p><p>数字水印一般用作版权保护，将水印可见或者不可见的隐写于载体文件中，当发生盗版时可以溯源盗版方。然而对抗数字水印的对抗技术也很多，比如加入各种噪声，使用手机拍摄文件，这些都是数字水印需要克服的问题。</p><h3 id="课程笔记"><a href="#课程笔记" class="headerlink" title="课程笔记"></a>课程笔记</h3><p>(⊙o⊙)…</p><h3 id="视频资料"><a href="#视频资料" class="headerlink" title="视频资料"></a>视频资料</h3><p><a href="https://www.bilibili.com/video/BV1Su411X7vY/">隐写术鉴赏</a></p><p><a href="https://www.bilibili.com/video/BV17v411p7gV/">jpeg-dct</a></p><p><a href="https://www.bilibili.com/video/BV1TZ4y1S7iG/">【中英双字】JPEG算法原理 jpeg图片是如何压缩的？</a></p><p><a href="https://www.bilibili.com/video/BV1iv4y1N7sq/">JPEG不可思议的压缩率——归功于信号处理理论 @圆桌字幕组</a></p><p><a href="https://www.bilibili.com/video/BV17M4y1u7Ek/">JPEG 有损压缩 离散余弦变换 DCT 一条视频讲清楚</a></p><p><a href="https://www.bilibili.com/video/BV1AY411S75C/">“电子包浆”是因为被反复压缩吗？其实没那么简单</a></p><h3 id="博客"><a href="#博客" class="headerlink" title="博客"></a>博客</h3><p>链接1<br>链接2<br>链接3</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 信息隐藏 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 信息隐藏 </tag>
             
         </tags>
       
@@ -220,9 +220,9 @@
       
         <tags>
             
-            <tag> Web </tag>
-            
             <tag> XSS </tag>
+            
+            <tag> Web </tag>
             
             <tag> Web安全 </tag>
             
@@ -390,52 +390,17 @@
       
         <tags>
             
-            <tag> Python </tag>
-            
             <tag> AI </tag>
             
             <tag> 人工智能 </tag>
             
             <tag> 机器学习 </tag>
+            
+            <tag> Python </tag>
             
             <tag> sklearn </tag>
             
             <tag> url </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>XSS注入检测</title>
-      <link href="/2023/10/10/ai_xssdetection/"/>
-      <url>/2023/10/10/ai_xssdetection/</url>
-      
-        <content type="html"><![CDATA[<h1 id="源代码"><a href="#源代码" class="headerlink" title="源代码"></a>源代码</h1><p><em><strong>pd对象和python字典类似，行为属性，列为列表</strong></em></p><h3 id="pd-read-csv-函数："><a href="#pd-read-csv-函数：" class="headerlink" title="pd.read_csv()函数："></a>pd.read_csv()函数：</h3><ul><li>参数header：pandas是否选择csv文件第一行作为列名</li><li>参数usecols：pandas读取csv文件列</li></ul><h3 id="pd-to-csv-函数："><a href="#pd-to-csv-函数：" class="headerlink" title="pd.to_csv()函数："></a>pd.to_csv()函数：</h3><ul><li>参数header：pandas是否将属性名写入csv文件</li><li>参数columns：pandas写入csv文件的属性（<em>影响写入的顺序</em>）</li><li>参数index：pandas是否写入序号</li></ul><pre><code class="python"># 数据提取&amp;处理import pandas as pdfrom sklearn.utils import shuffle# 特征提取import refrom sklearn.feature_extraction.text import TfidfVectorizer# 训练集和测试集划分from sklearn.model_selection import train_test_split# 逻辑回归算法训练模型from sklearn.linear_model import LogisticRegression# 模型评估报告打印from sklearn.metrics import classification_report# 模型保存import pickledef read_csv(file_path, lable):    data = pd.read_csv(file_path, header=None, names=[&quot;str&quot;], usecols=[0])    data[&quot;lable&quot;] = lable    return data# normal = read_csv(&quot;dmzo_nomal.csv&quot;, &quot;normal&quot;)# xss = read_csv(&quot;xssed.csv&quot;, &quot;xss&quot;)def data_process(normal, xss):    all = pd.concat([normal, xss])    data = all[&quot;str&quot;]    lable = all[&quot;lable&quot;]    data, lable = shuffle(data, lable, random_state=42)    return data, lable# data ,lable = data_process(normal, xss)def data_tokenizer(data):    return re.findall(r&#39;\w+&#39;, data)def data_vectorizer(data,lable):    vectorizer = TfidfVectorizer(tokenizer=data_tokenizer)    x = vectorizer.fit_transform(data)    y = lable    return x, y, vectorizer# x, y ,vectorizer = data_vectorizer(data, lable)# x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.3)def model_train(x_train, y_train):    model = LogisticRegression()    model.fit(x_train, y_train)    return model# model = model_train(x_train, y_train)def model_evaluate(x_test,y_test):    y_predict = model.predict(x_test)    report = classification_report(y_test, y_predict, labels=[&quot;xss&quot;, &quot;normal&quot;], target_names=[&quot;xss字符串&quot;, &quot;正常字符串&quot;],digits=2)    return report# report = model_evaluate(x_test, y_test)# print(report)def model_save(model, vectorizer):    save = input(&quot;是否保存训练的模型（y/n）：&quot;)    if save == &quot;y&quot; or &quot;Y&quot;:        print(save)        with open(&#39;model.pkl&#39;, &#39;wb&#39;) as f:            pickle.dump(model, f)        with open(&#39;vectorizer.pkl&#39;, &#39;wb&#39;) as f:            pickle.dump(vectorizer, f)        print(&quot;保存成功！&quot;)        return True    else:        return False# model_save(model, vectorizer)if __name__ == &quot;__main__&quot;:    print(&quot;-------XSS检测-------&quot;)    while True:        with open(&quot;model.pkl&quot;, &#39;rb&#39;) as f:            model = pickle.load(f)        with open(&#39;vectorizer.pkl&#39;, &#39;rb&#39;) as f:            vectorizer = pickle.load(f)        str_list = input(&quot;输入需要检测的字符串:&quot;).split(&quot;\n&quot;)        x = vectorizer.transform(str_list)        y_predict = model.predict(x)        print(&quot;检测结果为：&quot;,y_predict)</code></pre>]]></content>
-      
-      
-      <categories>
-          
-          <category> AI </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> Python </tag>
-            
-            <tag> AI </tag>
-            
-            <tag> 人工智能 </tag>
-            
-            <tag> 机器学习 </tag>
-            
-            <tag> sklearn </tag>
-            
-            <tag> XSS </tag>
             
         </tags>
       
@@ -460,11 +425,46 @@
       
         <tags>
             
+            <tag> 机器学习 </tag>
+            
             <tag> Python </tag>
+            
+            <tag> sklearn </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>XSS注入检测</title>
+      <link href="/2023/10/10/ai_xssdetection/"/>
+      <url>/2023/10/10/ai_xssdetection/</url>
+      
+        <content type="html"><![CDATA[<h1 id="源代码"><a href="#源代码" class="headerlink" title="源代码"></a>源代码</h1><p><em><strong>pd对象和python字典类似，行为属性，列为列表</strong></em></p><h3 id="pd-read-csv-函数："><a href="#pd-read-csv-函数：" class="headerlink" title="pd.read_csv()函数："></a>pd.read_csv()函数：</h3><ul><li>参数header：pandas是否选择csv文件第一行作为列名</li><li>参数usecols：pandas读取csv文件列</li></ul><h3 id="pd-to-csv-函数："><a href="#pd-to-csv-函数：" class="headerlink" title="pd.to_csv()函数："></a>pd.to_csv()函数：</h3><ul><li>参数header：pandas是否将属性名写入csv文件</li><li>参数columns：pandas写入csv文件的属性（<em>影响写入的顺序</em>）</li><li>参数index：pandas是否写入序号</li></ul><pre><code class="python"># 数据提取&amp;处理import pandas as pdfrom sklearn.utils import shuffle# 特征提取import refrom sklearn.feature_extraction.text import TfidfVectorizer# 训练集和测试集划分from sklearn.model_selection import train_test_split# 逻辑回归算法训练模型from sklearn.linear_model import LogisticRegression# 模型评估报告打印from sklearn.metrics import classification_report# 模型保存import pickledef read_csv(file_path, lable):    data = pd.read_csv(file_path, header=None, names=[&quot;str&quot;], usecols=[0])    data[&quot;lable&quot;] = lable    return data# normal = read_csv(&quot;dmzo_nomal.csv&quot;, &quot;normal&quot;)# xss = read_csv(&quot;xssed.csv&quot;, &quot;xss&quot;)def data_process(normal, xss):    all = pd.concat([normal, xss])    data = all[&quot;str&quot;]    lable = all[&quot;lable&quot;]    data, lable = shuffle(data, lable, random_state=42)    return data, lable# data ,lable = data_process(normal, xss)def data_tokenizer(data):    return re.findall(r&#39;\w+&#39;, data)def data_vectorizer(data,lable):    vectorizer = TfidfVectorizer(tokenizer=data_tokenizer)    x = vectorizer.fit_transform(data)    y = lable    return x, y, vectorizer# x, y ,vectorizer = data_vectorizer(data, lable)# x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.3)def model_train(x_train, y_train):    model = LogisticRegression()    model.fit(x_train, y_train)    return model# model = model_train(x_train, y_train)def model_evaluate(x_test,y_test):    y_predict = model.predict(x_test)    report = classification_report(y_test, y_predict, labels=[&quot;xss&quot;, &quot;normal&quot;], target_names=[&quot;xss字符串&quot;, &quot;正常字符串&quot;],digits=2)    return report# report = model_evaluate(x_test, y_test)# print(report)def model_save(model, vectorizer):    save = input(&quot;是否保存训练的模型（y/n）：&quot;)    if save == &quot;y&quot; or &quot;Y&quot;:        print(save)        with open(&#39;model.pkl&#39;, &#39;wb&#39;) as f:            pickle.dump(model, f)        with open(&#39;vectorizer.pkl&#39;, &#39;wb&#39;) as f:            pickle.dump(vectorizer, f)        print(&quot;保存成功！&quot;)        return True    else:        return False# model_save(model, vectorizer)if __name__ == &quot;__main__&quot;:    print(&quot;-------XSS检测-------&quot;)    while True:        with open(&quot;model.pkl&quot;, &#39;rb&#39;) as f:            model = pickle.load(f)        with open(&#39;vectorizer.pkl&#39;, &#39;rb&#39;) as f:            vectorizer = pickle.load(f)        str_list = input(&quot;输入需要检测的字符串:&quot;).split(&quot;\n&quot;)        x = vectorizer.transform(str_list)        y_predict = model.predict(x)        print(&quot;检测结果为：&quot;,y_predict)</code></pre>]]></content>
+      
+      
+      <categories>
+          
+          <category> AI </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> AI </tag>
+            
+            <tag> 人工智能 </tag>
             
             <tag> 机器学习 </tag>
             
+            <tag> Python </tag>
+            
             <tag> sklearn </tag>
+            
+            <tag> XSS </tag>
             
         </tags>
       
@@ -489,19 +489,19 @@
       
         <tags>
             
-            <tag> Python </tag>
-            
-            <tag> spam </tag>
-            
-            <tag> jieba </tag>
-            
             <tag> AI </tag>
             
             <tag> 人工智能 </tag>
             
             <tag> 机器学习 </tag>
             
+            <tag> Python </tag>
+            
             <tag> sklearn </tag>
+            
+            <tag> spam </tag>
+            
+            <tag> jieba </tag>
             
         </tags>
       
@@ -537,37 +537,6 @@
     
     
     <entry>
-      <title>ARP毒化</title>
-      <link href="/2023/09/26/network_ARP/"/>
-      <url>/2023/09/26/network_ARP/</url>
-      
-        <content type="html"><![CDATA[<h1 id="一-ARP协议概述"><a href="#一-ARP协议概述" class="headerlink" title="一. ARP协议概述"></a>一. ARP协议概述</h1><p>建议你先学习计算机网络以及ARP协议部分。</p><h2 id="1-arp缓存"><a href="#1-arp缓存" class="headerlink" title="1. arp缓存"></a>1. arp缓存</h2><h3 id="查看你的主机arp缓存"><a href="#查看你的主机arp缓存" class="headerlink" title="查看你的主机arp缓存"></a>查看你的主机arp缓存</h3><p>arp缓存表存储在主机的内存中。</p><ul><li>对于Windows操作系统，你可以在终端中使用命令 <em><strong>arp -a</strong></em> 查看电脑的arp缓存表。</li><li>对于Linux操作系统，使用命令 <em><strong>arp</strong></em> 即可。</li></ul><h3 id="你的arp缓存表的内容"><a href="#你的arp缓存表的内容" class="headerlink" title="你的arp缓存表的内容"></a>你的arp缓存表的内容</h3><p>一般来说，arp缓存只关心子网下其他主机。</p><ul><li>对于路由器下的子网，arp缓存其他主机的MAC地址为路由器（网关）的MAC地址，因为主机访问其他主机的下一跳是路由器。</li><li>对于交换机下的子网，arp缓存其他主机的真实MAC地址。</li><li>当你访问子网外的IP地址时，MAC地址默认为网关地址。</li></ul><h2 id="2-arp报文"><a href="#2-arp报文" class="headerlink" title="2. arp报文"></a>2. arp报文</h2><p>你可以使用python的scapy库写一个arp请求函数，这非常简单。</p><pre><code class="python">def arp(ipy):    dst_ip_list = IPY(ipy)    alive_ip_list = []    for dst_ip in dst_ip_list:        pkt = ARP(pdst=str(dst_ip))        # pkt.show()        ans = sr1(pkt, timeout=1, verbose=False)        if ans is not None:            # ans.summary()            # ans.show()            alive_ip_list.append(dst_ip)            print(dst_ip, &#39;is up&#39;)        else:            print(dst_ip, &#39;is closed&#39;)    return alive_ip_list</code></pre><p>构造一个请求，通过warsahrk抓包，你可以对协议的实现有更多了解。</p><h1 id="二-断断室友的网？刑"><a href="#二-断断室友的网？刑" class="headerlink" title="二. 断断室友的网？刑"></a>二. 断断室友的网？刑</h1><p><em><strong>本次实验在虚拟环境中完成，你需要知道未被授权的攻击不被允许。</strong></em></p><p>当你了解arp缓存和arp报文相关内容以后，下面这一步非常简单。</p><p>这里有两台虚拟机。Ubuntu（20.04）发起arp攻击；Windows（7）作为被攻击对象，并查看被攻击后的结果。</p><p>下面是实操部分：</p><h2 id="1-Ubuntu发起攻击"><a href="#1-Ubuntu发起攻击" class="headerlink" title="1. Ubuntu发起攻击"></a>1. Ubuntu发起攻击</h2><h3 id="安装dsniff"><a href="#安装dsniff" class="headerlink" title="安装dsniff"></a>安装dsniff</h3><p>在终端输入命令 <em><strong>sudo apt install dsniff</strong></em>，这里我已经安装完成。<br><img src="/img/network_arp/image.png" alt="Alt text"></p><h3 id="使用dsniff毒化目标主机"><a href="#使用dsniff毒化目标主机" class="headerlink" title="使用dsniff毒化目标主机"></a>使用dsniff毒化目标主机</h3><p><em><strong>网关IP：192.168.59.2</strong></em></p><p><em><strong>目标主机IP：192.168.59.137</strong></em></p><p><img src="/img/network_arp/image-2.png" alt="Alt text"></p><h2 id="2-Windows受到攻击"><a href="#2-Windows受到攻击" class="headerlink" title="2. Windows受到攻击"></a>2. Windows受到攻击</h2><h3 id="受到攻击之前"><a href="#受到攻击之前" class="headerlink" title="受到攻击之前"></a>受到攻击之前</h3><p>Windows虚拟机可以正常访问网络，这里访问百度作为测试</p><p><img src="/img/network_arp/image-1.png" alt="Alt text"></p><h3 id="受到攻击之后"><a href="#受到攻击之后" class="headerlink" title="受到攻击之后"></a>受到攻击之后</h3><p>Windows虚拟机无法正常访问网络</p><p><img src="/img/network_arp/image-3.png" alt="Alt text"></p><h3 id="看看Windows虚拟机arp缓存表"><a href="#看看Windows虚拟机arp缓存表" class="headerlink" title="看看Windows虚拟机arp缓存表"></a>看看Windows虚拟机arp缓存表</h3><p>可以看到Windows主机arp缓存被毒化之后网关IP映射的MAC地址变成了发起攻击Ubuntu的MAC地址。因此Windows虚拟机访问其他主机时，流量指向发起攻击的Ubuntu主机。利用这一点我们还可以做一些事情，比如中间人攻击。</p><p><img src="/img/network_arp/image-4.png" alt="Alt text"></p>]]></content>
-      
-      
-      <categories>
-          
-          <category> 计算机网络 </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> ARP </tag>
-            
-            <tag> internet </tag>
-            
-            <tag> 计算机网络 </tag>
-            
-            <tag> Protocol </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
       <title>DHCP安全性分析</title>
       <link href="/2023/09/26/network_DHCP/"/>
       <url>/2023/09/26/network_DHCP/</url>
@@ -584,13 +553,44 @@
       
         <tags>
             
-            <tag> internet </tag>
-            
             <tag> 计算机网络 </tag>
+            
+            <tag> internet </tag>
             
             <tag> Protocol </tag>
             
             <tag> DHCP </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>ARP毒化</title>
+      <link href="/2023/09/26/network_ARP/"/>
+      <url>/2023/09/26/network_ARP/</url>
+      
+        <content type="html"><![CDATA[<h1 id="一-ARP协议概述"><a href="#一-ARP协议概述" class="headerlink" title="一. ARP协议概述"></a>一. ARP协议概述</h1><p>建议你先学习计算机网络以及ARP协议部分。</p><h2 id="1-arp缓存"><a href="#1-arp缓存" class="headerlink" title="1. arp缓存"></a>1. arp缓存</h2><h3 id="查看你的主机arp缓存"><a href="#查看你的主机arp缓存" class="headerlink" title="查看你的主机arp缓存"></a>查看你的主机arp缓存</h3><p>arp缓存表存储在主机的内存中。</p><ul><li>对于Windows操作系统，你可以在终端中使用命令 <em><strong>arp -a</strong></em> 查看电脑的arp缓存表。</li><li>对于Linux操作系统，使用命令 <em><strong>arp</strong></em> 即可。</li></ul><h3 id="你的arp缓存表的内容"><a href="#你的arp缓存表的内容" class="headerlink" title="你的arp缓存表的内容"></a>你的arp缓存表的内容</h3><p>一般来说，arp缓存只关心子网下其他主机。</p><ul><li>对于路由器下的子网，arp缓存其他主机的MAC地址为路由器（网关）的MAC地址，因为主机访问其他主机的下一跳是路由器。</li><li>对于交换机下的子网，arp缓存其他主机的真实MAC地址。</li><li>当你访问子网外的IP地址时，MAC地址默认为网关地址。</li></ul><h2 id="2-arp报文"><a href="#2-arp报文" class="headerlink" title="2. arp报文"></a>2. arp报文</h2><p>你可以使用python的scapy库写一个arp请求函数，这非常简单。</p><pre><code class="python">def arp(ipy):    dst_ip_list = IPY(ipy)    alive_ip_list = []    for dst_ip in dst_ip_list:        pkt = ARP(pdst=str(dst_ip))        # pkt.show()        ans = sr1(pkt, timeout=1, verbose=False)        if ans is not None:            # ans.summary()            # ans.show()            alive_ip_list.append(dst_ip)            print(dst_ip, &#39;is up&#39;)        else:            print(dst_ip, &#39;is closed&#39;)    return alive_ip_list</code></pre><p>构造一个请求，通过warsahrk抓包，你可以对协议的实现有更多了解。</p><h1 id="二-断断室友的网？刑"><a href="#二-断断室友的网？刑" class="headerlink" title="二. 断断室友的网？刑"></a>二. 断断室友的网？刑</h1><p><em><strong>本次实验在虚拟环境中完成，你需要知道未被授权的攻击不被允许。</strong></em></p><p>当你了解arp缓存和arp报文相关内容以后，下面这一步非常简单。</p><p>这里有两台虚拟机。Ubuntu（20.04）发起arp攻击；Windows（7）作为被攻击对象，并查看被攻击后的结果。</p><p>下面是实操部分：</p><h2 id="1-Ubuntu发起攻击"><a href="#1-Ubuntu发起攻击" class="headerlink" title="1. Ubuntu发起攻击"></a>1. Ubuntu发起攻击</h2><h3 id="安装dsniff"><a href="#安装dsniff" class="headerlink" title="安装dsniff"></a>安装dsniff</h3><p>在终端输入命令 <em><strong>sudo apt install dsniff</strong></em>，这里我已经安装完成。<br><img src="/img/network_arp/image.png" alt="Alt text"></p><h3 id="使用dsniff毒化目标主机"><a href="#使用dsniff毒化目标主机" class="headerlink" title="使用dsniff毒化目标主机"></a>使用dsniff毒化目标主机</h3><p><em><strong>网关IP：192.168.59.2</strong></em></p><p><em><strong>目标主机IP：192.168.59.137</strong></em></p><p><img src="/img/network_arp/image-2.png" alt="Alt text"></p><h2 id="2-Windows受到攻击"><a href="#2-Windows受到攻击" class="headerlink" title="2. Windows受到攻击"></a>2. Windows受到攻击</h2><h3 id="受到攻击之前"><a href="#受到攻击之前" class="headerlink" title="受到攻击之前"></a>受到攻击之前</h3><p>Windows虚拟机可以正常访问网络，这里访问百度作为测试</p><p><img src="/img/network_arp/image-1.png" alt="Alt text"></p><h3 id="受到攻击之后"><a href="#受到攻击之后" class="headerlink" title="受到攻击之后"></a>受到攻击之后</h3><p>Windows虚拟机无法正常访问网络</p><p><img src="/img/network_arp/image-3.png" alt="Alt text"></p><h3 id="看看Windows虚拟机arp缓存表"><a href="#看看Windows虚拟机arp缓存表" class="headerlink" title="看看Windows虚拟机arp缓存表"></a>看看Windows虚拟机arp缓存表</h3><p>可以看到Windows主机arp缓存被毒化之后网关IP映射的MAC地址变成了发起攻击Ubuntu的MAC地址。因此Windows虚拟机访问其他主机时，流量指向发起攻击的Ubuntu主机。利用这一点我们还可以做一些事情，比如中间人攻击。</p><p><img src="/img/network_arp/image-4.png" alt="Alt text"></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 计算机网络 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 计算机网络 </tag>
+            
+            <tag> internet </tag>
+            
+            <tag> Protocol </tag>
+            
+            <tag> ARP </tag>
             
         </tags>
       
@@ -615,11 +615,11 @@
       
         <tags>
             
+            <tag> internet </tag>
+            
             <tag> 网络 </tag>
             
             <tag> network </tag>
-            
-            <tag> internet </tag>
             
         </tags>
       
@@ -646,15 +646,15 @@
             
             <tag> Python </tag>
             
+            <tag> ARP </tag>
+            
+            <tag> Nmap </tag>
+            
             <tag> Scapy </tag>
             
             <tag> TCP </tag>
             
             <tag> ICMP </tag>
-            
-            <tag> ARP </tag>
-            
-            <tag> Nmap </tag>
             
         </tags>
       
@@ -679,11 +679,11 @@
       
         <tags>
             
+            <tag> Python </tag>
+            
             <tag> Web </tag>
             
             <tag> 爬虫 </tag>
-            
-            <tag> Python </tag>
             
             <tag> Requests </tag>
             
@@ -809,9 +809,9 @@
             
             <tag> Linux </tag>
             
-            <tag> 音乐 </tag>
-            
             <tag> 车载U盘 </tag>
+            
+            <tag> 音乐 </tag>
             
         </tags>
       
@@ -1010,6 +1010,37 @@
     
     
     <entry>
+      <title>AI绘画</title>
+      <link href="/2023/08/25/ai_aipainting/"/>
+      <url>/2023/08/25/ai_aipainting/</url>
+      
+        <content type="html"><![CDATA[<h1 id="在线AI绘画"><a href="#在线AI绘画" class="headerlink" title="在线AI绘画"></a>在线AI绘画</h1><h2 id="网址：LiblibAI·哩布哩布AI-中国领先原创AI模型分享社区"><a href="#网址：LiblibAI·哩布哩布AI-中国领先原创AI模型分享社区" class="headerlink" title="网址：LiblibAI·哩布哩布AI-中国领先原创AI模型分享社区"></a>网址：<a href="LiblibAI%C2%B7%E5%93%A9%E5%B8%83%E5%93%A9%E5%B8%83AI-%E4%B8%AD%E5%9B%BD%E9%A2%86%E5%85%88%E5%8E%9F%E5%88%9BAI%E6%A8%A1%E5%9E%8B%E5%88%86%E4%BA%AB%E7%A4%BE%E5%8C%BA">LiblibAI·哩布哩布AI-中国领先原创AI模型分享社区</a></h2><h2 id="教程："><a href="#教程：" class="headerlink" title="教程："></a>教程：</h2><h3 id="1-进入绘画页面"><a href="#1-进入绘画页面" class="headerlink" title="1. 进入绘画页面"></a>1. 进入绘画页面</h3><p>点击网址，来到在线 AI 绘画首页。登录你的账号（QQ 就行）。点击右上角<em><strong>在线Stable Diffusion</strong></em>，进入在线绘画页面。</p><p><img src="/img/ai_%E5%9C%A8%E7%BA%BFAI%E7%BB%98%E7%94%BB/image.png" alt="Alt text"></p><p><img src="/img/ai_%E5%9C%A8%E7%BA%BFAI%E7%BB%98%E7%94%BB/image-1.png" alt="Alt text"></p><h3 id="2-选择模型"><a href="#2-选择模型" class="headerlink" title="2. 选择模型"></a>2. 选择模型</h3><p>在首页中选择一个模型，这里选择<em><strong>麦橘写实</strong></em>。<em>不同的模型适用于不同的类型的图画创作。</em></p><p><img src="/img/ai_%E5%9C%A8%E7%BA%BFAI%E7%BB%98%E7%94%BB/image-2.png" alt="Alt text"></p><h3 id="3-复制图片参数"><a href="#3-复制图片参数" class="headerlink" title="3. 复制图片参数"></a>3. 复制图片参数</h3><p>点击模型进入页面查看图片<em><strong>详细信息</strong></em>，这里是图片生成的一些参数，<em><strong>复制</strong></em>就行。</p><p><img src="/img/ai_%E5%9C%A8%E7%BA%BFAI%E7%BB%98%E7%94%BB/image-3.png" alt="Alt text"></p><p><img src="/img/ai_%E5%9C%A8%E7%BA%BFAI%E7%BB%98%E7%94%BB/image-4.png" alt="Alt text"></p><h3 id="4-填写参数绘画"><a href="#4-填写参数绘画" class="headerlink" title="4. 填写参数绘画"></a>4. 填写参数绘画</h3><p>返回绘画页面，<em><strong>Stable Diffusion 模型选择麦橘写实</strong></em>，<em><strong>粘贴</strong></em>刚才复制的的信息。</p><p><img src="/img/ai_%E5%9C%A8%E7%BA%BFAI%E7%BB%98%E7%94%BB/image-9.png" alt="Alt text"></p><p><em>如果你想生成多张图片，修改以下内容。</em></p><p><img src="/img/ai_%E5%9C%A8%E7%BA%BFAI%E7%BB%98%E7%94%BB/image-5.png" alt="Alt text"></p><h3 id="5-耐心等待生成图片"><a href="#5-耐心等待生成图片" class="headerlink" title="5. 耐心等待生成图片"></a>5. 耐心等待生成图片</h3><p>点击<em><strong>生成图片</strong></em>，耐心等待就好了。下面是图片展示，AI绘画并不一定完美，可以 PS等工具完善。</p><p><img src="/img/ai_%E5%9C%A8%E7%BA%BFAI%E7%BB%98%E7%94%BB/image-6.png" alt="Alt text"></p><p><img src="/img/ai_%E5%9C%A8%E7%BA%BFAI%E7%BB%98%E7%94%BB/image-7.png" alt="Alt text"></p><p><img src="/img/ai_%E5%9C%A8%E7%BA%BFAI%E7%BB%98%E7%94%BB/image-8.png" alt="Alt text"></p><h3 id="6-最后"><a href="#6-最后" class="headerlink" title="6.最后"></a>6.最后</h3><p>恭喜你，已经学会了基础的绘图。接下来，选择你喜欢的模型，慢慢了解并调节各种参数，绘画出你喜欢的图片吧！</p><p>对了，上面介绍了文生图模式，图生图模式一样有趣。赶快试试吧，你就是下一个 AI 调教大师。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> AI </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> AI </tag>
+            
+            <tag> AI绘画 </tag>
+            
+            <tag> 在线AI绘画 </tag>
+            
+            <tag> 哩布哩布 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>ChatGPT</title>
       <link href="/2023/08/25/ai_chatgpt/"/>
       <url>/2023/08/25/ai_chatgpt/</url>
@@ -1031,37 +1062,6 @@
             <tag> 人工智能 </tag>
             
             <tag> ChatGPT </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>AI绘画</title>
-      <link href="/2023/08/25/ai_aipainting/"/>
-      <url>/2023/08/25/ai_aipainting/</url>
-      
-        <content type="html"><![CDATA[<h1 id="在线AI绘画"><a href="#在线AI绘画" class="headerlink" title="在线AI绘画"></a>在线AI绘画</h1><h2 id="网址：LiblibAI·哩布哩布AI-中国领先原创AI模型分享社区"><a href="#网址：LiblibAI·哩布哩布AI-中国领先原创AI模型分享社区" class="headerlink" title="网址：LiblibAI·哩布哩布AI-中国领先原创AI模型分享社区"></a>网址：<a href="LiblibAI%C2%B7%E5%93%A9%E5%B8%83%E5%93%A9%E5%B8%83AI-%E4%B8%AD%E5%9B%BD%E9%A2%86%E5%85%88%E5%8E%9F%E5%88%9BAI%E6%A8%A1%E5%9E%8B%E5%88%86%E4%BA%AB%E7%A4%BE%E5%8C%BA">LiblibAI·哩布哩布AI-中国领先原创AI模型分享社区</a></h2><h2 id="教程："><a href="#教程：" class="headerlink" title="教程："></a>教程：</h2><h3 id="1-进入绘画页面"><a href="#1-进入绘画页面" class="headerlink" title="1. 进入绘画页面"></a>1. 进入绘画页面</h3><p>点击网址，来到在线 AI 绘画首页。登录你的账号（QQ 就行）。点击右上角<em><strong>在线Stable Diffusion</strong></em>，进入在线绘画页面。</p><p><img src="/img/ai_%E5%9C%A8%E7%BA%BFAI%E7%BB%98%E7%94%BB/image.png" alt="Alt text"></p><p><img src="/img/ai_%E5%9C%A8%E7%BA%BFAI%E7%BB%98%E7%94%BB/image-1.png" alt="Alt text"></p><h3 id="2-选择模型"><a href="#2-选择模型" class="headerlink" title="2. 选择模型"></a>2. 选择模型</h3><p>在首页中选择一个模型，这里选择<em><strong>麦橘写实</strong></em>。<em>不同的模型适用于不同的类型的图画创作。</em></p><p><img src="/img/ai_%E5%9C%A8%E7%BA%BFAI%E7%BB%98%E7%94%BB/image-2.png" alt="Alt text"></p><h3 id="3-复制图片参数"><a href="#3-复制图片参数" class="headerlink" title="3. 复制图片参数"></a>3. 复制图片参数</h3><p>点击模型进入页面查看图片<em><strong>详细信息</strong></em>，这里是图片生成的一些参数，<em><strong>复制</strong></em>就行。</p><p><img src="/img/ai_%E5%9C%A8%E7%BA%BFAI%E7%BB%98%E7%94%BB/image-3.png" alt="Alt text"></p><p><img src="/img/ai_%E5%9C%A8%E7%BA%BFAI%E7%BB%98%E7%94%BB/image-4.png" alt="Alt text"></p><h3 id="4-填写参数绘画"><a href="#4-填写参数绘画" class="headerlink" title="4. 填写参数绘画"></a>4. 填写参数绘画</h3><p>返回绘画页面，<em><strong>Stable Diffusion 模型选择麦橘写实</strong></em>，<em><strong>粘贴</strong></em>刚才复制的的信息。</p><p><img src="/img/ai_%E5%9C%A8%E7%BA%BFAI%E7%BB%98%E7%94%BB/image-9.png" alt="Alt text"></p><p><em>如果你想生成多张图片，修改以下内容。</em></p><p><img src="/img/ai_%E5%9C%A8%E7%BA%BFAI%E7%BB%98%E7%94%BB/image-5.png" alt="Alt text"></p><h3 id="5-耐心等待生成图片"><a href="#5-耐心等待生成图片" class="headerlink" title="5. 耐心等待生成图片"></a>5. 耐心等待生成图片</h3><p>点击<em><strong>生成图片</strong></em>，耐心等待就好了。下面是图片展示，AI绘画并不一定完美，可以 PS等工具完善。</p><p><img src="/img/ai_%E5%9C%A8%E7%BA%BFAI%E7%BB%98%E7%94%BB/image-6.png" alt="Alt text"></p><p><img src="/img/ai_%E5%9C%A8%E7%BA%BFAI%E7%BB%98%E7%94%BB/image-7.png" alt="Alt text"></p><p><img src="/img/ai_%E5%9C%A8%E7%BA%BFAI%E7%BB%98%E7%94%BB/image-8.png" alt="Alt text"></p><h3 id="6-最后"><a href="#6-最后" class="headerlink" title="6.最后"></a>6.最后</h3><p>恭喜你，已经学会了基础的绘图。接下来，选择你喜欢的模型，慢慢了解并调节各种参数，绘画出你喜欢的图片吧！</p><p>对了，上面介绍了文生图模式，图生图模式一样有趣。赶快试试吧，你就是下一个 AI 调教大师。</p>]]></content>
-      
-      
-      <categories>
-          
-          <category> AI </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> 哩布哩布 </tag>
-            
-            <tag> AI </tag>
-            
-            <tag> AI绘画 </tag>
-            
-            <tag> 在线AI绘画 </tag>
             
         </tags>
       
