@@ -31,6 +31,31 @@
     
     
     <entry>
+      <title>信息隐藏</title>
+      <link href="/2024/01/11/steg/"/>
+      <url>/2024/01/11/steg/</url>
+      
+        <content type="html"><![CDATA[<h1 id="技术概述"><a href="#技术概述" class="headerlink" title="技术概述"></a>技术概述</h1><p>信息隐藏有两个具体的应用方面，隐写术和数字水印。</p><p>隐写术用于秘密的隐藏在正常的载体文件中，比如文档，图片，音频，视频等文件，为了秘密的传输信息而不被发现。</p><p>数字水印一般用作版权保护，将水印可见或者不可见的隐写于载体文件中，当发生盗版时可以溯源盗版方。然而对抗数字水印的对抗技术也很多，比如加入各种噪声，使用手机拍摄文件，这些都是数字水印需要克服的问题。</p><h3 id="课程笔记"><a href="#课程笔记" class="headerlink" title="课程笔记"></a>课程笔记</h3><p>(⊙o⊙)…</p><h3 id="视频资料"><a href="#视频资料" class="headerlink" title="视频资料"></a>视频资料</h3><p><a href="https://www.bilibili.com/video/BV1Su411X7vY/">隐写术鉴赏</a></p><p><a href="https://www.bilibili.com/video/BV17v411p7gV/">jpeg-dct</a></p><p><a href="https://www.bilibili.com/video/BV1TZ4y1S7iG/">【中英双字】JPEG算法原理 jpeg图片是如何压缩的？</a></p><p><a href="https://www.bilibili.com/video/BV1iv4y1N7sq/">JPEG不可思议的压缩率——归功于信号处理理论 @圆桌字幕组</a></p><p><a href="https://www.bilibili.com/video/BV17M4y1u7Ek/">JPEG 有损压缩 离散余弦变换 DCT 一条视频讲清楚</a></p><p><a href="https://www.bilibili.com/video/BV1AY411S75C/">“电子包浆”是因为被反复压缩吗？其实没那么简单</a></p><h3 id="博客"><a href="#博客" class="headerlink" title="博客"></a>博客</h3><p>链接1<br>链接2<br>链接3</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 信息隐藏 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 信息隐藏 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>图像频域隐写技术：DCT系数隐写</title>
       <link href="/2024/01/11/steg_dct/"/>
       <url>/2024/01/11/steg_dct/</url>
@@ -50,31 +75,6 @@
             <tag> 信息隐藏 </tag>
             
             <tag> DCT </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>信息隐藏</title>
-      <link href="/2024/01/11/steg/"/>
-      <url>/2024/01/11/steg/</url>
-      
-        <content type="html"><![CDATA[<h1 id="技术概述"><a href="#技术概述" class="headerlink" title="技术概述"></a>技术概述</h1><p>信息隐藏有两个具体的应用方面，隐写术和数字水印。</p><p>隐写术用于秘密的隐藏在正常的载体文件中，比如文档，图片，音频，视频等文件，为了秘密的传输信息而不被发现。</p><p>数字水印一般用作版权保护，将水印可见或者不可见的隐写于载体文件中，当发生盗版时可以溯源盗版方。然而对抗数字水印的对抗技术也很多，比如加入各种噪声，使用手机拍摄文件，这些都是数字水印需要克服的问题。</p><h3 id="课程笔记"><a href="#课程笔记" class="headerlink" title="课程笔记"></a>课程笔记</h3><p>(⊙o⊙)…</p><h3 id="视频资料"><a href="#视频资料" class="headerlink" title="视频资料"></a>视频资料</h3><p><a href="https://www.bilibili.com/video/BV1Su411X7vY/">隐写术鉴赏</a></p><p><a href="https://www.bilibili.com/video/BV17v411p7gV/">jpeg-dct</a></p><p><a href="https://www.bilibili.com/video/BV1TZ4y1S7iG/">【中英双字】JPEG算法原理 jpeg图片是如何压缩的？</a></p><p><a href="https://www.bilibili.com/video/BV1iv4y1N7sq/">JPEG不可思议的压缩率——归功于信号处理理论 @圆桌字幕组</a></p><p><a href="https://www.bilibili.com/video/BV17M4y1u7Ek/">JPEG 有损压缩 离散余弦变换 DCT 一条视频讲清楚</a></p><p><a href="https://www.bilibili.com/video/BV1AY411S75C/">“电子包浆”是因为被反复压缩吗？其实没那么简单</a></p><h3 id="博客"><a href="#博客" class="headerlink" title="博客"></a>博客</h3><p>链接1<br>链接2<br>链接3</p>]]></content>
-      
-      
-      <categories>
-          
-          <category> 信息隐藏 </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> 信息隐藏 </tag>
             
         </tags>
       
@@ -537,37 +537,6 @@
     
     
     <entry>
-      <title>DHCP安全性分析</title>
-      <link href="/2023/09/26/network_DHCP/"/>
-      <url>/2023/09/26/network_DHCP/</url>
-      
-        <content type="html"><![CDATA[<h1 id="一-DHCP协议概述"><a href="#一-DHCP协议概述" class="headerlink" title="一. DHCP协议概述"></a>一. DHCP协议概述</h1><h2 id="1-上网配置信息"><a href="#1-上网配置信息" class="headerlink" title="1. 上网配置信息"></a>1. 上网配置信息</h2><p>计算机在连入WIFI后，需要获取网络配置信息才能正常上网，这些信息包括以下：</p><ul><li>主机IP地址</li><li>子网掩码</li><li>网关IP地址</li><li>DNS服务器IP地址</li></ul><h2 id="2-DHCP报文"><a href="#2-DHCP报文" class="headerlink" title="2. DHCP报文"></a>2. DHCP报文</h2><p>当你连入WIFI之前，使用Warshark对进行抓包，可以捕获到到以下DHCP报文：</p><ul><li>DISCOVER</li><li>OFFER</li><li>REQUEST</li><li>ACK</li></ul><p>如果你已经接入WIFI，你可以在终端输入命令 <em><strong>ipconfig release</strong></em> 释放你已经获取的网络配置信息。重新接入WIFI。</p><p>如果你只是单纯断开WIFI，那么原来的网络配置信息并不会清空。相比正常的DHCP交互缺少 <em><strong>DISCOVER</strong></em> 和 <em><strong>OFFER</strong></em> 报文。</p><h1 id="二-DHCP饿死攻击"><a href="#二-DHCP饿死攻击" class="headerlink" title="二. DHCP饿死攻击"></a>二. DHCP饿死攻击</h1><h2 id="1-概述"><a href="#1-概述" class="headerlink" title="1. 概述"></a>1. 概述</h2><p>DHCP服务器根据DHCP报文中提供的MAC地址分发IP地址。</p><p>因此，使用主机伪造DHCP报文中的MAC地址，耗尽DHCP能够分配的IP地址，那么正常连接网络的主机将不能够接入网络，攻击完成。</p><h2 id="2-试试？"><a href="#2-试试？" class="headerlink" title="2. 试试？"></a>2. 试试？</h2><h3 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h3><p>Windows7（虚拟机）；Ubuntu20.04（虚拟机）</p><h3 id="下载Yersinia"><a href="#下载Yersinia" class="headerlink" title="下载Yersinia"></a>下载Yersinia</h3><p><em><strong>sudo apt install yersinia</strong></em></p><p><img src="/img/network_dhcp/image-6.png" alt="Alt text"></p><h3 id="打开Yersinia图形界面"><a href="#打开Yersinia图形界面" class="headerlink" title="打开Yersinia图形界面"></a>打开Yersinia图形界面</h3><p><em><strong>yersinia -G</strong></em></p><p>作者还挺幽默哈</p><p><img src="/img/network_dhcp/image-5.png" alt="Alt text"></p><h3 id="发起攻击"><a href="#发起攻击" class="headerlink" title="发起攻击"></a>发起攻击</h3><p><img src="/img/network_dhcp/image-9.png" alt="Alt text"></p><h3 id="攻击情况"><a href="#攻击情况" class="headerlink" title="攻击情况"></a>攻击情况</h3><p>warshark抓包分析<br>yersinia发包速度很快，电脑受不了没做太多测试。</p><p><img src="/img/network_dhcp/image-8.png" alt="Alt text"></p><h1 id="三-冒充DHCP服务器"><a href="#三-冒充DHCP服务器" class="headerlink" title="三. 冒充DHCP服务器"></a>三. 冒充DHCP服务器</h1><h2 id="1-概述-1"><a href="#1-概述-1" class="headerlink" title="1. 概述"></a>1. 概述</h2><p>当你向你的主机安装一个DHCP Server程序后，你的计算机也成为了一台DHCP服务器，但是你可以配置错误的网络配置信息，这可以使得接入网络的计算机无法获取正确的网络配置从而无法上网。</p><h2 id="2-试试？-1"><a href="#2-试试？-1" class="headerlink" title="2. 试试？"></a>2. 试试？</h2><h3 id="实验环境"><a href="#实验环境" class="headerlink" title="实验环境"></a>实验环境</h3><p><em><strong>Ubuntu20.04（虚拟机）：</strong></em></p><p><img src="/img/network_dhcp/image.png" alt="Alt text"></p><p><em><strong>Windows7（虚拟机）：</strong></em></p><p><img src="/img/network_dhcp/image-2.png" alt="Alt text"></p><h3 id="在Ubuntu中安装dhcp服务器："><a href="#在Ubuntu中安装dhcp服务器：" class="headerlink" title="在Ubuntu中安装dhcp服务器："></a>在Ubuntu中安装dhcp服务器：</h3><pre><code>sudo apt-get install isc-dhcp-server</code></pre><h3 id="配置dhcp服务器相关信息："><a href="#配置dhcp服务器相关信息：" class="headerlink" title="配置dhcp服务器相关信息："></a>配置dhcp服务器相关信息：</h3><p><em><strong>vim &#x2F;etc&#x2F;default&#x2F;isc-dhcp-server</strong></em></p><pre><code># Defaults for isc-dhcp-server (sourced by /etc/init.d/isc-dhcp-server)# Path to dhcpd&#39;s config file (default: /etc/dhcp/dhcpd.conf).#DHCPDv4_CONF=/etc/dhcp/dhcpd.conf#DHCPDv6_CONF=/etc/dhcp/dhcpd6.conf# Path to dhcpd&#39;s PID file (default: /var/run/dhcpd.pid).#DHCPDv4_PID=/var/run/dhcpd.pid#DHCPDv6_PID=/var/run/dhcpd6.pid# Additional options to start dhcpd with.#Don&#39;t use options -cf or -pf here; use DHCPD_CONF/ DHCPD_PID instead#OPTIONS=&quot;&quot;# On what interfaces should the DHCP server (dhcpd) serve DHCP requests?#Separate multiple interfaces with spaces, e.g. &quot;eth0 eth1&quot;.INTERFACESv4=&quot;ens33&quot;INTERFACESv6=&quot;&quot;</code></pre><p><em><strong>vim &#x2F;etc&#x2F;dhcp&#x2F;dhcpd.conf</strong></em></p><pre><code># dhcpd.conf## Sample configuration file for ISC dhcpd## Attention: If /etc/ltsp/dhcpd.conf exists, that will be used as# configuration file instead of this file.## option definitions common to all supported networks...option domain-name &quot;example.org&quot;;option domain-name-servers 8.8.8.8;# option domain-name-servers ns1.example.org, ns2.example.org;default-lease-time 600;max-lease-time 7200;# The ddns-updates-style parameter controls whether or not the server will# attempt to do a DNS update when a lease is confirmed. We default to the# behavior of the version 2 packages (&#39;none&#39;, since DHCP v2 didn&#39;t# have support for DDNS.)ddns-update-style none;# If this DHCP server is the official DHCP server for the local# network, the authoritative directive should be uncommented.authoritative;# Use this to send dhcp log messages to a different log file (you also# have to hack syslog.conf to complete the redirection).# log-facility local7;# No service will be given on this subnet, but declaring it helps the # DHCP server to understand the network topology.#subnet 10.152.187.0 netmask 255.255.255.0 &#123;#&#125;# This is a very basic subnet declaration.subnet 192.168.59.0 netmask 255.255.255.0 &#123;   range 192.168.59.50 192.168.59.200;   option routers 192.168.59.2;   option subnet-mask 255.255.255.0;   option broadcast-address 192.168.59.255;&#125;# This declaration allows BOOTP clients to get dynamic addresses,# which we don&#39;t really recommend.#subnet 10.254.239.32 netmask 255.255.255.224 &#123;#  range dynamic-bootp 10.254.239.40 10.254.239.60;#  option broadcast-address 10.254.239.31;#  option routers rtr-239-32-1.example.org;#&#125;# A slightly different configuration for an internal subnet.#subnet 10.5.5.0 netmask 255.255.255.224 &#123;#  range 10.5.5.26 10.5.5.30;#  option domain-name-servers ns1.internal.example.org;#  option domain-name &quot;internal.example.org&quot;;#  option subnet-mask 255.255.255.224;#  option routers 10.5.5.1;#  option broadcast-address 10.5.5.31;#  default-lease-time 600;#  max-lease-time 7200;#&#125;# Hosts which require special configuration options can be listed in# host statements.   If no address is specified, the address will be# allocated dynamically (if possible), but the host-specific information# will still come from the host declaration.#host passacaglia &#123;#  hardware ethernet 0:0:c0:5d:bd:95;#  filename &quot;vmunix.passacaglia&quot;;#  server-name &quot;toccata.example.com&quot;;#&#125;# Fixed IP addresses can also be specified for hosts.   These addresses# should not also be listed as being available for dynamic assignment.# Hosts for which fixed IP addresses have been specified can boot using# BOOTP or DHCP.   Hosts for which no fixed address is specified can only# be booted with DHCP, unless there is an address range on the subnet# to which a BOOTP client is connected which has the dynamic-bootp flag# set.#host fantasia &#123;#  hardware ethernet 08:00:07:26:c0:a5;#  fixed-address fantasia.example.com;#&#125;# You can declare a class of clients and then do address allocation# based on that.   The example below shows a case where all clients# in a certain class get addresses on the 10.17.224/24 subnet, and all# other clients get addresses on the 10.0.29/24 subnet.#class &quot;foo&quot; &#123;#  match if substring (option vendor-class-identifier, 0, 4) = &quot;SUNW&quot;;#&#125;#shared-network 224-29 &#123;#  subnet 10.17.224.0 netmask 255.255.255.0 &#123;#    option routers rtr-224.example.org;#  &#125;#  subnet 10.0.29.0 netmask 255.255.255.0 &#123;#    option routers rtr-29.example.org;#  &#125;#  pool &#123;#    allow members of &quot;foo&quot;;#    range 10.17.224.10 10.17.224.250;#  &#125;#  pool &#123;#    deny members of &quot;foo&quot;;#    range 10.0.29.10 10.0.29.230;#  &#125;#&#125;</code></pre><h3 id="启动DHCP服务器"><a href="#启动DHCP服务器" class="headerlink" title="启动DHCP服务器"></a>启动DHCP服务器</h3><p><em><strong>启动DHCP服务器：sudo systemctl start isc-dhcp-server.service</strong></em></p><p><em><strong>查看DHCP服务器运行状态：sudo systemctl status isc-dhcp-server.service</strong></em></p><p><em><strong>关闭DHCP服务器：sudo systemctl stop isc-dhcp-server.service</strong></em></p><p><img src="/img/network_dhcp/image-1.png" alt="Alt text"></p><h3 id="Windows7获取Ubuntu20-04的DHCP服务器网络配置"><a href="#Windows7获取Ubuntu20-04的DHCP服务器网络配置" class="headerlink" title="Windows7获取Ubuntu20.04的DHCP服务器网络配置"></a>Windows7获取Ubuntu20.04的DHCP服务器网络配置</h3><p>如果你已经连接网络，使用 <em><strong>ipconfig &#x2F;release</strong></em> 释放获取的网络配置</p><p>然后，使用 <em><strong>ipconfig &#x2F;renew</strong></em> 重新连接DHCP服务器获取网络配置</p><p><img src="/img/network_dhcp/image-3.png" alt="Alt text"></p><p>可以看见Windows7网络配置发生了改变</p><p><img src="/img/network_dhcp/image-4.png" alt="Alt text"></p><h1 id="四-DHCP中间人攻击"><a href="#四-DHCP中间人攻击" class="headerlink" title="四. DHCP中间人攻击"></a>四. DHCP中间人攻击</h1><p>这部分原理与ARP中间人攻击一致…</p><p>中间人攻击基本都是用ARP实现吗？…</p>]]></content>
-      
-      
-      <categories>
-          
-          <category> 计算机网络 </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> 计算机网络 </tag>
-            
-            <tag> internet </tag>
-            
-            <tag> Protocol </tag>
-            
-            <tag> DHCP </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
       <title>ARP毒化</title>
       <link href="/2023/09/26/network_ARP/"/>
       <url>/2023/09/26/network_ARP/</url>
@@ -591,6 +560,37 @@
             <tag> Protocol </tag>
             
             <tag> ARP </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>DHCP安全性分析</title>
+      <link href="/2023/09/26/network_DHCP/"/>
+      <url>/2023/09/26/network_DHCP/</url>
+      
+        <content type="html"><![CDATA[<h1 id="一-DHCP协议概述"><a href="#一-DHCP协议概述" class="headerlink" title="一. DHCP协议概述"></a>一. DHCP协议概述</h1><h2 id="1-上网配置信息"><a href="#1-上网配置信息" class="headerlink" title="1. 上网配置信息"></a>1. 上网配置信息</h2><p>计算机在连入WIFI后，需要获取网络配置信息才能正常上网，这些信息包括以下：</p><ul><li>主机IP地址</li><li>子网掩码</li><li>网关IP地址</li><li>DNS服务器IP地址</li></ul><h2 id="2-DHCP报文"><a href="#2-DHCP报文" class="headerlink" title="2. DHCP报文"></a>2. DHCP报文</h2><p>当你连入WIFI之前，使用Warshark对进行抓包，可以捕获到到以下DHCP报文：</p><ul><li>DISCOVER</li><li>OFFER</li><li>REQUEST</li><li>ACK</li></ul><p>如果你已经接入WIFI，你可以在终端输入命令 <em><strong>ipconfig release</strong></em> 释放你已经获取的网络配置信息。重新接入WIFI。</p><p>如果你只是单纯断开WIFI，那么原来的网络配置信息并不会清空。相比正常的DHCP交互缺少 <em><strong>DISCOVER</strong></em> 和 <em><strong>OFFER</strong></em> 报文。</p><h1 id="二-DHCP饿死攻击"><a href="#二-DHCP饿死攻击" class="headerlink" title="二. DHCP饿死攻击"></a>二. DHCP饿死攻击</h1><h2 id="1-概述"><a href="#1-概述" class="headerlink" title="1. 概述"></a>1. 概述</h2><p>DHCP服务器根据DHCP报文中提供的MAC地址分发IP地址。</p><p>因此，使用主机伪造DHCP报文中的MAC地址，耗尽DHCP能够分配的IP地址，那么正常连接网络的主机将不能够接入网络，攻击完成。</p><h2 id="2-试试？"><a href="#2-试试？" class="headerlink" title="2. 试试？"></a>2. 试试？</h2><h3 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h3><p>Windows7（虚拟机）；Ubuntu20.04（虚拟机）</p><h3 id="下载Yersinia"><a href="#下载Yersinia" class="headerlink" title="下载Yersinia"></a>下载Yersinia</h3><p><em><strong>sudo apt install yersinia</strong></em></p><p><img src="/img/network_dhcp/image-6.png" alt="Alt text"></p><h3 id="打开Yersinia图形界面"><a href="#打开Yersinia图形界面" class="headerlink" title="打开Yersinia图形界面"></a>打开Yersinia图形界面</h3><p><em><strong>yersinia -G</strong></em></p><p>作者还挺幽默哈</p><p><img src="/img/network_dhcp/image-5.png" alt="Alt text"></p><h3 id="发起攻击"><a href="#发起攻击" class="headerlink" title="发起攻击"></a>发起攻击</h3><p><img src="/img/network_dhcp/image-9.png" alt="Alt text"></p><h3 id="攻击情况"><a href="#攻击情况" class="headerlink" title="攻击情况"></a>攻击情况</h3><p>warshark抓包分析<br>yersinia发包速度很快，电脑受不了没做太多测试。</p><p><img src="/img/network_dhcp/image-8.png" alt="Alt text"></p><h1 id="三-冒充DHCP服务器"><a href="#三-冒充DHCP服务器" class="headerlink" title="三. 冒充DHCP服务器"></a>三. 冒充DHCP服务器</h1><h2 id="1-概述-1"><a href="#1-概述-1" class="headerlink" title="1. 概述"></a>1. 概述</h2><p>当你向你的主机安装一个DHCP Server程序后，你的计算机也成为了一台DHCP服务器，但是你可以配置错误的网络配置信息，这可以使得接入网络的计算机无法获取正确的网络配置从而无法上网。</p><h2 id="2-试试？-1"><a href="#2-试试？-1" class="headerlink" title="2. 试试？"></a>2. 试试？</h2><h3 id="实验环境"><a href="#实验环境" class="headerlink" title="实验环境"></a>实验环境</h3><p><em><strong>Ubuntu20.04（虚拟机）：</strong></em></p><p><img src="/img/network_dhcp/image.png" alt="Alt text"></p><p><em><strong>Windows7（虚拟机）：</strong></em></p><p><img src="/img/network_dhcp/image-2.png" alt="Alt text"></p><h3 id="在Ubuntu中安装dhcp服务器："><a href="#在Ubuntu中安装dhcp服务器：" class="headerlink" title="在Ubuntu中安装dhcp服务器："></a>在Ubuntu中安装dhcp服务器：</h3><pre><code>sudo apt-get install isc-dhcp-server</code></pre><h3 id="配置dhcp服务器相关信息："><a href="#配置dhcp服务器相关信息：" class="headerlink" title="配置dhcp服务器相关信息："></a>配置dhcp服务器相关信息：</h3><p><em><strong>vim &#x2F;etc&#x2F;default&#x2F;isc-dhcp-server</strong></em></p><pre><code># Defaults for isc-dhcp-server (sourced by /etc/init.d/isc-dhcp-server)# Path to dhcpd&#39;s config file (default: /etc/dhcp/dhcpd.conf).#DHCPDv4_CONF=/etc/dhcp/dhcpd.conf#DHCPDv6_CONF=/etc/dhcp/dhcpd6.conf# Path to dhcpd&#39;s PID file (default: /var/run/dhcpd.pid).#DHCPDv4_PID=/var/run/dhcpd.pid#DHCPDv6_PID=/var/run/dhcpd6.pid# Additional options to start dhcpd with.#Don&#39;t use options -cf or -pf here; use DHCPD_CONF/ DHCPD_PID instead#OPTIONS=&quot;&quot;# On what interfaces should the DHCP server (dhcpd) serve DHCP requests?#Separate multiple interfaces with spaces, e.g. &quot;eth0 eth1&quot;.INTERFACESv4=&quot;ens33&quot;INTERFACESv6=&quot;&quot;</code></pre><p><em><strong>vim &#x2F;etc&#x2F;dhcp&#x2F;dhcpd.conf</strong></em></p><pre><code># dhcpd.conf## Sample configuration file for ISC dhcpd## Attention: If /etc/ltsp/dhcpd.conf exists, that will be used as# configuration file instead of this file.## option definitions common to all supported networks...option domain-name &quot;example.org&quot;;option domain-name-servers 8.8.8.8;# option domain-name-servers ns1.example.org, ns2.example.org;default-lease-time 600;max-lease-time 7200;# The ddns-updates-style parameter controls whether or not the server will# attempt to do a DNS update when a lease is confirmed. We default to the# behavior of the version 2 packages (&#39;none&#39;, since DHCP v2 didn&#39;t# have support for DDNS.)ddns-update-style none;# If this DHCP server is the official DHCP server for the local# network, the authoritative directive should be uncommented.authoritative;# Use this to send dhcp log messages to a different log file (you also# have to hack syslog.conf to complete the redirection).# log-facility local7;# No service will be given on this subnet, but declaring it helps the # DHCP server to understand the network topology.#subnet 10.152.187.0 netmask 255.255.255.0 &#123;#&#125;# This is a very basic subnet declaration.subnet 192.168.59.0 netmask 255.255.255.0 &#123;   range 192.168.59.50 192.168.59.200;   option routers 192.168.59.2;   option subnet-mask 255.255.255.0;   option broadcast-address 192.168.59.255;&#125;# This declaration allows BOOTP clients to get dynamic addresses,# which we don&#39;t really recommend.#subnet 10.254.239.32 netmask 255.255.255.224 &#123;#  range dynamic-bootp 10.254.239.40 10.254.239.60;#  option broadcast-address 10.254.239.31;#  option routers rtr-239-32-1.example.org;#&#125;# A slightly different configuration for an internal subnet.#subnet 10.5.5.0 netmask 255.255.255.224 &#123;#  range 10.5.5.26 10.5.5.30;#  option domain-name-servers ns1.internal.example.org;#  option domain-name &quot;internal.example.org&quot;;#  option subnet-mask 255.255.255.224;#  option routers 10.5.5.1;#  option broadcast-address 10.5.5.31;#  default-lease-time 600;#  max-lease-time 7200;#&#125;# Hosts which require special configuration options can be listed in# host statements.   If no address is specified, the address will be# allocated dynamically (if possible), but the host-specific information# will still come from the host declaration.#host passacaglia &#123;#  hardware ethernet 0:0:c0:5d:bd:95;#  filename &quot;vmunix.passacaglia&quot;;#  server-name &quot;toccata.example.com&quot;;#&#125;# Fixed IP addresses can also be specified for hosts.   These addresses# should not also be listed as being available for dynamic assignment.# Hosts for which fixed IP addresses have been specified can boot using# BOOTP or DHCP.   Hosts for which no fixed address is specified can only# be booted with DHCP, unless there is an address range on the subnet# to which a BOOTP client is connected which has the dynamic-bootp flag# set.#host fantasia &#123;#  hardware ethernet 08:00:07:26:c0:a5;#  fixed-address fantasia.example.com;#&#125;# You can declare a class of clients and then do address allocation# based on that.   The example below shows a case where all clients# in a certain class get addresses on the 10.17.224/24 subnet, and all# other clients get addresses on the 10.0.29/24 subnet.#class &quot;foo&quot; &#123;#  match if substring (option vendor-class-identifier, 0, 4) = &quot;SUNW&quot;;#&#125;#shared-network 224-29 &#123;#  subnet 10.17.224.0 netmask 255.255.255.0 &#123;#    option routers rtr-224.example.org;#  &#125;#  subnet 10.0.29.0 netmask 255.255.255.0 &#123;#    option routers rtr-29.example.org;#  &#125;#  pool &#123;#    allow members of &quot;foo&quot;;#    range 10.17.224.10 10.17.224.250;#  &#125;#  pool &#123;#    deny members of &quot;foo&quot;;#    range 10.0.29.10 10.0.29.230;#  &#125;#&#125;</code></pre><h3 id="启动DHCP服务器"><a href="#启动DHCP服务器" class="headerlink" title="启动DHCP服务器"></a>启动DHCP服务器</h3><p><em><strong>启动DHCP服务器：sudo systemctl start isc-dhcp-server.service</strong></em></p><p><em><strong>查看DHCP服务器运行状态：sudo systemctl status isc-dhcp-server.service</strong></em></p><p><em><strong>关闭DHCP服务器：sudo systemctl stop isc-dhcp-server.service</strong></em></p><p><img src="/img/network_dhcp/image-1.png" alt="Alt text"></p><h3 id="Windows7获取Ubuntu20-04的DHCP服务器网络配置"><a href="#Windows7获取Ubuntu20-04的DHCP服务器网络配置" class="headerlink" title="Windows7获取Ubuntu20.04的DHCP服务器网络配置"></a>Windows7获取Ubuntu20.04的DHCP服务器网络配置</h3><p>如果你已经连接网络，使用 <em><strong>ipconfig &#x2F;release</strong></em> 释放获取的网络配置</p><p>然后，使用 <em><strong>ipconfig &#x2F;renew</strong></em> 重新连接DHCP服务器获取网络配置</p><p><img src="/img/network_dhcp/image-3.png" alt="Alt text"></p><p>可以看见Windows7网络配置发生了改变</p><p><img src="/img/network_dhcp/image-4.png" alt="Alt text"></p><h1 id="四-DHCP中间人攻击"><a href="#四-DHCP中间人攻击" class="headerlink" title="四. DHCP中间人攻击"></a>四. DHCP中间人攻击</h1><p>这部分原理与ARP中间人攻击一致…</p><p>中间人攻击基本都是用ARP实现吗？…</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 计算机网络 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 计算机网络 </tag>
+            
+            <tag> internet </tag>
+            
+            <tag> Protocol </tag>
+            
+            <tag> DHCP </tag>
             
         </tags>
       
@@ -1010,6 +1010,35 @@
     
     
     <entry>
+      <title>ChatGPT</title>
+      <link href="/2023/08/25/ai_chatgpt/"/>
+      <url>/2023/08/25/ai_chatgpt/</url>
+      
+        <content type="html"><![CDATA[<h2 id="国内接口"><a href="#国内接口" class="headerlink" title="国内接口"></a>国内接口</h2><ul><li><a href="https://c.binjie.fun/">ALchatOS</a></li></ul><h2 id="ChatGPT官网"><a href="#ChatGPT官网" class="headerlink" title="ChatGPT官网"></a>ChatGPT官网</h2><h3 id="1-找个梯子"><a href="#1-找个梯子" class="headerlink" title="1. 找个梯子"></a>1. 找个梯子</h3><h3 id="2-找个国外手机号"><a href="#2-找个国外手机号" class="headerlink" title="2. 找个国外手机号"></a>2. 找个国外手机号</h3><h3 id="3-正常注册账号使用"><a href="#3-正常注册账号使用" class="headerlink" title="3. 正常注册账号使用"></a>3. 正常注册账号使用</h3>]]></content>
+      
+      
+      <categories>
+          
+          <category> AI </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> AI </tag>
+            
+            <tag> 人工智能 </tag>
+            
+            <tag> ChatGPT </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>AI绘画</title>
       <link href="/2023/08/25/ai_aipainting/"/>
       <url>/2023/08/25/ai_aipainting/</url>
@@ -1033,35 +1062,6 @@
             <tag> 在线AI绘画 </tag>
             
             <tag> 哩布哩布 </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>ChatGPT</title>
-      <link href="/2023/08/25/ai_chatgpt/"/>
-      <url>/2023/08/25/ai_chatgpt/</url>
-      
-        <content type="html"><![CDATA[<h2 id="国内接口"><a href="#国内接口" class="headerlink" title="国内接口"></a>国内接口</h2><ul><li><a href="https://c.binjie.fun/">ALchatOS</a></li></ul><h2 id="ChatGPT官网"><a href="#ChatGPT官网" class="headerlink" title="ChatGPT官网"></a>ChatGPT官网</h2><h3 id="1-找个梯子"><a href="#1-找个梯子" class="headerlink" title="1. 找个梯子"></a>1. 找个梯子</h3><h3 id="2-找个国外手机号"><a href="#2-找个国外手机号" class="headerlink" title="2. 找个国外手机号"></a>2. 找个国外手机号</h3><h3 id="3-正常注册账号使用"><a href="#3-正常注册账号使用" class="headerlink" title="3. 正常注册账号使用"></a>3. 正常注册账号使用</h3>]]></content>
-      
-      
-      <categories>
-          
-          <category> AI </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> AI </tag>
-            
-            <tag> 人工智能 </tag>
-            
-            <tag> ChatGPT </tag>
             
         </tags>
       
