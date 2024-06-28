@@ -1,0 +1,485 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>SEED：Sniff and Spoof | 良月的小窝</title><meta name="author" content="良月"><meta name="copyright" content="良月"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="课程实践报告 课程         网络攻防技术(314006040)课 序 号                   3作业名称         网络流量嗅探和窃取实验评分姓名       杨森        学号   2021141530084评阅意见                                            一、	作业题目嗅探和欺骗二、	实验步骤及结果1.	实验环境">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SEED：Sniff and Spoof">
+<meta property="og:url" content="http://yangcheneee.github.io/posts/seed_sniffspoof/index.html">
+<meta property="og:site_name" content="良月的小窝">
+<meta property="og:description" content="课程实践报告 课程         网络攻防技术(314006040)课 序 号                   3作业名称         网络流量嗅探和窃取实验评分姓名       杨森        学号   2021141530084评阅意见                                            一、	作业题目嗅探和欺骗二、	实验步骤及结果1.	实验环境">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://yangcheneee.github.io/img/cover/16.jpg">
+<meta property="article:published_time" content="2023-09-30T16:00:00.000Z">
+<meta property="article:modified_time" content="2024-01-20T13:56:03.201Z">
+<meta property="article:author" content="良月">
+<meta property="article:tag" content="TCP">
+<meta property="article:tag" content="SEED">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yangcheneee.github.io/img/cover/16.jpg"><link rel="shortcut icon" href="/img/favicon.jpg"><link rel="canonical" href="http://yangcheneee.github.io/posts/seed_sniffspoof/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: undefined,
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'SEED：Sniff and Spoof',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: false,
+  postUpdate: '2024-01-20 21:56:03'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = (url,id = false) => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      if (id) link.id = id
+      link.onerror = reject
+      link.onload = link.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        link.onload = link.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/background.css"><meta name="generator" content="Hexo 6.3.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">57</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">82</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">13</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa fa-graduation-cap"></i><span> 博文</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fa fa-archive"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fa fa-folder-open"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/messageboard/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于笔者</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/img/cover/16.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="良月的小窝"><span class="site-name">良月的小窝</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa fa-graduation-cap"></i><span> 博文</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fa fa-archive"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fa fa-folder-open"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/messageboard/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于笔者</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">SEED：Sniff and Spoof</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-09-30T16:00:00.000Z" title="发表于 2023-10-01 00:00:00">2023-10-01</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-01-20T13:56:03.201Z" title="更新于 2024-01-20 21:56:03">2024-01-20</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/SEED/">SEED</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">3.2k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>10分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="SEED：Sniff and Spoof"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>课程实践报告</p>
+<p>课程         网络攻防技术(314006040)<br>课 序 号                   3<br>作业名称         网络流量嗅探和窃取实验<br>评分<br>姓名       杨森        学号   2021141530084<br>评阅意见                                          </p>
+<p> <br>一、	作业题目<br>嗅探和欺骗<br>二、	实验步骤及结果<br>1.	实验环境设置<br>1)	拓扑结构</p>
+<p>网路接口bridge，host，none都是docker自己创建的。三个容器使用我们自定义的网络接口：636082fa98c9，这个网络接口相当于三个容器的交换机：</p>
+<ol start="2">
+<li>   容器使用<br>首先进入Labsetup文件夹，使用命令dcbuild和dcup编译和启动容器。如果需要关闭：dcdown。</li>
+</ol>
+<p>你可以通过以下命令（dockps）查看容器id：</p>
+<p>如果需要使用某个容器的终端，需要执行命令：docksh <id>，或者这样也行：（键入exit退出）</p>
+<ol start="3">
+<li>   关于攻击机<br>共享文件夹&#x2F;volumes：虚拟机和attacker容器之间的共享文件夹，为了方便在docker容器中使用虚拟机的编辑器编写的代码。</li>
+</ol>
+<p>主机模式：对于桥接模式下的三个容器，他们并不能互相访问各自的网络接口，因为他们被桥接模式虚拟成局域网下的不同主机。将容器attacker修改为主机模式，那么他将可以访问虚拟机的所有网卡。</p>
+<p>补充：<br>对于使用主机模式的容器，docker不会为其虚拟网络接口，而是直接使用宿主机的网络接口。我这里做了一个简单的实验，进入容器attacker对1.2.3.4发起ping：</p>
+<p>这里并没有看到容器接口veth流量进行波动，说明docker并没有为主机模式的容器虚拟出网卡。<br>另外，使用虚拟机对容器attacker发起ping：</p>
+<p>这里回环网卡波动，这就说明容器attacker是主机模式，并且使用虚拟机网卡。<br>第一部分：使用scapy嗅探和欺骗<br>2.	嗅探数据包<br>使用scapy嗅探数据包是一件简单的事情，这里将网卡设置为三个容器的桥接网络：</p>
+<ol>
+<li>   使用root权限对sniff的影响</li>
+</ol>
+<p>使用root权限：<br>sniff函数对于每一个捕获的数据包都会调用回调函数print_pkt打印出数据包相关信息：</p>
+<p>打开一个终端使用命令：ping 10.9.0.5，这里我使用-i参数将时间间隔设置为一秒：</p>
+<p>另一个终端以root权限运行python程序进行监听：</p>
+<p>上面有两个数据包，第一个ICMP报文类型为“request”，源IP为10.9.0.1，目的IP为10.9.0.5；第二个ICMP报文类型为“reply”，源IP为10.9.0.5，目的IP为10.9.0.1。结合在ping命令终端看到的情景，这里sniff程序嗅探数据包成功。</p>
+<p>不使用root权限运行：</p>
+<p>python程序中打印“sniff…”语句成功执行，执行sniff函数权限不够导致报错。这是因为sniff函数会首先默认以混杂模式打开一个网络接口，因此需要root权限。<br>2)	采用不同的过滤方式嗅探数据包<br>只捕获ICMP协议报文：<br>在上面“使用root权限对sniff的影响”中已经完成此实验，上面的代码就是过滤的icmp协议：</p>
+<p>Icmp报文：</p>
+<p>捕获指定IP的23端口的TCP报文：</p>
+<p>在Linux和Windows操作系统下，23端口都用于远程连接服务Telnet。可以使用telnet命令发送连接的TCP数据包。</p>
+<p>Sniff程序成功嗅探到telnet的数据包：</p>
+<p>捕获发往特定子网的数据包：</p>
+<p>ping一下这个子网就行，如果捕获到数据包证明程序正常：</p>
+<ol start="3">
+<li>   伪造ICMP数据包<br>修改源IP为hostA（10.9.0.5），向hostB（10.9.0.6）发送ICMP请求报文：</li>
+</ol>
+<p>运行spoof程序，监听桥接网络，发现伪造的ICMP请求报文和接收到ICMP回应报文：</p>
+<p>在伪造源IP的ICMP报文中可以看到，attacker的mac地址如下。</p>
+<p>然而ICMP回应报文的mac地址却是hostA的：</p>
+<p>这说明更改ICMP报文的源IP地址，会让对方相信这个错误的IP地址。<br>4.	Traceroute程序<br>Tracert依靠于ICMP协议，通过将ttl从1不断加大到能达到目的IP从而了解数据包的网络经过：</p>
+<p>运行程序：</p>
+<p>Warshark查看详细信息：</p>
+<ol start="5">
+<li>   嗅探然后欺骗<br>如果嗅探到ping包，则伪造ip返回一个ping响应包，那么只需要在回调函数中伪造源IP的ping回应包即可，这里将嗅探到返回的数据包附加上负载“spoof”便于区分：</li>
+</ol>
+<p>Ping 1.2.3.4，一个不存在于网络的主机：<br>进入容器attacker对1.2.3.4发起ping，运行编写的程序：</p>
+<p>Warshark抓包，在ICMP回应报文出现负载“spoof”，程序成功发送欺骗的数据包：</p>
+<p>Ping 10.9.0.99，一个不存在的局域网主机：<br>进入容器attacker对10.9.0.99发起ping，运行编写的程序：</p>
+<p>打开warshark，发现编写的程序成功并没有成功返回欺骗报文，因为在arp解析失败以后icmp包根本就没有发出，而是系统认为目标不可达：</p>
+<p>Ping 8.8.8.8，一个存在于网络的主机：<br>进入容器attacker对8.8.8.8发起ping，运行编写的程序：</p>
+<p>在容器attacker中ping8.8.8.8实际上就是虚拟机对8.8.8.8进行ping，因此warshark中桥接网络并没有attcker发的包。由于操作系统将伪造的响应包算作回环网络里面，因此回环网络有流量波动，打开any网络接口（包括回环）查看伪造的响应包，发现负载“spoof”的响应包：</p>
+<p>在hostA（10.9.0.5）运行程序对8.8.8.8发起的ping，运行编写的程序：</p>
+<p>在warshark中查看，可以发现同一个ICMP请求收到了两个回复，带有负载“spoof”的回复是程序sniff_spoof.py响应的：</p>
+<p>另外当hostA对8.8.8.8进行ping，发现宿主机也在ping？</p>
+<p>第二部分：编写嗅探和伪造数据包的程序<br>6.	编写数据包嗅探程序<br>在这个任务中，需要在虚拟机与容器attacker的共享文件夹volumes中编辑C代码。docker-cp a.out &lt;容器id&gt;:&#x2F;tmp<br>1)	了解一个嗅探器如何工作<br>嗅探器实际是通过网络接口<br>对于链路层帧结构：同步码（8字节），目的MAC地址（6字节），源MAC地址（6字节），类型（2字节），数据部分，CRC校验码（4字节）。当以太网帧中的类型字段的值为0x0800时，表示数据部分采用的是IPv4协议；当类型字段的值为0x86DD时，表示数据部分采用的是IPv6协议。<br>对于网络层包结构：</p>
+<p>根据提供的代码编写一个能够打印捕获数据包的源&#x2F;目的IP地址的程序：</p>
+<p>问题一：描述库调用的顺序。<br>首先调用pcap_open_live函数打开网络接口；然后使用pcap_compile函数编译BPF过滤表达式；最后使用pcap_loop函数循环捕获数据包并调用回调函数，pcap_close进行关闭网卡。</p>
+<p>问题二：为什么需要root权限运行嗅探器程序，是哪个地方需要root权限。<br>在程序中调用pcap_open_live函数来打开网络接口进行数据包捕获时，需要root权限。在调用pcap_compile和pcap_setfilter函数来编译和设置数据包过滤规则时，同样需要root权限。</p>
+<p>问题三：演示打开和关闭混杂模式的区别。<br>开启混杂模式，使用hostA对hostB发起ping：</p>
+<p>在attacker中运行sniff程序，可以发现即使源&#x2F;目标地址并不是自己，但是仍然捕获了这些数据包：</p>
+<p>关闭混杂模式，同样使用hostA对hostB发起ping，程序已经不能捕获hostA和hostB之间的通信：</p>
+<p>由此可知，混杂模式可以捕获经过网卡的其他数据包。</p>
+<ol start="2">
+<li>   编写过滤器<br>捕获两个特定主机的ICMP数据包：<br>根据BPF过滤规则编写即可。</li>
+</ol>
+<p>在hostA中对hostB发起ping，执行编写的程序：</p>
+<p>可以看到嗅探到了icmp数据包，并且打印出了源&#x2F;目标IP：</p>
+<p>捕获端口10-100的TCP数据包：</p>
+<p>使用telnet服务对hostB发起请求，并执行编写的程序：</p>
+<p>可以看到成功捕获到指定的数据包：</p>
+<p>然而使用nc工具对attacker发起请求，执行编写的程序进行嗅探：</p>
+<p>可以看到没有捕获到任何内容，但是nc工具却捕获到了101端口tcp数据包：</p>
+<ol start="4">
+<li>   嗅探密码<br>由于telnet服务使用明文传输数据包，因此使用嗅探器可以窃取telnet协议发送的数据包当中的密码。<br>这里根据tcp协议字段判断telnet报文，然后根据找出telnet数据的指针位置，计算数据长度，最后打印出数据部分：</li>
+</ol>
+<p>运行程序，成功捕获到telnet数据部分，可以看到“pas…”部分就是我输入的密码字段：</p>
+<ol start="7">
+<li>   欺骗<br>对于一般用户，操作系统限制对TCP&#x2F;IP一些字段的控制。但是，如果拥有root权限，就可以控制TCP&#x2F;IP的所有字段。</li>
+</ol>
+<p>原始套接字提供了程序员对数据包的绝对控制，使用原始套接字非常简单；它包括四个步骤：（1）创建一个原始套接字，（2）设置套接字选项，（3）构造数据包，（4）通过原始套接字发送数据包。<br>1)	编写一个欺骗程序<br>伪造数据包，需要创建原始套接字，它允许对数据包有足够的控制。其次，需要定义网络层，运输层的结构体，方便构造数据包，这里引用netinet库实现这个功能：</p>
+<p>可以看到warshark成功捕获到伪造的数据包，这说明欺骗程序生效：</p>
+<ol start="2">
+<li>   伪造ICMP请求数据包<br>相比上面的程序，这里需要构造icmp协议的结构体：</li>
+</ol>
+<p>运行编写的程序：</p>
+<p>在warshark中成功捕获到程序发送的数据包：</p>
+<p>问题四：可以将IP数据包长度字段设置为任意值，而不管实际数据包有多大吗？</p>
+<p>在构造IP数据包时，IP数据包长度字段是指整个IP数据包的长度，包括IP头部和数据部分。这个字段的取值应当是整个IP数据包的实际长度，而不是任意值。</p>
+<p>如果发送的数据包长度超过了MTU（最大传输单元），那么数据包将被分片成多个较小的数据包。在这种情况下，每个分片的IP数据包长度字段会被设置为对应分片的长度，而不是整个数据包的长度。</p>
+<p>问题五：使用原始套接字编程，是否必须计算IP标头的校验和？</p>
+<p>在使用原始套接字（raw socket）发送自定义的IP数据包时，如果设置了IP_HDRINCL选项，就不需要手动计算IP头部的校验和。当IP_HDRINCL选项被启用时，内核会自动计算IP头部的校验和，并填充正确的数值。<br>否则，需要使用程序计算校验和，确保目标主机不会舍弃这个数据报。</p>
+<p>问题六：为什么需要root权限才能运行使用原始套接字的程序？如果在没有root权限的情况下执行程序，程序会在哪里失败？</p>
+<p>使用原始套接字可以直接访问链路层和网络层，发送自定义的数据包，这可能会对网络造成安全风险，因此需要特权才能执行。</p>
+<p>如果在没有root权限的情况下执行使用原始套接字的程序，程序在以下步骤会失败：调用socket函数时会返回错误，因为创建原始套接字需要特权。如果尝试设置IP_HDRINCL选项也会失败，因为设置该选项同样需要特权。</p>
+<p>因此，如果没有root权限，程序将无法成功创建原始套接字或者设置IP_HDRINCL选项，从而无法发送自定义的IP数据包。<br>8.	嗅探，发送欺骗数据报<br>将上面编写的嗅探程序做修改，过滤icmp请求报文；修改回调函数，通过传入的数据包获取源&#x2F;目标IP地址，修改伪造程序为构造icmp响应报文，并修改填入的源&#x2F;目标ip即可：</p>
+<p>对1.2.3.4发起ping，运行程序：</p>
+<p>在warshark中可以看到捕获到程序发送的响应报文：</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="http://yangcheneee.github.io">良月</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://yangcheneee.github.io/posts/seed_sniffspoof/">http://yangcheneee.github.io/posts/seed_sniffspoof/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://yangcheneee.github.io" target="_blank">良月的小窝</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/TCP/">TCP</a><a class="post-meta__tags" href="/tags/SEED/">SEED</a></div><div class="post_share"><div class="social-share" data-image="/img/cover/16.jpg" data-sites="wechat,qq,weibo"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i> 打赏</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechat.jpg" target="_blank"><img class="post-qr-code-img" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/wechat.jpg" alt="wechat"/></a><div class="post-qr-code-desc">wechat</div></li><li class="reward-item"><a href="/img/alipay.jpg" target="_blank"><img class="post-qr-code-img" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/alipay.jpg" alt="alipay"/></a><div class="post-qr-code-desc">alipay</div></li></ul></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/posts/seed_tcp/" title="SEED：TCP"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/cover/16.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">SEED：TCP</div></div></a></div><div class="next-post pull-right"><a href="/posts/seed_dns/" title="SEED：DNS"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/cover/16.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">SEED：DNS</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/posts/seed_tcp/" title="SEED：TCP"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/cover/16.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-10-01</div><div class="title">SEED：TCP</div></div></a></div><div><a href="/posts/network_scanner/" title="网络扫描"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/cover/12.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-09-24</div><div class="title">网络扫描</div></div></a></div><div><a href="/posts/seed_spectre/" title="SEED：Spectre_Attack"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/cover/5.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-01-01</div><div class="title">SEED：Spectre_Attack</div></div></a></div><div><a href="/posts/seed_xss/" title="SEED：XSS"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/cover/5.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-11-06</div><div class="title">SEED：XSS</div></div></a></div><div><a href="/posts/seed_md5/" title="SEED：MD5 Collision Attack Lab"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/cover/16.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-10-01</div><div class="title">SEED：MD5 Collision Attack Lab</div></div></a></div><div><a href="/posts/seed_stackoverflow/" title="SEED：Buffer Overflow Attack Lab (Server Version)"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/5.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-10-15</div><div class="title">SEED：Buffer Overflow Attack Lab (Server Version)</div></div></a></div></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div><div id="comment-switch"><span class="first-comment">Valine</span><span class="switch-btn"></span><span class="second-comment">Disqus</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div><div><div id="disqus_thread"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">良月</div><div class="author-info__description">郎朗晴天</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">57</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">82</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">13</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Yangcheneee"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/Yangcheneee" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="tencent://AddContact/?fromId=45&amp;fromSubId=1&amp;subcmd=all&amp;uin=2657761647&amp;website=www.oicqzone.com" target="_blank" title="QQ"><i class="fab fa-qq"></i></a><a class="social-icon" href="mailto:2657761647@qq.com" target="_blank" title="Email"><i class="fas fa-envelope-open-text"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">欢迎来到我的个人博客</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/posts/computer_encode/" title="计算机编码"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/4.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="计算机编码"/></a><div class="content"><a class="title" href="/posts/computer_encode/" title="计算机编码">计算机编码</a><time datetime="2024-06-26T16:00:00.000Z" title="发表于 2024-06-27 00:00:00">2024-06-27</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/security_information/" title="信息收集"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/cover/0.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="信息收集"/></a><div class="content"><a class="title" href="/posts/security_information/" title="信息收集">信息收集</a><time datetime="2024-06-23T16:00:00.000Z" title="发表于 2024-06-24 00:00:00">2024-06-24</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/steg_spread_spectrum/" title="扩频水印"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/cover/6.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="扩频水印"/></a><div class="content"><a class="title" href="/posts/steg_spread_spectrum/" title="扩频水印">扩频水印</a><time datetime="2024-06-05T16:00:00.000Z" title="发表于 2024-06-06 00:00:00">2024-06-06</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/cpp/" title="CPP"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/cover/5.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="CPP"/></a><div class="content"><a class="title" href="/posts/cpp/" title="CPP">CPP</a><time datetime="2024-01-25T16:00:00.000Z" title="发表于 2024-01-26 00:00:00">2024-01-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/software_dll/" title="恶意代码"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/cover/6.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="恶意代码"/></a><div class="content"><a class="title" href="/posts/software_dll/" title="恶意代码">恶意代码</a><time datetime="2024-01-17T16:00:00.000Z" title="发表于 2024-01-18 00:00:00">2024-01-18</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('/img/cover/16.jpg')"><div id="footer-wrap"><div class="copyright">&copy;2023 - 2024 By 良月</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: 'O8LBtcEHpDlrpdpmT4vFkCno-gzGzoHsz',
+      appKey: 'YYdyOhbCGoVEYggTt2icfUHj',
+      avatar: 'mp',
+      serverURLs: 'https://o8lbtceh.lc-cn-n1-shared.com',
+      emojiMaps: "",
+      path: window.location.pathname,
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !true) {
+  if (true) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script><script>function loadDisqus () {
+  const disqus_config = function () {
+    this.page.url = 'http://yangcheneee.github.io/posts/seed_sniffspoof/'
+    this.page.identifier = '/posts/seed_sniffspoof/'
+    this.page.title = 'SEED：Sniff and Spoof'
+  }
+
+  const disqusReset = () => {
+    DISQUS.reset({
+      reload: true,
+      config: disqus_config
+    })
+  }
+
+  btf.addModeChange('disqus', disqusReset)
+
+  if (window.DISQUS) disqusReset()
+  else {
+    (function() { 
+      var d = document, s = d.createElement('script');
+      s.src = 'https://.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  }
+}
+
+if ('Valine' === 'Disqus' || !true) {
+  if (true) btf.loadComment(document.getElementById('disqus_thread'), loadDisqus)
+  else loadDisqus()
+} else {
+  function loadOtherComment () {
+    loadDisqus()
+  }
+}
+</script></div><script src="https://cdn.jsdelivr.net/npm/blueimp-md5/js/md5.min.js"></script><script>window.addEventListener('load', () => {
+  const changeContent = (content) => {
+    if (content === '') return content
+
+    content = content.replace(/<img.*?src="(.*?)"?[^\>]+>/ig, '[图片]') // replace image link
+    content = content.replace(/<a[^>]+?href=["']?([^"']+)["']?[^>]*>([^<]+)<\/a>/gi, '[链接]') // replace url
+    content = content.replace(/<pre><code>.*?<\/pre>/gi, '[代码]') // replace code
+    content = content.replace(/<[^>]+>/g,"") // remove html tag
+
+    if (content.length > 150) {
+      content = content.substring(0,150) + '...'
+    }
+    return content
+  }
+
+  const getIcon = (icon, mail) => {
+    if (icon) return icon
+    let defaultIcon = '?d=mp'
+    let iconUrl = `https://gravatar.loli.net/avatar/${md5(mail.toLowerCase()) + defaultIcon}`
+    return iconUrl
+  }
+
+  const generateHtml = array => {
+    let result = ''
+
+    if (array.length) {
+      for (let i = 0; i < array.length; i++) {
+        result += '<div class=\'aside-list-item\'>'
+
+        if (true) {
+          const name = 'data-lazy-src'
+          result += `<a href='${array[i].url}' class='thumbnail'><img ${name}='${array[i].avatar}' alt='${array[i].nick}'></a>`
+        }
+
+        result += `<div class='content'>
+        <a class='comment' href='${array[i].url}' title='${array[i].content}'>${array[i].content}</a>
+        <div class='name'><span>${array[i].nick} / </span><time datetime="${array[i].date}">${btf.diffDate(array[i].date, true)}</time></div>
+        </div></div>`
+      }
+    } else {
+      result += '没有评论'
+    }
+
+    let $dom = document.querySelector('#card-newest-comments .aside-list')
+    $dom.innerHTML= result
+    window.lazyLoadInstance && window.lazyLoadInstance.update()
+    window.pjax && window.pjax.refresh($dom)
+  }
+
+  const getComment = () => {
+    const serverURL = 'https://o8lbtceh.lc-cn-n1-shared.com'
+
+    var settings = {
+      "method": "GET",
+      "headers": {
+        "X-LC-Id": 'O8LBtcEHpDlrpdpmT4vFkCno-gzGzoHsz',
+        "X-LC-Key": 'YYdyOhbCGoVEYggTt2icfUHj',
+        "Content-Type": "application/json"
+      },
+    }
+
+    fetch(`${serverURL}/1.1/classes/Comment?limit=6&order=-createdAt`,settings)
+      .then(response => response.json())
+      .then(data => {
+        const valineArray = data.results.map(function (e) {
+          return {
+            'avatar': getIcon(e.QQAvatar, e.mail),
+            'content': changeContent(e.comment),
+            'nick': e.nick,
+            'url': e.url + '#' + e.objectId,
+            'date': e.updatedAt,
+          }
+        })
+        saveToLocal.set('valine-newest-comments', JSON.stringify(valineArray), 10/(60*24))
+        generateHtml(valineArray)
+      }).catch(e => {
+        const $dom = document.querySelector('#card-newest-comments .aside-list')
+        $dom.textContent= "无法获取评论，请确认相关配置是否正确"
+      }) 
+  }
+
+  const newestCommentInit = () => {
+    if (document.querySelector('#card-newest-comments .aside-list')) {
+      const data = saveToLocal.get('valine-newest-comments')
+      if (data) {
+        generateHtml(JSON.parse(data))
+      } else {
+        getComment()
+      }
+    }
+  }
+
+  newestCommentInit()
+  document.addEventListener('pjax:complete', newestCommentInit)
+})</script><div class="aplayer no-destroy" data-id="8674547170" data-server="netease" data-type="playlist" data-fixed="true" data-autoplay="true" data-lrcType="-1"> </div><canvas class="fireworks" mobile="false"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/fireworks.min.js"></script><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-nest.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = false;
+POWERMODE.mobile = true;
+document.body.addEventListener('input', POWERMODE);
+</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/metingjs/dist/Meting.min.js"></script><script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script><script>let pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener scroll 
+  window.tocScrollFn && window.removeEventListener('scroll', window.tocScrollFn)
+  window.scrollCollect && window.removeEventListener('scroll', scrollCollect)
+
+  document.getElementById('rightside').style.cssText = "opacity: ''; transform: ''"
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+  typeof disqusjs === 'object' && disqusjs.destroy()
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+})
+
+document.addEventListener('pjax:error', (e) => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div class="no-result" id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div></body></html>
