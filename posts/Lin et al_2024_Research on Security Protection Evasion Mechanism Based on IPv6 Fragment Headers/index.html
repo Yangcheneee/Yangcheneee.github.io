@@ -1,0 +1,488 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Research on Security Protection Evasion Mechanism Based on IPv6 Fragment Headers | 良月的小窝</title><meta name="author" content="良月"><meta name="copyright" content="良月"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="Research on Security Protection Evasion Mechanism Based on IPv6 Fragment Headers基于IPv6分片头的安全保护逃逸机制摘要IPv6分片头是数据包分片的关键，但可以被利用来逃避安全系统，构成实质性的威胁。 尽管RFC-7112强调了“IPv6分片逃避行为”的含义，但缺乏全面的评估，阻碍了对标准符合性的评估。 同时，现有的I">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Research on Security Protection Evasion Mechanism Based on IPv6 Fragment Headers">
+<meta property="og:url" content="http://yangcheneee.github.io/posts/Lin%20et%20al_2024_Research%20on%20Security%20Protection%20Evasion%20Mechanism%20Based%20on%20IPv6%20Fragment%20Headers/index.html">
+<meta property="og:site_name" content="良月的小窝">
+<meta property="og:description" content="Research on Security Protection Evasion Mechanism Based on IPv6 Fragment Headers基于IPv6分片头的安全保护逃逸机制摘要IPv6分片头是数据包分片的关键，但可以被利用来逃避安全系统，构成实质性的威胁。 尽管RFC-7112强调了“IPv6分片逃避行为”的含义，但缺乏全面的评估，阻碍了对标准符合性的评估。 同时，现有的I">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://yangcheneee.github.io/img/cover/14.jpg">
+<meta property="article:published_time" content="2024-11-12T16:00:00.000Z">
+<meta property="article:modified_time" content="2024-11-13T13:05:03.651Z">
+<meta property="article:author" content="良月">
+<meta property="article:tag" content="IPv6">
+<meta property="article:tag" content="分片">
+<meta property="article:tag" content="FragEva6">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yangcheneee.github.io/img/cover/14.jpg"><link rel="shortcut icon" href="/img/favicon.jpg"><link rel="canonical" href="http://yangcheneee.github.io/posts/Lin%20et%20al_2024_Research%20on%20Security%20Protection%20Evasion%20Mechanism%20Based%20on%20IPv6%20Fragment%20Headers/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: undefined,
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Research on Security Protection Evasion Mechanism Based on IPv6 Fragment Headers',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-11-13 21:05:03'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = (url,id = false) => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      if (id) link.id = id
+      link.onerror = reject
+      link.onload = link.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        link.onload = link.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/background.css"><meta name="generator" content="Hexo 6.3.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">58</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">84</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">14</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa fa-graduation-cap"></i><span> 博文</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fa fa-archive"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fa fa-folder-open"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/messageboard/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于笔者</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/img/cover/14.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="良月的小窝"><span class="site-name">良月的小窝</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa fa-graduation-cap"></i><span> 博文</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fa fa-archive"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fa fa-folder-open"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/messageboard/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于笔者</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Research on Security Protection Evasion Mechanism Based on IPv6 Fragment Headers</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-11-12T16:00:00.000Z" title="发表于 2024-11-13 00:00:00">2024-11-13</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-11-13T13:05:03.651Z" title="更新于 2024-11-13 21:05:03">2024-11-13</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">4k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>12分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Research on Security Protection Evasion Mechanism Based on IPv6 Fragment Headers"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="Research-on-Security-Protection-Evasion-Mechanism-Based-on-IPv6-Fragment-Headers"><a href="#Research-on-Security-Protection-Evasion-Mechanism-Based-on-IPv6-Fragment-Headers" class="headerlink" title="Research on Security Protection Evasion Mechanism Based on IPv6 Fragment Headers"></a>Research on Security Protection Evasion Mechanism Based on IPv6 Fragment Headers</h1><h1 id="基于IPv6分片头的安全保护逃逸机制"><a href="#基于IPv6分片头的安全保护逃逸机制" class="headerlink" title="基于IPv6分片头的安全保护逃逸机制"></a>基于IPv6分片头的安全保护逃逸机制</h1><h2 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h2><p>IPv6分片头是数据包分片的关键，但可以被利用来逃避安全系统，构成实质性的威胁。</p>
+<p>尽管RFC-7112强调了“IPv6分片逃避行为”的含义，但缺乏全面的评估，阻碍了对标准符合性的评估。</p>
+<p>同时，现有的IPv6分片逃避行为主要集中在微小&#x2F;重叠的分片上，忽略了其他IPv6扩展头的组合。</p>
+<p>因此，论文提出了一个IPv6分片回避（FragEva6）行为模型，演示了从IPv6报头到FragEva6机制的逐步构建过程。</p>
+<p>随后，对17个主流操作系统和4个安全系统的评估显示，最新版本的Windows和Apple操作系统在处理IPv6碎片时符合RFC 7112，而Linux操作系统则表现出部分不符合。</p>
+<p>此外，安全系统（Windows Defender 20230503.1、ip6tables 1.8.9、Suricata v6.0.12和Snort v3.1.61.0）表现出的缓解措施不足，使它们容易受到通过操纵IPv6片段报头逃避威胁的影响。</p>
+<p>最后，为了说明这些行为的严重性，本研究实现了基于FragEva6机制的链路上主机扫描活动，成功地避开了防火墙并引发了目标响应。。</p>
+<h2 id="1-背景"><a href="#1-背景" class="headerlink" title="1. 背景"></a>1. 背景</h2><h3 id="1-1-IPv6分片首部"><a href="#1-1-IPv6分片首部" class="headerlink" title="1.1 IPv6分片首部"></a>1.1 IPv6分片首部</h3><p>IPv6报文中有一个8比特的字段：下一个首部。</p>
+<p>在<a target="_blank" rel="noopener" href="https://www.iana.org/assignments/protocol-numbers/protocol-numbers.xhtml">互联网地址编码分配机构（Internet Assigned Numbers Authority，IANA）的Protocol Number</a><br>中规定了IPv6分片的字段值为：44，它代表了网络层对数据进行了分片操作。</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/FragEva6/image-1.png" alt="alt text"></p>
+<p>一个IPv6的分片首部总共8字节，具体结构如下：</p>
+<p>下一个首部8位|保留8位|分片偏移13位|保留（Res）2位|M（1位）|标识符（32位）</p>
+<ul>
+<li><p>保留字段和Res字段：保留字段和Res都是保留字段，设置为零。<br>（同样这里也存在安全问题，因为可以利用这个字段传递信息而不被人关注。）</p>
+</li>
+<li><p>下一个首部：标识分片承载的选项或者上层协议，可以是选项DOH或者协议ICMP，上层协议TCP等等。它是引发安全问题的原因，因为防火墙检测将检查此字段字段以判断报文是否合法。</p>
+</li>
+<li><p>M字段：表明该分片是否为原始数据报的最后一个分片。与IPv4一样。<br>如果值为1，代表有更多的分片，如果值为0，代表最后一个分片。</p>
+</li>
+<li><p>标识字段：用于标识这些分片属于同一个，方便网络层重新将它们组装起来。</p>
+</li>
+<li><p>分片偏移：以8字节为单位，相当于标识顺序，因为分片可能不按照顺序到达。<br>第一个分片offset为0，第二一般是181，因为如果数据包需要分片，那么ip头和分片头48字节加181*8字节刚好1496字节，再多一个就超过MTU的1500字节了。</p>
+</li>
+</ul>
+<p>一个典型的分段操作如下：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/FragEva6/image-2.png" alt="alt text"></p>
+<h3 id="1-2-现有FragEva6行为"><a href="#1-2-现有FragEva6行为" class="headerlink" title="1.2 现有FragEva6行为"></a>1.2 现有FragEva6行为</h3><p>根据RFC 7112，第一个片段应该包含完整的上层协议的报头。</p>
+<p>比如在图2中，它的分片1需要包含整个上层协议的报头。</p>
+<p>但是FragEva6违反了这一要求，它将完整的上层报头分散到不同的片段中，例如，它可能出现在Fig2的分片2或3中。</p>
+<p>现有关于FragEva6机制的文献主要集中在微小片段逃避和重叠片段逃避行为上。</p>
+<h4 id="1-2-1-微小碎片逃避行为"><a href="#1-2-1-微小碎片逃避行为" class="headerlink" title="1.2.1 微小碎片逃避行为"></a>1.2.1 微小碎片逃避行为</h4><p>在图1场景中，防火墙拦截来自任何源的ICMPv6 Echo Request报文到主机b。如图3所示，攻击者为了达到目的，将一个1280字节的IPv6报文按照56字节的MTU进行拆分，IPv6报头和分片扩展头占据48字节，因此数据部分只有8字节，导致上层报头链被限制在IPv6报头链的第155个分片。ICMPv6头只能存在于第155个片段中。由于中间防火墙设备仅限于检查第一个分片，只能发现DOH字段，无法识别上层ICMPv6信息，因此产生了利用微小片段的逃避行为。</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/FragEva6/image-4.png" alt="alt text"></p>
+<p>关于DOH，在IANA的Protocol Nunmer中可以看到这个选项。</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/FragEva6/image-5.png" alt="alt text"></p>
+<p>Destination Options报头用于承载仅需要由数据包的目的地节点检查的可选信息。<br>下一个首部同样遵循IANA的Protocol Number。所以DOH更像一个选项，向IPv4中的选项一样，而不是一个上层协议。<br><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/FragEva6/image-7.png" alt="alt text"></p>
+<h4 id="1-2-2-重叠分片逃避行为"><a href="#1-2-2-重叠分片逃避行为" class="headerlink" title="1.2.2 重叠分片逃避行为"></a>1.2.2 重叠分片逃避行为</h4><p>当攻击者精心构建多个分片数据包共享相同的分片标识时，重叠分片就会出现。由于故意配置错误的片段偏移字段值，这些数据包显示片段之间的字节重叠。在目的主机的重组过程中，后续分片中非法重叠的数据可能会覆盖之前分片中对应的数据。</p>
+<p>在图1的场景中，攻击者发送到目标主机的第一个片段包含一个DOH头，而第二个片段包含一个与第一个片段重叠的ICMPv6上层头，如图4所示。在主机接收分片后使用ICMPv6报头将DOH报头覆盖。由于中间防火墙设备只能检测第一个分片报文，无法检测到分片重叠或是否存在ICMPv6上层信息，从而导致规避行为。</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/FragEva6/image-6.png" alt="alt text"></p>
+<h3 id="1-3-当前工作的局限"><a href="#1-3-当前工作的局限" class="headerlink" title="1.3 当前工作的局限"></a>1.3 当前工作的局限</h3><p>目前对IPv6分片规避机制的研究有限，主要集中在不符合rfc标准的分片报文上，如微小分片和重叠分片。</p>
+<p>此外，缺乏对这个问题进行实际检查和测试的模型或工具。</p>
+<p>为此，本文首次提出了IPv6分片逃避行为的构造模型FragEva6。该模型集成了其他IPv6扩展报头，以扩展现有的FragEva6行为类型。</p>
+<h2 id="2-介绍"><a href="#2-介绍" class="headerlink" title="2. 介绍"></a>2. 介绍</h2><p>IPv6报文下一个首部的引入增强了可扩展性，但同时也产生了许多安全问题。</p>
+<p>IPv6下一个首部的分片首部被证明存在漏洞：如重叠碎片和微小碎片，对互联网构成多方面的威胁：拒绝服务（DoS），操作系统（OS）指纹识别和入侵检测系统（IDS）规避等。</p>
+<p>微小片段（违反RFC-2460）和重叠片段（违反RFC-5722），这些片段很容易逃避Snort或Suricata等流行的IDS。认识到解决这些基于IPv6片段的威胁的迫切需要，提出了征求意见RFC-7112。</p>
+<h4 id="关于RFC-7112"><a href="#关于RFC-7112" class="headerlink" title="关于RFC-7112"></a>关于RFC-7112</h4><p>RFC2460的更新，要求所有报头（从IPv6基本报头开始，一直到上层报头（例如TCP等））都出现在第一个片段中。因为防火墙检测第一个分片中的上层协议信息，如果没有上层协议的报头，那么可能造成安全威胁。<br>RFC-7112旨在解决过长的IPv6报头链的安全问题。攻击者滥用IPv6分片机制将报头链分割成多个片段，通常留下的第一个片段缺乏关键的上层报头信息，如TCP（传输控制协议）或ICMPv6（互联网控制消息协议版本6）报头。安全系统通常只检查第一个分片中的上层信息，使得隐藏在后面数据包中的恶意数据难以检测。这些看似无害的碎片一旦在主机层面重新组装，就可以对目标主机执行DoS等威胁。图1是一个使用IPv6分片机制规避防火墙的示例。本研究提出了IPv6分片逃避行为等问题，具体表示为FragEva6行为。</p>
+<p>RFC 7112建议目的主机丢弃这些上层报头信息不完整的IPv6分片，以对抗FragEva6驱动的威胁。</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/FragEva6/image-3.png" alt="alt text"></p>
+<h4 id="关于RFC-5722"><a href="#关于RFC-5722" class="headerlink" title="关于RFC-5722"></a>关于RFC-5722</h4><p>阐述如何处理重叠的分片。</p>
+<p>基本IPv6规范中指定的碎片和重组算法允许碎片重叠。</p>
+<p>本文档演示了与允许重叠片段相关的安全问题，并更新了IPv6规范以明确禁止重叠片段。</p>
+<p>传输需要分段的数据报的IPv6节点不得创建重叠的分段。在重新组装IPv6数据报时，如果确定其一个或多个组成片段是重叠片段，则必须无声地丢弃整个数据报（以及任何组成片段，包括尚未接收到的片段）。</p>
+<h3 id="2-2-论文工作"><a href="#2-2-论文工作" class="headerlink" title="2.2 论文工作"></a>2.2 论文工作</h3><ul>
+<li>扩展FragEva6的行为与机制</li>
+<li>开发了一组测试套件</li>
+<li>对操作系统和安全系统进行实验并做了评估</li>
+<li>利用FragEva6实现主机扫描</li>
+</ul>
+<h2 id="3-FragEva6行为的建模与机制"><a href="#3-FragEva6行为的建模与机制" class="headerlink" title="3. FragEva6行为的建模与机制"></a>3. FragEva6行为的建模与机制</h2><h3 id="3-1-Frageva6行为的建模与机制"><a href="#3-1-Frageva6行为的建模与机制" class="headerlink" title="3.1 Frageva6行为的建模与机制"></a>3.1 Frageva6行为的建模与机制</h3><p>为了阐明分片逃避行为的机制，提出FragEva6行为的模型，如图5所示。</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/FragEva6/image-8.png" alt="alt text"></p>
+<p>（S1到S4象征着对手通过IPv6扩展头制作行为过程中的4个阶段。<br>状态之间的箭头表示每个步骤中的特定操作，驱动行为状态的转换。）</p>
+<p>起始状态S1由IPv6基本报头组成。</p>
+<p>步骤1添加IPv6分片头，也就是将将IPv6报头的下一个首部字段设置为44，过渡到状态S2。</p>
+<p>步骤2包含额外的IPv6扩展头，如将分片头中下一个首部字段设置为DOH，达到状态S3。</p>
+<p>最后，步骤3追加上层报头，如将分片中的头中的下一个首部字段设置为ICMP，最终达到最终状态S4，包含FragEva6包。</p>
+<h4 id="3-1-1-步骤1：添加IPv6分片头"><a href="#3-1-1-步骤1：添加IPv6分片头" class="headerlink" title="3.1.1 步骤1：添加IPv6分片头"></a>3.1.1 步骤1：添加IPv6分片头</h4><p>下面两段的意思基本是，分片大小原则上不会影响实验，因为RFC没有规定分片就必须大于等于1280字节。但是，可能不同的安全系统对这个分片大小可能不一样，所以为了严谨性将两者分开。</p>
+<ul>
+<li>微小分片逃避行为：微小的分片本身没有固有的问题，RFC指南也没有规定IPv6应该如何管理小于1280字节的数据包。但是逃避行为利用了较小的MTU的属性，将出站数据包划分为极小的长度，从而将对防火墙或IDS检测至关重要的上层数据替换为后续的分片。</li>
+<li>超大分片规避行为：超大分片是指分片长度大于等于1280字节。类似于基于微小片段的逃避的基本原理，IPv6超大片段逃避行为利用IPv6扩展报头的属性在恶意数据包中嵌入大量扩展报头选项（例如，DOH报头包含许多PadN选项），增加数据包长度并触发碎片。这种策略将数据包的上层报头数据重新定位到后续的片段中，从而便于逃避。</li>
+</ul>
+<h4 id="3-1-2-步骤2：添加其他IPv6扩展头"><a href="#3-1-2-步骤2：添加其他IPv6扩展头" class="headerlink" title="3.1.2 步骤2：添加其他IPv6扩展头"></a>3.1.2 步骤2：添加其他IPv6扩展头</h4><p>下面四种方式都有可能绕过安全机制</p>
+<ul>
+<li>A：不超过2个DOH头的可分割部分</li>
+<li>B：基于IPv6扩展头的重叠分片</li>
+<li>C：包含大量相同类型的扩展头的片段逃避行为</li>
+<li>D：包含多种不同类型扩展头的片段逃避行为<br>在步骤2之后，FragEva6行为已经创建了IPv6报头、IPv6分片报头和其他扩展报头。为了实现FragEva6行为，必须通过添加真正的上层报头来完成步骤3。</li>
+</ul>
+<h4 id="3-1-3-步骤3：添加上层表头"><a href="#3-1-3-步骤3：添加上层表头" class="headerlink" title="3.1.3 步骤3：添加上层表头"></a>3.1.3 步骤3：添加上层表头</h4><p>在IPv6中，“下一个报头”字段用于识别后续扩展报头的类型，攻击者可以利用这种机制来隐藏上层报头的性质，并增加片段逃避行为的复杂性。受RFC 7113的启发，本研究根据第一个片段中上层报头标识符的表现，将分片逃避行为分为两类。</p>
+<ul>
+<li><p>已知上层报头协议类型的逃避行为：在这种分片报文中，攻击者可以使用分片报头和其他扩展报头来隐藏上层报头的协议类型（如ICMPv6）。图6中的原始数据包包含完整的IPv6报头链，顶部有一个ICMPv6报头作为上层报头。值得注意的是，第一个片段中的最后一个“下一个报头”字段被赋值为58，表明ICMPv6（一种已知的上层报头协议类型），而ICMPv6报头出现在第二个片段中。<br><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/FragEva6/image-9.png" alt="alt text"></p>
+</li>
+<li><p>上层报头协议类型未知的逃避行为：在这样的分片报文中，攻击者隐藏了上层报头的协议类型。导致中间设备无法识别上层报头的类型。图7中的原始数据包包含完整的IPv6报头链，上层报头的协议类型为ICMPv6。第一个片段中的最后一个“下一个报头”字段被赋值为60，表示DOH报头（不是上层报头），而实际的ICMPv6报头出现在第二个片段中。因此，第一个分片没有上层报头的协议类型。<br><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/FragEva6/image-10.png" alt="alt text"></p>
+</li>
+</ul>
+<h4 id="3-1-4-测试套件实现"><a href="#3-1-4-测试套件实现" class="headerlink" title="3.1.4 测试套件实现"></a>3.1.4 测试套件实现</h4><p>由于缺乏对FragEva6机制的研究和缺乏公开的测试工具，作者创建了一个基于第三节中描述的FragEva6行为模型的测试套件（FragEva6- build）。</p>
+<p>表1列出了测试用例。<br><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/FragEva6/image-11.png" alt="alt text"></p>
+<h2 id="4-测试和评估FragEva6行为"><a href="#4-测试和评估FragEva6行为" class="headerlink" title="4. 测试和评估FragEva6行为"></a>4. 测试和评估FragEva6行为</h2><h3 id="4-1-FragEva6行为的测试与评估策略"><a href="#4-1-FragEva6行为的测试与评估策略" class="headerlink" title="4.1 FragEva6行为的测试与评估策略"></a>4.1 FragEva6行为的测试与评估策略</h3><h4 id="4-1-1-实验一：主流操作系统的规范性测试"><a href="#4-1-1-实验一：主流操作系统的规范性测试" class="headerlink" title="4.1.1 实验一：主流操作系统的规范性测试"></a>4.1.1 实验一：主流操作系统的规范性测试</h4><p>对流行操作系统中的内核协议栈进行了严格的测试，以验证它们是否符合RFC 7112中规定的IPv6分片处理指南。</p>
+<p>对于Linux系统的测试可以发现，操作系统对于上层协议unknown的分片都没有防护。<br><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/FragEva6/image-12.png" alt="alt text"></p>
+<p>Windows操作系统相对好的多，但是对于较低版本的系统缺乏支持。<br><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/FragEva6/image-13.png" alt="alt text"></p>
+<h4 id="4-1-2-实验2：安全防护系统评估和威胁验证"><a href="#4-1-2-实验2：安全防护系统评估和威胁验证" class="headerlink" title="4.1.2 实验2：安全防护系统评估和威胁验证"></a>4.1.2 实验2：安全防护系统评估和威胁验证</h4><p>对于在内核级别没有充分执行RFC 7112的操作系统，我们研究了防火墙等安全解决方案，当配置了全面的规则集时，是否可以有效地拦截利用FragEva6机制的恶意尝试，并证实FragEva6威胁的存在。</p>
+<p>Linux和一些windows 11之前的系统对RFC标准的遵守程度有限，而苹果的操作系统则完全符合。<br>因此，本节将评估Windows Defender 20230503.1 （Windows）、ip6tables 1.8.9 （Linux）和顶级支持ipv6的开源IDS: Suricata v6.0.12和Snort v3.1.61.0。</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/FragEva6/image-14.png" alt="alt text"></p>
+<p>默认的Linux防火墙ip6tables对FragEva6威胁的处理不是最优的，它只拦截那些上层报头中已知协议类型的数据包，而对未知协议类型的数据包失败。</p>
+<p>Windows Defender， Windows默认防火墙，成功地阻止了所有测试的威胁。这表明，尽管在Windows 11之前的一些系统对RFC标准的支持较低，但当安全人员配置了适当的规则时，Windows Defender可以有效地防范基于IPv6分片报头的威胁。</p>
+<p>Suricata可以有效地检测到所有基于icmpv6的情况，但在TCP方面表现不佳，只能识别A1。这可能源于它对TCP碎片处理不当，阻碍了威胁识别。</p>
+<p>Snort无法拦截任何威胁，这表明FragEva6完全逃避了其规则，从而使其无效。</p>
+<h4 id="4-1-3-实验三：IDS对FragEva6行为的检测能力"><a href="#4-1-3-实验三：IDS对FragEva6行为的检测能力" class="headerlink" title="4.1.3 实验三：IDS对FragEva6行为的检测能力"></a>4.1.3 实验三：IDS对FragEva6行为的检测能力</h4><p>认识到潜在的防火墙漏洞和操作系统在丢弃恶意数据包方面的限制，我们评估了使用其默认规则集的IDS是否能够准确识别并主动阻止使用FragEva6机制制作的潜在威胁数据包。</p>
+<p>从实验结果的分析来看，Suricata触发4个警报，Snort触发2个警报。这些警告主要强调IPv6扩展报头使用中的违规行为，例如重复使用DOH报头和RH报头，这违反了标准的RFC一致性或代表非常规的数据包结构。<br><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/FragEva6/image-15.png" alt="alt text"></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="http://yangcheneee.github.io">良月</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://yangcheneee.github.io/posts/Lin%20et%20al_2024_Research%20on%20Security%20Protection%20Evasion%20Mechanism%20Based%20on%20IPv6%20Fragment%20Headers/">http://yangcheneee.github.io/posts/Lin%20et%20al_2024_Research%20on%20Security%20Protection%20Evasion%20Mechanism%20Based%20on%20IPv6%20Fragment%20Headers/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://yangcheneee.github.io" target="_blank">良月的小窝</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/IPv6/">IPv6</a><a class="post-meta__tags" href="/tags/%E5%88%86%E7%89%87/">分片</a><a class="post-meta__tags" href="/tags/FragEva6/">FragEva6</a></div><div class="post_share"><div class="social-share" data-image="/img/cover/14.jpg" data-sites="wechat,qq,weibo"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i> 打赏</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechat.jpg" target="_blank"><img class="post-qr-code-img" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/wechat.jpg" alt="wechat"/></a><div class="post-qr-code-desc">wechat</div></li><li class="reward-item"><a href="/img/alipay.jpg" target="_blank"><img class="post-qr-code-img" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/alipay.jpg" alt="alipay"/></a><div class="post-qr-code-desc">alipay</div></li></ul></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/posts/network-IPv6/" title="IPv6详解"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/cover/14.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">IPv6详解</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/posts/network-IPv6/" title="IPv6详解"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/cover/14.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-11-12</div><div class="title">IPv6详解</div></div></a></div></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div><div id="comment-switch"><span class="first-comment">Valine</span><span class="switch-btn"></span><span class="second-comment">Disqus</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div><div><div id="disqus_thread"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">良月</div><div class="author-info__description">郎朗晴天</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">58</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">84</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">14</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Yangcheneee"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/Yangcheneee" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="tencent://AddContact/?fromId=45&amp;fromSubId=1&amp;subcmd=all&amp;uin=2657761647&amp;website=www.oicqzone.com" target="_blank" title="QQ"><i class="fab fa-qq"></i></a><a class="social-icon" href="mailto:2657761647@qq.com" target="_blank" title="Email"><i class="fas fa-envelope-open-text"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">欢迎来到我的个人博客</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Research-on-Security-Protection-Evasion-Mechanism-Based-on-IPv6-Fragment-Headers"><span class="toc-text">Research on Security Protection Evasion Mechanism Based on IPv6 Fragment Headers</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9F%BA%E4%BA%8EIPv6%E5%88%86%E7%89%87%E5%A4%B4%E7%9A%84%E5%AE%89%E5%85%A8%E4%BF%9D%E6%8A%A4%E9%80%83%E9%80%B8%E6%9C%BA%E5%88%B6"><span class="toc-text">基于IPv6分片头的安全保护逃逸机制</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%91%98%E8%A6%81"><span class="toc-text">摘要</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E8%83%8C%E6%99%AF"><span class="toc-text">1. 背景</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-IPv6%E5%88%86%E7%89%87%E9%A6%96%E9%83%A8"><span class="toc-text">1.1 IPv6分片首部</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-%E7%8E%B0%E6%9C%89FragEva6%E8%A1%8C%E4%B8%BA"><span class="toc-text">1.2 现有FragEva6行为</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-2-1-%E5%BE%AE%E5%B0%8F%E7%A2%8E%E7%89%87%E9%80%83%E9%81%BF%E8%A1%8C%E4%B8%BA"><span class="toc-text">1.2.1 微小碎片逃避行为</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-2-2-%E9%87%8D%E5%8F%A0%E5%88%86%E7%89%87%E9%80%83%E9%81%BF%E8%A1%8C%E4%B8%BA"><span class="toc-text">1.2.2 重叠分片逃避行为</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-3-%E5%BD%93%E5%89%8D%E5%B7%A5%E4%BD%9C%E7%9A%84%E5%B1%80%E9%99%90"><span class="toc-text">1.3 当前工作的局限</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E4%BB%8B%E7%BB%8D"><span class="toc-text">2. 介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%B3%E4%BA%8ERFC-7112"><span class="toc-text">关于RFC-7112</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%B3%E4%BA%8ERFC-5722"><span class="toc-text">关于RFC-5722</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-%E8%AE%BA%E6%96%87%E5%B7%A5%E4%BD%9C"><span class="toc-text">2.2 论文工作</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-FragEva6%E8%A1%8C%E4%B8%BA%E7%9A%84%E5%BB%BA%E6%A8%A1%E4%B8%8E%E6%9C%BA%E5%88%B6"><span class="toc-text">3. FragEva6行为的建模与机制</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-Frageva6%E8%A1%8C%E4%B8%BA%E7%9A%84%E5%BB%BA%E6%A8%A1%E4%B8%8E%E6%9C%BA%E5%88%B6"><span class="toc-text">3.1 Frageva6行为的建模与机制</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#3-1-1-%E6%AD%A5%E9%AA%A41%EF%BC%9A%E6%B7%BB%E5%8A%A0IPv6%E5%88%86%E7%89%87%E5%A4%B4"><span class="toc-text">3.1.1 步骤1：添加IPv6分片头</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-1-2-%E6%AD%A5%E9%AA%A42%EF%BC%9A%E6%B7%BB%E5%8A%A0%E5%85%B6%E4%BB%96IPv6%E6%89%A9%E5%B1%95%E5%A4%B4"><span class="toc-text">3.1.2 步骤2：添加其他IPv6扩展头</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-1-3-%E6%AD%A5%E9%AA%A43%EF%BC%9A%E6%B7%BB%E5%8A%A0%E4%B8%8A%E5%B1%82%E8%A1%A8%E5%A4%B4"><span class="toc-text">3.1.3 步骤3：添加上层表头</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-1-4-%E6%B5%8B%E8%AF%95%E5%A5%97%E4%BB%B6%E5%AE%9E%E7%8E%B0"><span class="toc-text">3.1.4 测试套件实现</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E6%B5%8B%E8%AF%95%E5%92%8C%E8%AF%84%E4%BC%B0FragEva6%E8%A1%8C%E4%B8%BA"><span class="toc-text">4. 测试和评估FragEva6行为</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-FragEva6%E8%A1%8C%E4%B8%BA%E7%9A%84%E6%B5%8B%E8%AF%95%E4%B8%8E%E8%AF%84%E4%BC%B0%E7%AD%96%E7%95%A5"><span class="toc-text">4.1 FragEva6行为的测试与评估策略</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#4-1-1-%E5%AE%9E%E9%AA%8C%E4%B8%80%EF%BC%9A%E4%B8%BB%E6%B5%81%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%9A%84%E8%A7%84%E8%8C%83%E6%80%A7%E6%B5%8B%E8%AF%95"><span class="toc-text">4.1.1 实验一：主流操作系统的规范性测试</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-1-2-%E5%AE%9E%E9%AA%8C2%EF%BC%9A%E5%AE%89%E5%85%A8%E9%98%B2%E6%8A%A4%E7%B3%BB%E7%BB%9F%E8%AF%84%E4%BC%B0%E5%92%8C%E5%A8%81%E8%83%81%E9%AA%8C%E8%AF%81"><span class="toc-text">4.1.2 实验2：安全防护系统评估和威胁验证</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-1-3-%E5%AE%9E%E9%AA%8C%E4%B8%89%EF%BC%9AIDS%E5%AF%B9FragEva6%E8%A1%8C%E4%B8%BA%E7%9A%84%E6%A3%80%E6%B5%8B%E8%83%BD%E5%8A%9B"><span class="toc-text">4.1.3 实验三：IDS对FragEva6行为的检测能力</span></a></li></ol></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/posts/Lin%20et%20al_2024_Research%20on%20Security%20Protection%20Evasion%20Mechanism%20Based%20on%20IPv6%20Fragment%20Headers/" title="Research on Security Protection Evasion Mechanism Based on IPv6 Fragment Headers"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/cover/14.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Research on Security Protection Evasion Mechanism Based on IPv6 Fragment Headers"/></a><div class="content"><a class="title" href="/posts/Lin%20et%20al_2024_Research%20on%20Security%20Protection%20Evasion%20Mechanism%20Based%20on%20IPv6%20Fragment%20Headers/" title="Research on Security Protection Evasion Mechanism Based on IPv6 Fragment Headers">Research on Security Protection Evasion Mechanism Based on IPv6 Fragment Headers</a><time datetime="2024-11-12T16:00:00.000Z" title="发表于 2024-11-13 00:00:00">2024-11-13</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/network-IPv6/" title="IPv6详解"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/cover/14.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="IPv6详解"/></a><div class="content"><a class="title" href="/posts/network-IPv6/" title="IPv6详解">IPv6详解</a><time datetime="2024-11-11T16:00:00.000Z" title="发表于 2024-11-12 00:00:00">2024-11-12</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/computer_encode/" title="计算机编码"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/1.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="计算机编码"/></a><div class="content"><a class="title" href="/posts/computer_encode/" title="计算机编码">计算机编码</a><time datetime="2024-06-26T16:00:00.000Z" title="发表于 2024-06-27 00:00:00">2024-06-27</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/security_information/" title="信息收集"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/cover/0.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="信息收集"/></a><div class="content"><a class="title" href="/posts/security_information/" title="信息收集">信息收集</a><time datetime="2024-06-23T16:00:00.000Z" title="发表于 2024-06-24 00:00:00">2024-06-24</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/steg_spread_spectrum/" title="扩频水印"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/cover/6.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="扩频水印"/></a><div class="content"><a class="title" href="/posts/steg_spread_spectrum/" title="扩频水印">扩频水印</a><time datetime="2024-06-05T16:00:00.000Z" title="发表于 2024-06-06 00:00:00">2024-06-06</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('/img/cover/14.jpg')"><div id="footer-wrap"><div class="copyright">&copy;2023 - 2024 By 良月</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: 'O8LBtcEHpDlrpdpmT4vFkCno-gzGzoHsz',
+      appKey: 'YYdyOhbCGoVEYggTt2icfUHj',
+      avatar: 'mp',
+      serverURLs: 'https://o8lbtceh.lc-cn-n1-shared.com',
+      emojiMaps: "",
+      path: window.location.pathname,
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !true) {
+  if (true) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script><script>function loadDisqus () {
+  const disqus_config = function () {
+    this.page.url = 'http://yangcheneee.github.io/posts/Lin%20et%20al_2024_Research%20on%20Security%20Protection%20Evasion%20Mechanism%20Based%20on%20IPv6%20Fragment%20Headers/'
+    this.page.identifier = '/posts/Lin%20et%20al_2024_Research%20on%20Security%20Protection%20Evasion%20Mechanism%20Based%20on%20IPv6%20Fragment%20Headers/'
+    this.page.title = 'Research on Security Protection Evasion Mechanism Based on IPv6 Fragment Headers'
+  }
+
+  const disqusReset = () => {
+    DISQUS.reset({
+      reload: true,
+      config: disqus_config
+    })
+  }
+
+  btf.addModeChange('disqus', disqusReset)
+
+  if (window.DISQUS) disqusReset()
+  else {
+    (function() { 
+      var d = document, s = d.createElement('script');
+      s.src = 'https://.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  }
+}
+
+if ('Valine' === 'Disqus' || !true) {
+  if (true) btf.loadComment(document.getElementById('disqus_thread'), loadDisqus)
+  else loadDisqus()
+} else {
+  function loadOtherComment () {
+    loadDisqus()
+  }
+}
+</script></div><script src="https://cdn.jsdelivr.net/npm/blueimp-md5/js/md5.min.js"></script><script>window.addEventListener('load', () => {
+  const changeContent = (content) => {
+    if (content === '') return content
+
+    content = content.replace(/<img.*?src="(.*?)"?[^\>]+>/ig, '[图片]') // replace image link
+    content = content.replace(/<a[^>]+?href=["']?([^"']+)["']?[^>]*>([^<]+)<\/a>/gi, '[链接]') // replace url
+    content = content.replace(/<pre><code>.*?<\/pre>/gi, '[代码]') // replace code
+    content = content.replace(/<[^>]+>/g,"") // remove html tag
+
+    if (content.length > 150) {
+      content = content.substring(0,150) + '...'
+    }
+    return content
+  }
+
+  const getIcon = (icon, mail) => {
+    if (icon) return icon
+    let defaultIcon = '?d=mp'
+    let iconUrl = `https://gravatar.loli.net/avatar/${md5(mail.toLowerCase()) + defaultIcon}`
+    return iconUrl
+  }
+
+  const generateHtml = array => {
+    let result = ''
+
+    if (array.length) {
+      for (let i = 0; i < array.length; i++) {
+        result += '<div class=\'aside-list-item\'>'
+
+        if (true) {
+          const name = 'data-lazy-src'
+          result += `<a href='${array[i].url}' class='thumbnail'><img ${name}='${array[i].avatar}' alt='${array[i].nick}'></a>`
+        }
+
+        result += `<div class='content'>
+        <a class='comment' href='${array[i].url}' title='${array[i].content}'>${array[i].content}</a>
+        <div class='name'><span>${array[i].nick} / </span><time datetime="${array[i].date}">${btf.diffDate(array[i].date, true)}</time></div>
+        </div></div>`
+      }
+    } else {
+      result += '没有评论'
+    }
+
+    let $dom = document.querySelector('#card-newest-comments .aside-list')
+    $dom.innerHTML= result
+    window.lazyLoadInstance && window.lazyLoadInstance.update()
+    window.pjax && window.pjax.refresh($dom)
+  }
+
+  const getComment = () => {
+    const serverURL = 'https://o8lbtceh.lc-cn-n1-shared.com'
+
+    var settings = {
+      "method": "GET",
+      "headers": {
+        "X-LC-Id": 'O8LBtcEHpDlrpdpmT4vFkCno-gzGzoHsz',
+        "X-LC-Key": 'YYdyOhbCGoVEYggTt2icfUHj',
+        "Content-Type": "application/json"
+      },
+    }
+
+    fetch(`${serverURL}/1.1/classes/Comment?limit=6&order=-createdAt`,settings)
+      .then(response => response.json())
+      .then(data => {
+        const valineArray = data.results.map(function (e) {
+          return {
+            'avatar': getIcon(e.QQAvatar, e.mail),
+            'content': changeContent(e.comment),
+            'nick': e.nick,
+            'url': e.url + '#' + e.objectId,
+            'date': e.updatedAt,
+          }
+        })
+        saveToLocal.set('valine-newest-comments', JSON.stringify(valineArray), 10/(60*24))
+        generateHtml(valineArray)
+      }).catch(e => {
+        const $dom = document.querySelector('#card-newest-comments .aside-list')
+        $dom.textContent= "无法获取评论，请确认相关配置是否正确"
+      }) 
+  }
+
+  const newestCommentInit = () => {
+    if (document.querySelector('#card-newest-comments .aside-list')) {
+      const data = saveToLocal.get('valine-newest-comments')
+      if (data) {
+        generateHtml(JSON.parse(data))
+      } else {
+        getComment()
+      }
+    }
+  }
+
+  newestCommentInit()
+  document.addEventListener('pjax:complete', newestCommentInit)
+})</script><div class="aplayer no-destroy" data-id="8674547170" data-server="netease" data-type="playlist" data-fixed="true" data-autoplay="true" data-lrcType="-1"> </div><canvas class="fireworks" mobile="false"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/fireworks.min.js"></script><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-nest.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = false;
+POWERMODE.mobile = true;
+document.body.addEventListener('input', POWERMODE);
+</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/metingjs/dist/Meting.min.js"></script><script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script><script>let pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener scroll 
+  window.tocScrollFn && window.removeEventListener('scroll', window.tocScrollFn)
+  window.scrollCollect && window.removeEventListener('scroll', scrollCollect)
+
+  document.getElementById('rightside').style.cssText = "opacity: ''; transform: ''"
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+  typeof disqusjs === 'object' && disqusjs.destroy()
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+})
+
+document.addEventListener('pjax:error', (e) => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div class="no-result" id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div></body></html>
