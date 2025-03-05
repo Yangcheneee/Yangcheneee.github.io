@@ -4,6 +4,32 @@
   
     
     <entry>
+      <title></title>
+      <link href="/posts/steg_svd_watermark/"/>
+      <url>/posts/steg_svd_watermark/</url>
+      
+        <content type="html"><![CDATA[<h1 id="An-SVD-Based-Watermarking-Scheme-for-Protecting-Rightful-Ownership"><a href="#An-SVD-Based-Watermarking-Scheme-for-Protecting-Rightful-Ownership" class="headerlink" title="An SVD-Based Watermarking Scheme for Protecting Rightful Ownership"></a>An SVD-Based Watermarking Scheme for Protecting Rightful Ownership</h1><h1 id="一种基于奇异值分解（SVD）的水印方案，用于保护合法所有权"><a href="#一种基于奇异值分解（SVD）的水印方案，用于保护合法所有权" class="headerlink" title="一种基于奇异值分解（SVD）的水印方案，用于保护合法所有权"></a>一种基于奇异值分解（SVD）的水印方案，用于保护合法所有权</h1><h2 id="一、翻译"><a href="#一、翻译" class="headerlink" title="一、翻译"></a>一、翻译</h2><p><a href="https://zhuanlan.zhihu.com/p/8899079919">论文翻译阅读–SVD水印（高引用经典论文）</a></p><h2 id="二、解读"><a href="#二、解读" class="headerlink" title="二、解读"></a>二、解读</h2><h3 id="不可逆水印"><a href="#不可逆水印" class="headerlink" title="不可逆水印"></a>不可逆水印</h3><p>对于图片A，版权所有者使用向其添加水印W，生成带有水印的图片Aw。</p><p><img src="/img/steg_svd_watermark/image.png" alt="alt text"></p><p>攻击者试图生成水印图片的所有权，那么攻击者找到一个虚假的水印Wf和原始图片Af满足水印生成的方案。</p><p><img src="/img/steg_svd_watermark/image-1.png" alt="alt text"></p><h3 id="算法解析"><a href="#算法解析" class="headerlink" title="算法解析"></a>算法解析</h3><h4 id="嵌入过程"><a href="#嵌入过程" class="headerlink" title="嵌入过程"></a>嵌入过程</h4><ol><li><p>首先读取图片A将其进行SVD分解，得到U，S，Vh三个矩阵。</p></li><li><p>然后将水印图片表示为一个矩阵，添加到奇异值矩阵S中，对新生成的矩阵进行分解得到Sw。</p></li><li><p>最后，将得到的Sw和第一次SVD分解得到的U和Vh得到带有水印的图片。</p></li><li><p>保存S和U_w，Vh_w三个矩阵用于提取水印。</p></li></ol><p><img src="/img/steg_svd_watermark/image-2.png" alt="alt text"></p><h4 id="提取过程"><a href="#提取过程" class="headerlink" title="提取过程"></a>提取过程</h4><ol><li><p>分解带有水印的图片Aw，得到U，S_w和Vh三个矩阵。</p></li><li><p>用保存的U_w和Vh_w，和第一步得到的S_w计算得到S+aW</p></li><li><p>得到S+aW后，减去保存的S就可以得到对应的水印W了。</p></li></ol><p><img src="/img/steg_svd_watermark/image-3.png" alt="alt text"></p><h4 id="不可逆性证明"><a href="#不可逆性证明" class="headerlink" title="不可逆性证明"></a>不可逆性证明</h4><p>攻击者想要证明水印图片Aw的所有权，就需要找到新的U_w，Vh_w,，S和水印W使得它们满足嵌入和提取算法。</p><ol><li><p>首先攻击者通过SVD分解水印图片Aw得到U，Sw和Vh。</p></li><li><p>攻击者得到Sw后，需要设计U_w，Vh_w以及S，W的值，使得下面等式成立。<br><img src="/img/steg_svd_watermark/image-4.png" alt="alt text"></p></li><li><p>由于攻击者知道Sw和S的差距不大，所以可以构造一个新的S，这样随机选取一些U_w和Vh_w的值就可以计算出一个水印值W</p></li><li><p>如果指定水印必须有意义的情况下，攻击者伪造的水印W固定，由于Sw与S接近所以伪造一个S可能可行，但是就难以保证SVD分解出来的对角线元素的Sw。</p></li></ol><h4 id="水印图片对角线像素异常"><a href="#水印图片对角线像素异常" class="headerlink" title="水印图片对角线像素异常"></a>水印图片对角线像素异常</h4><p>如果仔细观察可以看到提取的水印图片有一个普遍的特点，对角线元素模糊。</p><p><img src="/img/steg_svd_watermark/image-5.png" alt="alt text"></p><p>这不是偶然的情况，这是复现的结果：<br><img src="/img/steg_svd_watermark/image-6.png" alt="alt text"></p><p>当我把嵌入强度调高后，这种效果减弱了：<br><img src="/img/steg_svd_watermark/image-7.png" alt="alt text"></p><p>因此猜测是S的对角线奇异值的值很大，而水印图片的值较小，计算时出现的误差。因为我调大嵌入强度，对角线模糊的情况就被改善了</p><h2 id="三、代码实现"><a href="#三、代码实现" class="headerlink" title="三、代码实现"></a>三、代码实现</h2><pre><code class="python">import cv2import numpy as npimport matplotlib.pyplot as pltdef svd_watermark_embed(original_img, watermark, alpha=16):    &quot;&quot;&quot;    SVD水印嵌入算法    :param original_img: 原始图像（灰度）    :param watermark: 水印矩阵（与图像同尺寸）    :param alpha: 水印强度系数    :return: 含水印图像，嵌入用的U_w, S_w, Vh_w    &quot;&quot;&quot;    # 步骤1：对原始图像进行SVD分解    U, S, Vh = np.linalg.svd(original_img, full_matrices=False)    S_diag = np.diag(S)    # 步骤2：将水印加入奇异值矩阵    watermarked_S = S_diag + alpha * watermark    # 步骤3：对修改后的矩阵进行SVD分解    U_w, S_w, Vh_w = np.linalg.svd(watermarked_S, full_matrices=False)    S_w_diag = np.diag(S_w)    # 步骤4：生成含水印图像    watermarked_img = U @ S_w_diag @ Vh    return np.clip(watermarked_img, 0, 255).astype(np.uint8), (U_w, S, Vh_w)def svd_watermark_extract(watermarked_img, U_w, Vh_w, original_S, alpha=16):    &quot;&quot;&quot;    SVD水印提取算法    :param watermarked_img: 含水印图像    :param U_w: 嵌入时生成的U_w    :param Vh_w: 嵌入时生成的Vh_w    :param original_S: 原始图像的奇异值矩阵    :param alpha: 水印强度系数    :return: 提取的水印    &quot;&quot;&quot;    # 对含水印图像进行SVD分解    U_wm, S_wm, Vh_wm = np.linalg.svd(watermarked_img, full_matrices=False)    # 重建中间矩阵    D_w = U_w @ np.diag(S_wm) @ Vh_w    # 提取水印    extracted_watermark = (D_w - np.diag(original_S)) / alpha    return extracted_watermarkdef watermark_padding(logo, target_size):    logo = (logo.astype(np.float32) - 128) / 128  # 归一化到[-1,1]范围    # 目标尺寸    target_size = min(original.shape)    # 计算需要填充的像素数    top = 0    bottom = target_size - logo.shape[0]    left = 0    right = target_size - logo.shape[1]    # 使用 cv2.copyMakeBorder 进行填充    padding_logo = cv2.copyMakeBorder(logo, top, bottom, left, right, cv2.BORDER_CONSTANT, value=0)    return padding_logodef watermark_resize(logo):    logo = (logo.astype(np.float32) - 128) / 128  # 归一化到[-1,1]范围    # 调整尺寸匹配    resize_logo = cv2.resize(logo, (min(original.shape), min(original.shape)))    return resize_logo# 示例使用if __name__ == &quot;__main__&quot;:    # 读取原始图像并转为灰度    original = cv2.imread(&#39;img/lena.bmp&#39;, cv2.IMREAD_GRAYSCALE)    # 添加语义水印示例    raw_logo = cv2.imread(&#39;img/key_100.png&#39;, cv2.IMREAD_GRAYSCALE)    logo = watermark_padding(raw_logo, min(original.shape))    # 嵌入语义水印    watermarked_img, (U_w, S_orig, Vh_w) = svd_watermark_embed(original, logo)    # 提取水印    extracted_watermark = svd_watermark_extract(watermarked_img, U_w, Vh_w, S_orig)[:100, :100]    # 计算相关系数    correlation = np.corrcoef(raw_logo.flatten(), extracted_watermark.flatten())[0, 1]    # 可视化结果    plt.figure(figsize=(10, 5))    plt.subplot(2, 2, 1), plt.imshow(original, cmap=&#39;gray&#39;)    plt.title(&#39;Original Image&#39;), plt.axis(&#39;off&#39;)    plt.subplot(2, 2, 2), plt.imshow(watermarked_img, cmap=&#39;gray&#39;)    plt.title(&#39;Watermarked Image&#39;), plt.axis(&#39;off&#39;)    plt.subplot(2, 2, 3), plt.imshow(raw_logo, cmap=&#39;gray&#39;)    plt.title(&#39;Original Watermark&#39;), plt.axis(&#39;off&#39;)    plt.subplot(2, 2, 4), plt.imshow(extracted_watermark, cmap=&#39;gray&#39;, vmin=-1, vmax=1)    plt.title(f&#39;Extracted Watermark\nCorrelation: &#123;correlation:.4f&#125;&#39;), plt.axis(&#39;off&#39;)    plt.tight_layout()    plt.show()</code></pre>]]></content>
+      
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title></title>
+      <link href="/posts/steg_svd/"/>
+      <url>/posts/steg_svd/</url>
+      
+        <content type="html"><![CDATA[<h1 id="奇异值分解（Singular-Value-Decomposition-SVD）"><a href="#奇异值分解（Singular-Value-Decomposition-SVD）" class="headerlink" title="奇异值分解（Singular Value Decomposition, SVD）"></a>奇异值分解（Singular Value Decomposition, SVD）</h1><h2 id="一、简介"><a href="#一、简介" class="headerlink" title="一、简介"></a>一、简介</h2><p>奇异值分解是线性代数中矩阵的一种分解方法，在图像压缩，数据降维和推荐系统等算法中都具有广泛的应用。</p><p>与特征值分解不同，它可以应用于长方矩阵中，并将其分解成三个特殊矩阵的乘积。</p><p><img src="/img/steg_svd/image-7.png" alt="alt text"></p><p>其中U是m×m阶酉矩阵，正交矩阵；Σ是m×n阶非负实数对角矩阵；而Vt，即V的共轭转置，也是正交矩阵，是n×n阶酉矩阵。</p><p>这样的分解就称作M的奇异值分解。Σ对角线上的元素Σi,i即为M的奇异值。</p><h2 id="二、线性变换视角：旋转-升-降维-拉伸-旋转"><a href="#二、线性变换视角：旋转-升-降维-拉伸-旋转" class="headerlink" title="二、线性变换视角：旋转+升&#x2F;降维&amp;&amp;拉伸+旋转"></a>二、线性变换视角：旋转+升&#x2F;降维&amp;&amp;拉伸+旋转</h2><p><em><strong>参考：<a href="https://www.bilibili.com/video/BV15k4y1p72z">代数明珠–奇异值分解（SVD）生动动画演示！</a></strong></em></p><h3 id="旋转"><a href="#旋转" class="headerlink" title="旋转"></a>旋转</h3><p>对于<a href="mailto:&#x41;&#x40;&#x41;&#46;&#84;">&#x41;&#x40;&#x41;&#46;&#84;</a>和A.T@A两个矩阵，可以很轻易的证明其是对称矩阵。</p><p>由于这两个矩阵都是对称矩阵，那么这两个矩阵必然可以进行正交对角化。</p><p>计算出左奇异矩阵和右奇异矩阵，这样两个矩阵都代表一种旋转，并且这种旋转不会改变坐标轴的长度。</p><h3 id="维度变化"><a href="#维度变化" class="headerlink" title="维度变化"></a>维度变化</h3><ol><li>维度擦除器<br><img src="/img/steg_svd/image.png" alt="alt text"></li><li>维度升高器</li></ol><h3 id="拉伸"><a href="#拉伸" class="headerlink" title="拉伸"></a>拉伸</h3><p>对于一个对角矩阵，代表这将坐标轴按照指定数字进行拉伸。</p><h3 id="拉伸-维度变化"><a href="#拉伸-维度变化" class="headerlink" title="拉伸&amp;维度变化"></a>拉伸&amp;维度变化</h3><h3 id="可视化"><a href="#可视化" class="headerlink" title="可视化"></a>可视化</h3><p><img src="/img/steg_svd/image-1.png" alt="alt text"></p><ol><li><p>首先在原始空间进行旋转，变换坐标系</p></li><li><p>然后将旋转以后得空间进行降维或者上升维度</p></li></ol><h2 id="三、图片压缩视角：秩一矩阵的叠加"><a href="#三、图片压缩视角：秩一矩阵的叠加" class="headerlink" title="三、图片压缩视角：秩一矩阵的叠加"></a>三、图片压缩视角：秩一矩阵的叠加</h2><p>任意一张图片可以看做一个矩阵，如果该图片存在多个通道可以将其看做多个矩阵即可。</p><p>如果该图片是灰度图，那么可以使用SVD的方法对图片进行分解：</p><pre><code class="python">def compress_image(image, k):    &quot;&quot;&quot;    对图像进行 SVD 压缩    &quot;&quot;&quot;    U, S, Vt = np.linalg.svd(image, full_matrices=False)    compressed_image = U[:, :k] @ np.diag(S[:k]) @ Vt[:k, :]    compressed_image = np.clip(compressed_image, 0, 255)  # 限制值范围    return compressed_imageif __name__ == &quot;__main__&quot;:    # 读取图片    image_path = &#39;../img/key_100.png&#39;    image = cv2.imread(image_path, 0)  # 读取灰度图像    # 检查图片是否成功加载    if image is None:        raise ValueError(&quot;图片加载失败，请检查路径是否正确&quot;)    # 对图像进行 SVD 压缩    k = 25  # 保留前 k 个奇异值    compressed_image = compress_image(image, k)</code></pre><h3 id="k的取值：图片的秩"><a href="#k的取值：图片的秩" class="headerlink" title="k的取值：图片的秩"></a>k的取值：图片的秩</h3><p>这里图片的大小为100x100，因此分解的矩阵大小一个是：U100x100，S100，Vt100x100。</p><p>但是，明显的是这张图片显然不像是一个满秩的矩阵，当k取25的时候，可以很好的拟合原始图片。</p><p><img src="/img/steg_svd/image-4.png" alt="alt text"></p><p>这里有贡献的k值其实就只有前23位，其后面的数字都极其的小。</p><p>这样我们保存了100x25的U矩阵，25的S矩阵，25x100的Vt矩阵，我们仅计算数据量较大的U和Vt矩阵，这样数据量为50x100，为原数据的1&#x2F;2.</p><p>可是，图片却几乎没有受到影响：</p><p><img src="/img/steg_svd/image-2.png" alt="alt text"></p><p><img src="/img/steg_svd/image-3.png" alt="alt text"></p><h3 id="k的取值：压缩率"><a href="#k的取值：压缩率" class="headerlink" title="k的取值：压缩率"></a>k的取值：压缩率</h3><p>更进一步，可以推导出SVD进行图片压缩的压缩率公式。</p><p>假设原始图片的大小为mxn，且m&gt;n，对图片进行SVD变换后，保存k个奇异值。</p><p>那么压缩后的U矩阵大小为mxk，S矩阵大小为k，Vt矩阵大小为kxn。因为m&gt;n，所以k最大值为n。</p><p>压缩率为：mn&#x2F;k(m+n+1)，当m和n足够大时简化为m*n&#x2F;k(m+n)，那么k需要小于mn&#x2F;(m+n)。</p><p>对于图片是一个方阵的特殊情况，压缩率简化为：nn&#x2F;k(2n+1)或者当n足够大时：n&#x2F;2k，可以发现对于方阵要获取有效的压缩k值必须小于n&#x2F;2。</p><p>对于图片长宽比大概为2:1的情况，图片需要保留大约2&#x2F;3的k值才能进行压缩。对于1920x1080的图片这个值为691。</p><p><img src="/img/steg_svd/image-8.png" alt="alt text"></p><h2 id="四、SVD和隐写术"><a href="#四、SVD和隐写术" class="headerlink" title="四、SVD和隐写术"></a>四、SVD和隐写术</h2><h3 id="旋转和转置"><a href="#旋转和转置" class="headerlink" title="旋转和转置"></a>旋转和转置</h3><p>顺时针旋转90度：将图像顺时针旋转90度后，原矩阵的第i行会变为新矩阵的第(n-1-i)列。</p><p>逆时针旋转90度：将图像逆时针旋转90度后，原矩阵的第i行会变为新矩阵的第i列，但顺序反转。</p><p>矩阵转置是将矩阵的行和列互换，即原矩阵的第i行第j列元素变为转置矩阵的第j行第i列元素。</p><p>顺时针旋转90度：可以看作先对矩阵进行转置，再将转置后的矩阵左右翻转。</p><p>逆时针旋转90度：可以看作先将矩阵左右翻转，再进行转置。</p><p>图片旋转90度可以通过矩阵转置和翻转操作实现，具体步骤取决于旋转方向。</p><h3 id="SVD和旋转"><a href="#SVD和旋转" class="headerlink" title="SVD和旋转"></a>SVD和旋转</h3><p>对下面这张图片进行逆时针旋转90度：</p><p><img src="/img/steg_svd/key_100.png" alt="alt text"></p><p>得到下面这个图像：</p><p><img src="/img/steg_svd/key_100_r.png" alt="alt text"></p><p>令人震惊的结果是，将图片逆时针旋转90度以后，图像分解的奇异值没有发生任何变化。</p><p><img src="/img/steg_svd/image-5.png" alt="alt text"></p><p>原因如下：</p><p><img src="/img/steg_svd/image-6.png" alt="alt text"></p>]]></content>
+      
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>Research on Security Protection Evasion Mechanism Based on IPv6 Fragment Headers</title>
       <link href="/posts/Lin%20et%20al_2024_Research%20on%20Security%20Protection%20Evasion%20Mechanism%20Based%20on%20IPv6%20Fragment%20Headers/"/>
       <url>/posts/Lin%20et%20al_2024_Research%20on%20Security%20Protection%20Evasion%20Mechanism%20Based%20on%20IPv6%20Fragment%20Headers/</url>
@@ -93,7 +119,7 @@
       <link href="/posts/security_information/"/>
       <url>/posts/security_information/</url>
       
-        <content type="html"><![CDATA[<p><em>（根root证书认证机构-&gt;中间intermediates证书认证机构-&gt;end-user网站证书）root&#x2F;中间：本地电脑中，你有它的公钥，他会用私钥对下发的证书进行数字签名，这样你使用公钥就可以验证证书的真实性。</em></p><p><em>robots.txt规范 user-agent:xxx（允许的爬虫&#x2F;搜索引擎）disallow：目录 或者allow：目录 没有用空格表示，全部用</em>表示）* </p><h2 id="正面信息收集"><a href="#正面信息收集" class="headerlink" title="正面信息收集"></a>正面信息收集</h2><h3 id="门户网站"><a href="#门户网站" class="headerlink" title="门户网站"></a>门户网站</h3><ul><li>证书</li><li>robots.txt</li><li>子域名</li><li>url可能会暴露出编程语言</li><li>ICP备案</li><li>端口</li><li>C段</li></ul><h2 id="侧面信息收集"><a href="#侧面信息收集" class="headerlink" title="侧面信息收集"></a>侧面信息收集</h2>]]></content>
+        <content type="html"><![CDATA[<p><em>（根root证书认证机构-&gt;中间intermediates证书认证机构-&gt;end-user网站证书）root&#x2F;中间：本地电脑中，你有它的公钥，他会用私钥对下发的证书进行数字签名，这样你使用公钥就可以验证证书的真实性。</em></p><p><em>robots.txt规范 user-agent:xxx（允许的爬虫&#x2F;搜索引擎）disallow：目录 或者allow：目录 没有用空格表示，全部用</em>表示）* </p><h2 id="正面信息收集"><a href="#正面信息收集" class="headerlink" title="正面信息收集"></a>正面信息收集</h2><h3 id="门户网站"><a href="#门户网站" class="headerlink" title="门户网站"></a>门户网站</h3><ul><li>证书</li><li>robots.txt</li><li>子域名</li><li>url可能会暴露出编程语言</li><li>ICP备案</li><li>端口</li><li>C段</li></ul><h3 id="网络扫描"><a href="#网络扫描" class="headerlink" title="网络扫描"></a>网络扫描</h3><p>对目标主机进行扫描，发现开放端口和服务。</p><h3 id="工具：Nmap"><a href="#工具：Nmap" class="headerlink" title="工具：Nmap"></a>工具：Nmap</h3><ol><li>主机存活发现</li><li>端口扫描</li><li>版本探测</li><li>C段扫描</li></ol><h2 id="敏感目录探测"><a href="#敏感目录探测" class="headerlink" title="敏感目录探测"></a>敏感目录探测</h2><p>对目标网站的网站结构进行探测和对网站存在的敏感目录文件进行探测非常重要,通过目录扫描,可以获取网站的</p><ul><li>上传页面</li><li>后台管理页面</li><li>网站备份源码</li><li>数据库文件等。</li></ul><h3 id="BurpSuite目录爆破"><a href="#BurpSuite目录爆破" class="headerlink" title="BurpSuite目录爆破"></a>BurpSuite目录爆破</h3><p>使用burpSuite的Intruder模块，将目录路径设置为变量，利用字典进行爆破。</p>]]></content>
       
       
       <categories>
@@ -247,31 +273,6 @@
     
     
     <entry>
-      <title>信息隐藏</title>
-      <link href="/posts/steg/"/>
-      <url>/posts/steg/</url>
-      
-        <content type="html"><![CDATA[<h1 id="技术概述"><a href="#技术概述" class="headerlink" title="技术概述"></a>技术概述</h1><p>信息隐藏有两个具体的应用方面，隐写术和数字水印。</p><p>隐写术用于秘密的隐藏在正常的载体文件中，比如文档，图片，音频，视频等文件，为了秘密的传输信息而不被发现。</p><p>数字水印一般用作版权保护，将水印可见或者不可见的隐写于载体文件中，当发生盗版时可以溯源盗版方。然而对抗数字水印的对抗技术也很多，比如加入各种噪声，使用手机拍摄文件，这些都是数字水印需要克服的问题。</p><h3 id="视频资料"><a href="#视频资料" class="headerlink" title="视频资料"></a>视频资料</h3><p><a href="https://www.bilibili.com/video/BV1Su411X7vY/">隐写术鉴赏</a></p><p><a href="https://www.bilibili.com/video/BV17v411p7gV/">jpeg-dct</a></p><p><a href="https://www.bilibili.com/video/BV1TZ4y1S7iG/">【中英双字】JPEG算法原理 jpeg图片是如何压缩的？</a></p><p><a href="https://www.bilibili.com/video/BV1iv4y1N7sq/">JPEG不可思议的压缩率——归功于信号处理理论 @圆桌字幕组</a></p><p><a href="https://www.bilibili.com/video/BV17M4y1u7Ek/">JPEG 有损压缩 离散余弦变换 DCT 一条视频讲清楚</a></p><p><a href="https://www.bilibili.com/video/BV1AY411S75C/">“电子包浆”是因为被反复压缩吗？其实没那么简单</a></p>]]></content>
-      
-      
-      <categories>
-          
-          <category> 信息隐藏 </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> 信息隐藏 </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
       <title>图像频域隐写技术：DCT系数隐写</title>
       <link href="/posts/steg_dct/"/>
       <url>/posts/steg_dct/</url>
@@ -300,37 +301,10 @@
     
     <entry>
       <title></title>
-      <link href="/posts/steg_review/"/>
-      <url>/posts/steg_review/</url>
-      
-        <content type="html"><![CDATA[<h1 id="技术概述"><a href="#技术概述" class="headerlink" title="技术概述"></a>技术概述</h1>]]></content>
-      
-      
-      <categories>
-          
-          <category> 信息隐藏 </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> 信息隐藏 </tag>
-            
-            <tag> 数字水印 </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title></title>
       <link href="/posts/steg_blind_watermark/"/>
       <url>/posts/steg_blind_watermark/</url>
       
-        <content type="html"><![CDATA[<h1 id="技术概述"><a href="#技术概述" class="headerlink" title="技术概述"></a>技术概述</h1>]]></content>
+        <content type="html"><![CDATA[<h1 id="blind-watermark概述"><a href="#blind-watermark概述" class="headerlink" title="blind watermark概述"></a>blind watermark概述</h1><p>blind_watermark是github上的一个图片水印开源项目，获得5.3K的收藏，几乎是github上最受欢迎的图片水印项目。</p><p>blind_watermark是不可见盲水印，这意味着向图片添加水印并不会被人察觉，并且提取水印不需要原始图片，只需要嵌入水印后的图片。<br>blind_watermark在频域进行水印嵌入，这一定程度上保证了该水印框架的不可见性和鲁棒性。<br>blind_watermark支持嵌入的水印类型有二进制数据，字符串，图片，支持的载体图片为三通道的任意图片，另外通过理论计算的出blind_watermark的容量为：图片像素值总数&#x2F;64 （bit）。<br>根据作者给出的示例，blind_watermark在多种攻击上表现出色，包括旋转，裁剪，遮挡，椒盐噪声，亮度改变。</p><h1 id="blind-watermark前置知识"><a href="#blind-watermark前置知识" class="headerlink" title="blind watermark前置知识"></a>blind watermark前置知识</h1><p>blind_watermark使用多种技术，包括DWT（离散小波变换），DCT（离散余弦变换），（SVD）奇异值分解。</p><h3 id="离散小波变换：DWT"><a href="#离散小波变换：DWT" class="headerlink" title="离散小波变换：DWT"></a>离散小波变换：DWT</h3><p>小波变换使用母小波在时间和频率上移动作为一组基来表达原始信号的信息，并将空域信息映射到小波域，小波域不同于时域和频域，它同时保留了两者的分辨率。</p><p>如果小波函数表示为：</p><p><img src="/img/steg_blind_watermark/image.png" alt="alt text"></p><p>那么小波变换表达为：</p><p><img src="/img/steg_blind_watermark/image-1.png" alt="alt text"></p><p>对于二维小波变换，通过行滤波器和列滤波器分离出四个子带分别为：LL,LH,HL,HH</p><p><img src="/img/steg_blind_watermark/image-2.png" alt="alt text"></p><p>对于blind_watermark使用的小波变换，矩阵大小被选定为4 * 4的矩阵，小波母函数被选定为haar小波，小波基函数被选定为下面16个haar矩阵：</p><p><img src="/img/steg_blind_watermark/image-3.png" alt="alt text"></p><h3 id="离散余弦变换DCT："><a href="#离散余弦变换DCT：" class="headerlink" title="离散余弦变换DCT："></a>离散余弦变换DCT：</h3><p>离散余弦变换来自于离散傅里叶变换（DFT），离散傅里叶变换的公式为：</p><p><img src="/img/steg_blind_watermark/image-4.png" alt="alt text"></p><p>对于 8×8 矩阵，下图可表示 64 个基函数。通过DCT变换可以得出奇函数的系数，也可以通过逆变换还原原始矩阵。</p><p><img src="/img/steg_blind_watermark/image-6.png" alt="alt text"></p><h3 id="奇异值分解：SVD"><a href="#奇异值分解：SVD" class="headerlink" title="奇异值分解：SVD"></a>奇异值分解：SVD</h3><p>奇异值分解将矩阵（不仅仅是方阵）分解为三个矩阵：左奇异向量矩阵U，奇异值矩阵，右奇异值矩阵V。</p><p>假设A是一个  𝑚×𝑛  的矩阵，那么𝑈是一个 𝑚×𝑚 的矩阵，Σ是一个 𝑚×𝑛 的矩阵，除了主对角线上的元素以外全为0，主对角线上的每个元素都称为奇异值，𝑉是一个 𝑛×𝑛 的矩阵。𝑈和𝑉都是酉矩阵，即满足U^T𝑈&#x3D;𝐼,V^T𝑉&#x3D;𝐼。</p><p><img src="/img/steg_blind_watermark/image-7.png" alt="alt text"></p><p>通过控制奇异值矩阵奇异值的数量，可以不同程度的还原原始矩阵，这样奇异值分解在可接受的损失范围内压缩矩阵。</p><p><img src="/img/steg_blind_watermark/image-8.png" alt="alt text"></p><h1 id="blind-watermark框架"><a href="#blind-watermark框架" class="headerlink" title="blind watermark框架"></a>blind watermark框架</h1><p>blind_watermark对载体图片添加水印时，将图片分解为YUV三个通道并分别对三个通道都嵌入相同水印；提取水印时，提取三个通道水印取平均后四舍五入作为水印。</p><p><img src="/img/steg_blind_watermark/image-9.png" alt="alt text"></p><p>Blind_watermark首先对通道进行二维dwt变换，得到四个子带LL，HL，LH，HH。<br>然后取低频子带LL，大小为通道的1&#x2F;4。</p><p><img src="/img/steg_blind_watermark/image-10.png" alt="alt text"></p><p>设置4*4的窗口函数Win遍历子带LL，将子带分为干块。</p><p><img src="/img/steg_blind_watermark/image-11.png" alt="alt text"></p><p>对于每块做DCT变换，得到系数矩阵M。</p><p><img src="/img/steg_blind_watermark/image-12.png" alt="alt text"></p><p>使用混淆器shuffler对系数矩阵进行混淆，对混淆后的矩阵做SVD，得到奇异值矩阵Σ，对于Σ矩阵的对角线的第一个系数添加水印：</p><p><img src="/img/steg_blind_watermark/image-13.png" alt="alt text"></p><p>另外blind_watermark提供了慢嵌入模式，将会对对角线第二元素进行重复嵌入：</p><p><img src="/img/steg_blind_watermark/image-14.png" alt="alt text"></p><p>blind_watermark算法嵌入水印时，通过选定小波变换的LL子带，避开了图像的高频部分，这使得水印的鲁棒性大大增强。另外使用DCT和SVD来聚集子带的重要部分，通过控制修改程度参数d来保持水印的鲁棒性和不可感知性。</p>]]></content>
       
       
       <categories>
@@ -403,6 +377,31 @@
     
     
     <entry>
+      <title>WavMark:Watermarking for Audio Generation</title>
+      <link href="/posts/steg_wavmark/"/>
+      <url>/posts/steg_wavmark/</url>
+      
+        <content type="html"><![CDATA[<h1 id="WavMark-Watermarking-for-Audio-Generation"><a href="#WavMark-Watermarking-for-Audio-Generation" class="headerlink" title="WavMark: Watermarking for Audio Generation"></a>WavMark: Watermarking for Audio Generation</h1><h2 id="WavMark简介"><a href="#WavMark简介" class="headerlink" title="WavMark简介"></a>WavMark简介</h2><p>WavMark是一种创新的音频水印框架，可以在仅仅1秒的音频片段内编码多达32位的水印。该水印对人类的感官来说是难以察觉的，并且对各种攻击表现出很强的鲁棒性。它可以作为合成声音的有效标识符，在音频版权保护方面具有更广泛的应用潜力。Wavmark迭代的将相同水印嵌入到宿主音频的一秒片段中，确保全时段的保护。即使音频被剪切，也可以使用任何完整的片段进行解码。因此，该框架具有高度的灵活性，允许多个水印段的组合，以实现更高的鲁棒性和扩展的容量。利用10到20秒的音频作为载体，WavMark在10种常见攻击中平均误码率（BER）为0.48%，并且维持了优秀的不可感知性（SNR&#x3D;36.85，PESQ&#x3D;4.21）。</p><p><img src="/img/steg_wavmark/image.png" alt="alt text"></p><h2 id="WavMark框架"><a href="#WavMark框架" class="headerlink" title="WavMark框架"></a>WavMark框架</h2><p><img src="/img/steg_wavmark/image-1.png" alt="alt text"></p><h3 id="音频表示"><a href="#音频表示" class="headerlink" title="音频表示"></a>音频表示</h3><p>WavMark使用采样率为16kHZ的单通道音频作为载体，编码单位长度（EUL）设置为一秒。因此原始输入被表示为长度为16000的一位波形向量记为：x_wave，进一步使用短时傅里叶变换（STFT）将其转换为频谱图：</p><p><img src="/img/steg_wavmark/image-2.png" alt="alt text"></p><h3 id="水印表示"><a href="#水印表示" class="headerlink" title="水印表示"></a>水印表示</h3><p>水印消息由长度为K的随机二进制向量表示，为m_vec，使用线性层将其展开为与波形输入大小相同的向量，然后使用相同的STFT过程获得与x_spec大小相同的特征映射：</p><p><img src="/img/steg_wavmark/image-3.png" alt="alt text"></p><h3 id="可逆神经网络"><a href="#可逆神经网络" class="headerlink" title="可逆神经网络"></a>可逆神经网络</h3><p>可逆网络是由n层可逆块堆叠而成的。每个块的输入和输出维度保持不变，编码和解码过程使用相同的参数。在编码过程中，以x_l和m_l表示第l块的输入，网络的输出x_(l+1)和m_(l+1)可以描述为:</p><p><img src="/img/steg_wavmark/image-4.png" alt="alt text"></p><p>（其中σ表示sigmoid激活函数，⊙表示逐元乘法。函数φ(·)，η(·)和ρ(·)可以是任意函数）</p><p>对于最后一个可逆块的输出，丢弃消息分支的输出m_spec^n，仅利用音频分支的输出 x_spec^n。随后，我们对x_spec^n进行反短时傅里叶变换(ISTFT)重建水印音频波形:<br><img src="/img/steg_wavmark/image-5.png" alt="alt text"></p><p>在解码过程中，由于只有带水印的音频，从正态分布中采样一个变量z作为消息分支的输入。反方向第l+1块的计算过程可以表示如下:</p><p><img src="/img/steg_wavmark/image-6.png" alt="alt text"></p><p>将消息分支输出的谱图表示为m_spec。执行ISTFT变换后，我们得到频域输出。然后，将其通过一个线性层，我们就可以恢复消息信息:</p><p><img src="/img/steg_wavmark/image-7.png" alt="alt text"></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 信息隐藏 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 信息隐藏 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>SEED：Spectre_Attack</title>
       <link href="/posts/seed_spectre/"/>
       <url>/posts/seed_spectre/</url>
@@ -431,8 +430,8 @@
     
     <entry>
       <title>Web安全：SQL注入</title>
-      <link href="/posts/web_sqlinjection/"/>
-      <url>/posts/web_sqlinjection/</url>
+      <link href="/posts/security_sqlinjection/"/>
+      <url>/posts/security_sqlinjection/</url>
       
         <content type="html"><![CDATA[<p>参考文章：<a href="https://blog.csdn.net/yujia_666/article/details/90296495">SQL注入原理</a></p><h1 id="一-SQL注入概述"><a href="#一-SQL注入概述" class="headerlink" title="一. SQL注入概述"></a>一. SQL注入概述</h1><p>直接原因是没有对用户输入做检查，导致用户输入恶意SQL语句。<br>根本原因是违反数据和代码分离的设计原则，将用户恶意输入当做代码进行执行。</p><p>有以下解决方案：</p><ul><li>输入检查</li><li>预编译</li></ul><p>其中预编译符合数据和代码分离的原则，提前为输入数据提供类型，编译时为数据部分预留空间。这样用户输入智能为某一数据类型，就解决了这个问题。</p><p>数据和代码分离原则，先用一个数据类型接收用户输入，再用代码操纵这个数据类型。预编译是一种实现方式。</p><h1 id="二-SQL注入实例"><a href="#二-SQL注入实例" class="headerlink" title="二. SQL注入实例"></a>二. SQL注入实例</h1><h2 id="情景一：输入账号，密码登录"><a href="#情景一：输入账号，密码登录" class="headerlink" title="情景一：输入账号，密码登录"></a>情景一：输入账号，密码登录</h2><h3 id="后端查询语句："><a href="#后端查询语句：" class="headerlink" title="后端查询语句："></a>后端查询语句：</h3><p>*一般来说<code>#&#123;&#125;</code>这种形式是进行预编译的，而<code>&#123;&#123;&#125;&#125;</code>则没有。</p><p>查询语句：</p><p><code>select * from user where username=&#39;&#123;&#123;&#125;&#125;&#39; and password=&#39;&#123;&#123;&#125;&#125;&#39;</code></p><p>后端代码：</p><pre><code>if affect_row==1:    return &quot;succeed&quot;else:    return &quot;fail&quot;</code></pre><h3 id="SQL万能密码："><a href="#SQL万能密码：" class="headerlink" title="SQL万能密码："></a>SQL万能密码：</h3><p>如果用户名和密码都是字符类型：</p><p>输入：</p><p><em><strong>?username&#x3D;xxx’ or ‘1’&#x3D;’1&amp;password&#x3D;xxx’ or ‘1’&#x3D;’1</strong></em></p><p>后端执行语句：</p><p><code>select * from users where username=&#39;xxx&#39; or &#39;1&#39;=&#39;1&#39; and password=&#39;xxx&#39; or &#39;1&#39;=&#39;1&#39;;</code></p><p>输入：</p><p><em><strong>?username&#x3D;xxx’ or 1&#x3D;1;#&amp;password&#x3D;xxx</strong></em></p><p>后端执行语句：</p><p><code>select * from users where username=&#39;xxx&#39; or 1=1;#&#39; and password=&#39;xxx&#39;;</code></p><p>如果是数字类型：</p><p>把 <em><strong>‘</strong></em> 去掉就行。</p><h2 id="情景二：根据id查询xxx信息"><a href="#情景二：根据id查询xxx信息" class="headerlink" title="情景二：根据id查询xxx信息"></a>情景二：根据id查询xxx信息</h2><p>这里举一个根据id查找用户信息的例子。</p><p>查询语句：</p><p><code>select xxx from user where id=&#123;&#123;&#125;&#125;</code> </p><p>后端代码：</p><pre><code>    @Select(&quot;select * from user where id = &#123;&#123;id&#125;&#125;&quot;)    public User getInfo(int id);    user = new User();    user = getInfo(id);    return &quot;用户名：&quot;+username+ &#39;\n&#39; +&quot;密码：&quot;+password;</code></pre><h3 id="2-order-by-测试"><a href="#2-order-by-测试" class="headerlink" title="2. order by 测试"></a>2. order by 测试</h3><p>判断查询列数：</p><p>输入：<code>?id=1 order by 1</code></p><p>输入：<code>?id=1 order by 2</code></p><p>输入：<code>?id=1 order by ...</code></p><p>确定查询列数为三，回显为后面两列内容</p><p><code>?id=-1 union select 1,2,3 </code></p><h3 id="3-union-联合查询"><a href="#3-union-联合查询" class="headerlink" title="3. union 联合查询"></a>3. union 联合查询</h3><p><em><code>@@version_compile_os</code>：查询操作系统版本</em></p><p><em><code>version()</code>：查询数据库版本</em></p><p><em><code>user()</code>：查询当前连接数据库的用户</em></p><p><em><code>database()</code>：查询当前使用的数据库</em></p><p>当前数据库：<br><code>SELECT schema_nameFROM information_schema.schemata;</code><br><code>?id=-1 union select 1,database(),3</code></p><p>当前表：<br><code>?id=-1 union select 1,2,group_concat(table_name) from information_schema.tables where table_schema= &#39;dvwa&#39;</code></p><p>表字段：<br><code>?id=-1 union select 1,2,group_concat(column_name) from information_schema.columns where table_schema=&#39;security&#39; and table_name=&#39;users&#39;</code></p><p>尝试注入：<br><code>?id=-1 union select 1,group_concat(username),group_cocat(password) from users</code></p>]]></content>
       
@@ -449,33 +448,6 @@
             <tag> Web安全 </tag>
             
             <tag> SQL注入 </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>Web安全：信息收集</title>
-      <link href="/posts/web_information/"/>
-      <url>/posts/web_information/</url>
-      
-        <content type="html"><![CDATA[<p>深信服考试学习笔记</p><h1 id="一-概述"><a href="#一-概述" class="headerlink" title="一. 概述"></a>一. 概述</h1><p>信息收集是Web渗透的第一步，主要工作是摸清对方资产。</p><ul><li>DNS记录</li><li>子域名：Subdomain</li><li>邮箱</li></ul>]]></content>
-      
-      
-      <categories>
-          
-          <category> Web安全 </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> Web安全 </tag>
-            
-            <tag> 信息收集 </tag>
             
         </tags>
       
@@ -503,35 +475,6 @@
             <tag> Web开发 </tag>
             
             <tag> MySQL </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>Web安全-XSS</title>
-      <link href="/posts/web_xss/"/>
-      <url>/posts/web_xss/</url>
-      
-        <content type="html"><![CDATA[<h1 id="一-XSS"><a href="#一-XSS" class="headerlink" title="一. XSS"></a>一. XSS</h1><h2 id="1-反射-DOM"><a href="#1-反射-DOM" class="headerlink" title="1. 反射&amp;DOM"></a>1. 反射&amp;DOM</h2><h2 id="2-存储"><a href="#2-存储" class="headerlink" title="2. 存储"></a>2. 存储</h2>]]></content>
-      
-      
-      <categories>
-          
-          <category> Web安全 </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> XSS </tag>
-            
-            <tag> Web </tag>
-            
-            <tag> Web安全 </tag>
             
         </tags>
       
@@ -590,6 +533,35 @@
             <tag> SEED </tag>
             
             <tag> SQL Injection Attack Lab </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Web安全-XSS</title>
+      <link href="/posts/security_xss/"/>
+      <url>/posts/security_xss/</url>
+      
+        <content type="html"><![CDATA[<h1 id="一-XSS"><a href="#一-XSS" class="headerlink" title="一. XSS"></a>一. XSS</h1><h2 id="1-反射-DOM"><a href="#1-反射-DOM" class="headerlink" title="1. 反射&amp;DOM"></a>1. 反射&amp;DOM</h2><h2 id="2-存储"><a href="#2-存储" class="headerlink" title="2. 存储"></a>2. 存储</h2>]]></content>
+      
+      
+      <categories>
+          
+          <category> Web安全 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> XSS </tag>
+            
+            <tag> Web </tag>
+            
+            <tag> Web安全 </tag>
             
         </tags>
       
@@ -1538,7 +1510,7 @@
       
         <tags>
             
-            <tag> security </tag>
+            <tag> 目录 </tag>
             
         </tags>
       
