@@ -93,7 +93,7 @@ category_img:
 category_per_img:
 
 # The background image of footer
-footer_img: /img/default_top_img.jpg
+footer_img: false
 
 # Website Background
 # Can set it to color, image URL or an array containing colors and/or image URLs
