@@ -1,6 +1,7 @@
 ---
 title: XSS注入检测
 date: 2023-10-09
+cover: /img/cover/17.webp
 categories:
   - ML
 tags:

@@ -1,6 +1,7 @@
 ---
 title: ChatGPT
 date: 2023-08-24
+cover: /img/4.jpg
 categories:
   - AI
 tags:

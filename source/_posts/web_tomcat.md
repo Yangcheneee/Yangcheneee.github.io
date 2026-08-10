@@ -1,6 +1,7 @@
 ---
 title: Web开发（三）-TomCat
 date: 2023-09-08
+cover: /img/cover/3.jpg
 categories:
   - Web开发
 tags:

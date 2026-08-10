@@ -1,6 +1,7 @@
 ---
 title: Web开发（一）-Maven
 date: 2023-09-06
+cover: /img/cover/1.jpg
 categories:
   - Web开发
 tags:

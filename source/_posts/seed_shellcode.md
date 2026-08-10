@@ -1,6 +1,7 @@
 ---
 title: SEED：Shellcode Development Lab
 date: 2023-10-21
+cover: /img/3.jpg
 categories:
   - SEED
 tags:

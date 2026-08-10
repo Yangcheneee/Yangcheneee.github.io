@@ -1,6 +1,7 @@
 ---
 title: Web 登录实现&身份认证
 date: 2023-10-15
+cover: /img/cover/5.jpg
 categories:
   - Web开发
 tags:

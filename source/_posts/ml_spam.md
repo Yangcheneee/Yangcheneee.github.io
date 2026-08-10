@@ -1,6 +1,7 @@
 ---
 title: 垃圾邮件检测
 date: 2023-10-06
+cover: /img/cover/19.png
 categories:
   - ML
 tags:

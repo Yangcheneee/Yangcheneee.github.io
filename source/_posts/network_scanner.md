@@ -1,6 +1,7 @@
 ---
 title: 网络扫描
 date: 2023-09-23
+cover: /img/cover/12.jpg
 categories:
   - 计算机网络
 tags:

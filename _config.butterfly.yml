@@ -19,13 +19,13 @@ nav:
 
 menu:
   主页: / || fas fa-home
-  博文:
-    分类: /categories/ || fas fa-folder-open
-    标签: /tags/ || fas fa-tags
-    归档: /archives/ || fas fa-archive
-  友链: /link/ || fas fa-link
-  留言板: /messageboard/ || fas fa-comment-dots
-  关于笔者: /about/ || fas fa-user
+  博文||fa fa-graduation-cap:
+    分类: /categories/ || fa fa-archive
+    标签: /tags/ || fa fa-tags
+    归档: /archives/ || fa fa-folder-open
+  友链: /link/ || fa fa-link
+  留言板: /messageboard/ || fa fa-paper-plane
+  关于笔者: /about/ || fas fa-heart
 
 # --------------------------------------
 # Code Blocks Settings
@@ -52,7 +52,7 @@ code_blocks:
 social:
   fab fa-github: https://github.com/Yangcheneee || Github || '#24292e'
   fab fa-qq: tencent://AddContact/?fromId=45&fromSubId=1&subcmd=all&uin=2657761647&website=www.oicqzone.com || QQ || '#12B7F5'
-  fas fa-envelope: mailto:2657761647@qq.com || Email || '#4a7dbe'
+  fas fa-envelope-open-text: mailto:2657761647@qq.com || Email || '#4a7dbe'
 
 # --------------------------------------
 # Image Settings
@@ -71,7 +71,7 @@ disable_top_img: false
 default_top_img: /img/default_top_img.jpg
 
 # The banner image of index page
-index_img: /img/default_top_img.jpg
+index_img: /img/background.jpg
 
 # The banner image of archive page
 archive_img:
@@ -93,12 +93,13 @@ category_img:
 category_per_img:
 
 # The background image of footer
-footer_img: false
+# If set to true, it will use the page's top image
+footer_img: true
 
 # Website Background
 # Can set it to color, image URL or an array containing colors and/or image URLs
 # If an array is provided, a random background will be selected from the array on each load
-background: /img/background.jpg
+background:
 
 cover:
   # Disable the cover or not
@@ -175,7 +176,7 @@ index_top_img_height:
 subtitle:
   enable: true
   # Typewriter Effect
-  effect: true
+  effect: false
   # Customize typed.js
   # https://github.com/mattboldt/typed.js/#customization
   typed_option:
@@ -189,10 +190,7 @@ subtitle:
   source: false
   # If you close the typewriter effect, the subtitle will only show the first line of sub
   sub:
-    - 众生皆苦非尘世
-    - 你我逍遥不自知
-    - 道阻且长，行则将至
-    - 行而不辍，未来可期
+    - 众生皆苦非尘世，你我逍遥不自知。
 
 # Article layout on the homepage
 # 1: Cover on the left, info on the right
@@ -236,15 +234,15 @@ post_copyright:
 
 # Sponsor/reward
 reward:
-  enable: false
+  enable: true
   text:
   QR_code:
-    # - img: /img/wechat.jpg
-    #   link:
-    #   text: wechat
-    # - img: /img/alipay.jpg
-    #   link:
-    #   text: alipay
+    - img: /img/wechat.jpg
+      link:
+      text: wechat
+    - img: /img/alipay.jpg
+      link:
+      text: alipay
 
 # Post edit
 # Easily browse and edit blog source code online.
@@ -291,7 +289,7 @@ footer:
   # Copyright of theme and framework
   copyright:
     enable: true
-    version: true
+    version: false
   custom_text:
 
 # --------------------------------------
@@ -338,7 +336,7 @@ aside:
   card_categories:
     enable: true
     # If set 0 will show all
-    limit: 0
+    limit: 8
     # Choose: none / true / false
     expand: none
     sort_order:
@@ -545,7 +543,7 @@ share:
   # Share.js
   # https://github.com/overtrue/share.js
   sharejs:
-    sites: facebook,x,wechat,weibo,qq
+    sites: wechat,qq,weibo
 
   # AddToAny
   # https://www.addtoany.com/
@@ -575,7 +573,7 @@ comments:
 # Disqus
 # https://disqus.com/
 disqus:
-  shortname: yangcheneee
+  shortname:
   # For newest comments widget
   apikey:
 
@@ -941,7 +939,7 @@ clickShowText:
 # https://github.com/francoischalifour/medium-zoom
 # https://fancyapps.com/fancybox/
 # Leave it empty if you don't need lightbox
-lightbox:
+lightbox: fancybox
 
 # --------------------------------------
 # Tag Plugins settings
@@ -1038,7 +1036,7 @@ instantpage: false
 # Lazyload
 # https://github.com/verlok/vanilla-lazyload
 lazyload:
-  enable: false
+  enable: true
   # Use browser's native lazyload instead of vanilla-lazyload
   native: false
   # Specify the field to use lazyload (site or post)
@@ -1085,13 +1083,13 @@ css_prefix: true
 # Insert the code to head (before '</head>' tag) and the bottom (before '</body>' tag)
 inject:
   head:
-    - <link rel="stylesheet" href="/css/custom.css">
     - <link rel="stylesheet" href="/css/background.css">
   bottom:
-    - <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css">
-    - <div class="aplayer no-destroy" data-id="8674547170" data-server="netease" data-type="playlist" data-fixed="true" data-autoplay="true" data-lrcType="-1"></div>
+    - <div id="web_bg"></div>
+    - <div class="aplayer no-destroy" data-id="8674547170" data-server="netease" data-type="playlist" data-fixed="true" data-autoplay="false" data-lrcType="-1"></div>
+    - <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css" media="print" onload="this.media='all'">
     - <script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script>
-    - <script src="https://cdn.jsdelivr.net/npm/meting/dist/Meting.min.js"></script>
+    - <script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/metingjs/dist/Meting.min.js"></script>
 
 # CDN Settings
 # Don't modify the following settings unless you know how they work

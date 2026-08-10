@@ -1,6 +1,7 @@
 ---
 title: SEED：Buffer Overflow Attack Lab (Server Version)
 date: 2023-10-14
+cover: /img/5.jpg
 categories:
   - SEED
 tags:

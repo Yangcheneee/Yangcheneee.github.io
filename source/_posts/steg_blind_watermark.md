@@ -1,6 +1,7 @@
 ---
 title: 无题
 date: 2024-01-10
+cover: /img/cover/6.jpg
 categories:
   - 信息隐藏
 tags:

@@ -1,6 +1,7 @@
 ---
 title: 车载U盘
 date: 2023-09-08
+cover: /img/3.jpg
 categories:
   - 计算机基础
 tags:

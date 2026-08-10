@@ -1,6 +1,7 @@
 ---
 title: 博客（二）：美化你的个人博客
 date: 2023-08-21
+cover: /img/cover/blog_2.jpg
 categories:
   - 博客
 tags:

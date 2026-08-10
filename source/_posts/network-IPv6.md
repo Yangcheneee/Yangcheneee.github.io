@@ -1,6 +1,7 @@
 ---
 title: IPv6详解
 date: 2024-11-11
+cover: /img/cover/14.jpg
 categories:
   - 计算机网络
 tags:

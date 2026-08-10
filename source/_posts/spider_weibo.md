@@ -1,6 +1,7 @@
 ---
 title: 微博爬虫实例
 date: 2023-09-15
+cover: /img/cover/8.jpg
 categories:
   - 爬虫
 tags:

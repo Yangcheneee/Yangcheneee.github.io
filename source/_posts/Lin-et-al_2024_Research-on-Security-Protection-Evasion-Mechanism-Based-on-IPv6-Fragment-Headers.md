@@ -1,6 +1,7 @@
 ---
 title: Research on Security Protection Evasion Mechanism Based on IPv6 Fragment Headers
 date: 2024-11-12
+cover: /img/cover/14.jpg
 categories:
   - 计算机网络
 tags:

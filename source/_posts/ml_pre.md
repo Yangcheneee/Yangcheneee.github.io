@@ -1,6 +1,7 @@
 ---
 title: 机器学习
 date: 2023-10-09
+cover: /img/cover/18.png
 categories:
   - ML
 tags:

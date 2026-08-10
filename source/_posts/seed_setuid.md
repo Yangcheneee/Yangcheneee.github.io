@@ -1,6 +1,7 @@
 ---
 title: SEED：Environment Variable and Set-UID Program Lab
 date: 2023-10-28
+cover: /img/6.jpg
 categories:
   - SEED
 tags:

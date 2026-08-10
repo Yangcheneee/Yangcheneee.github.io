@@ -1,6 +1,7 @@
 ---
 title: 模板
 date: 2023-09-05
+cover: /img/cover/0.jpg
 categories:
   - 目录说明
 tags:
@@ -8,10 +9,9 @@ tags:
   - 目录
 ---
 
-
-
 # 目录及标签说明
 
+![1786257007336](image/a/1786257007336.png)
 
 ## blog
 

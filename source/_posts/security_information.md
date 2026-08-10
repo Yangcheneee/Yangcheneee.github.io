@@ -1,6 +1,7 @@
 ---
 title: 信息收集
 date: 2024-06-23
+cover: /img/cover/0.jpg
 categories:
   - 安全
 tags:

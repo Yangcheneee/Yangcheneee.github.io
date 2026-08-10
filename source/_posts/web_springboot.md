@@ -1,6 +1,7 @@
 ---
 title: Web开发（二）-SpringBoot
 date: 2023-09-07
+cover: /img/cover/2.jpg
 categories:
   - Web开发
 tags:

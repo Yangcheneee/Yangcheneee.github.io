@@ -1,6 +1,7 @@
 ---
 title: DHCP安全性分析
 date: 2023-09-25
+cover: /img/cover/14.jpg
 categories:
   - 计算机网络
 tags:

@@ -1,6 +1,7 @@
 ---
 title: CPP
 date: 2024-01-25
+cover: /img/cover/5.jpg
 categories:
   - cpp
 tags:

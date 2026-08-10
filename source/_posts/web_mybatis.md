@@ -1,6 +1,7 @@
 ---
 title: Web开发（四）-MyBatis
 date: 2023-09-09
+cover: /img/cover/4.jpg
 categories:
   - Web开发
 tags:

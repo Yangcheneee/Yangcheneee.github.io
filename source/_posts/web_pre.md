@@ -1,6 +1,7 @@
 ---
 title: Web开发-写在前面
 date: 2023-09-05
+cover: /img/cover/0.jpg
 categories:
   - Web开发
 tags:

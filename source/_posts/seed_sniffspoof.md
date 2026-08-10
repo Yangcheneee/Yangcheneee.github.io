@@ -1,6 +1,7 @@
 ---
 title: SEED：Sniff and Spoof
 date: 2023-09-30
+cover: /img/cover/16.jpg
 categories:
   - SEED
 tags:

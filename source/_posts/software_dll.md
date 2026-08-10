@@ -1,6 +1,7 @@
 ---
 title: 恶意代码
 date: 2024-01-17
+cover: /img/cover/6.jpg
 categories:
   - 恶意代码
 tags:

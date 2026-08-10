@@ -1,6 +1,7 @@
 ---
 title: 爬虫（三）：结果保存
 date: 2023-09-09
+cover: /img/cover/11.jpg
 categories:
   - 爬虫
 tags:

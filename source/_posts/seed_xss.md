@@ -1,6 +1,7 @@
 ---
 title: SEED：XSS
 date: 2023-11-05
+cover: /img/cover/5.jpg
 categories:
   - SEED
 tags:

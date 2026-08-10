@@ -1,6 +1,7 @@
 ---
 title: Web开发（五）-JWT
 date: 2023-09-10
+cover: /img/cover/5.jpg
 categories:
   - Web开发
 tags:

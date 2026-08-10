@@ -1,6 +1,7 @@
 ---
 title: 博客（一）：从零开始搭建你的个人博客
 date: 2023-08-20
+cover: /img/cover/blog_1.jpg
 categories:
   - 博客
 tags:

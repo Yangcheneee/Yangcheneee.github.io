@@ -1,6 +1,7 @@
 ---
 title: dga域名检测
 date: 2023-10-25
+cover: /img/4.jpg
 categories:
   - ML
 tags:

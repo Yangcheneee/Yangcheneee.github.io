@@ -1,6 +1,7 @@
 ---
 title: Web安全：SQL注入
 date: 2023-11-10
+cover: /img/cover/4.jpg
 categories:
   - Web安全
 tags:

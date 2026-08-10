@@ -1,6 +1,7 @@
 ---
 title: SEED：Spectre_Attack
 date: 2023-12-31
+cover: /img/cover/5.jpg
 categories:
   - SEED
 tags:

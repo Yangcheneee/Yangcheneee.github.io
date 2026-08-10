@@ -1,6 +1,7 @@
 ---
 title: 爬虫（一）：请求&响应
 date: 2023-09-07
+cover: /img/cover/7.jpg
 categories:
   - 爬虫
 tags:

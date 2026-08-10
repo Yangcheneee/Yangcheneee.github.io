@@ -1,6 +1,7 @@
 ---
 title: 子域名爬虫
 date: 2023-09-14
+cover: /img/cover/9.jpg
 categories:
   - 爬虫
 tags:

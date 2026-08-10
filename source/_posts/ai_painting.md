@@ -1,6 +1,7 @@
 ---
 title: AI绘画
 date: 2023-08-24
+cover: /img/2.jpg
 categories:
   - AI
 tags:

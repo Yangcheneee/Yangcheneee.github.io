@@ -1,6 +1,7 @@
 ---
 title: 博客（四）：优雅的写一篇文章
 date: 2023-09-07
+cover: /img/cover/blog_3.jpg
 categories:
   - 博客
 tags:

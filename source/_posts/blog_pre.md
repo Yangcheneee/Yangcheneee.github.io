@@ -1,6 +1,7 @@
 ---
 title: 博客：写在前面
 date: 2023-08-20
+cover: /img/cover/blog_0.jpg
 categories:
   - 博客
 tags:

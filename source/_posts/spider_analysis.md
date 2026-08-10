@@ -1,6 +1,7 @@
 ---
 title: 爬虫（二）：响应解析
 date: 2023-09-08
+cover: /img/cover/10.jpg
 categories:
   - 爬虫
 tags:

@@ -1,6 +1,7 @@
 ---
 title: Web安全：sqlmap使用
 date: 2024-01-13
+cover: /img/cover/4.jpg
 categories:
   - Web安全
 tags:

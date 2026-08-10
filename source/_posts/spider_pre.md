@@ -1,6 +1,7 @@
 ---
 title: 爬虫：写在前面
 date: 2023-09-06
+cover: /img/cover/6.jpg
 categories:
   - 爬虫
 tags:

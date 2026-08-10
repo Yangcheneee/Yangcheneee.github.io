@@ -1,6 +1,7 @@
 ---
 title: 恶意URL检测
 date: 2023-10-10
+cover: /img/cover/20.png
 categories:
   - ML
 tags:

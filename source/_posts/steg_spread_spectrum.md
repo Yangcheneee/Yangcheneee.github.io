@@ -1,6 +1,7 @@
 ---
 title: 扩频水印
 date: 2024-06-05
+cover: /img/cover/6.jpg
 categories:
   - 信息隐藏
 tags:

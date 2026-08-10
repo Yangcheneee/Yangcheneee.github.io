@@ -1,6 +1,7 @@
 ---
 title: 计算机编码
 date: 2024-06-26
+cover: /img/1.jpg
 categories:
   - 计算机基础
 tags:

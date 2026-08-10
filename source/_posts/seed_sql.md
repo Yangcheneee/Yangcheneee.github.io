@@ -1,6 +1,7 @@
 ---
 title: SEED：SQL Injection Attack Lab
 date: 2023-11-05
+cover: /img/cover/5.jpg
 categories:
   - SEED
 tags:
