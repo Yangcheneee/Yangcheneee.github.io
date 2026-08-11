@@ -1,0 +1,522 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Web 登录实现&amp;身份认证 | 良月的小窝</title><meta name="author" content="良月"><meta name="copyright" content="良月"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="开发工具&amp;环境前端vue集成html，css，javascript 后端SpringBoot集成mybatis，java，tomcat 数据库Mysql以及图形化界面SQLyogEnt 具体过程数据库数据-java对象&#x2F;Dao(mapper)—&gt; 程序数据 (controller)—&gt; 后端数据 —tomcat—&gt; 前端数据 -vue-&gt; html数据 数">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Web 登录实现&amp;身份认证">
+<meta property="og:url" content="https://yangcheneee.github.io/posts/web_login/index.html">
+<meta property="og:site_name" content="良月的小窝">
+<meta property="og:description" content="开发工具&amp;环境前端vue集成html，css，javascript 后端SpringBoot集成mybatis，java，tomcat 数据库Mysql以及图形化界面SQLyogEnt 具体过程数据库数据-java对象&#x2F;Dao(mapper)—&gt; 程序数据 (controller)—&gt; 后端数据 —tomcat—&gt; 前端数据 -vue-&gt; html数据 数">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://yangcheneee.github.io/img/cover/5.jpg">
+<meta property="article:published_time" content="2023-10-14T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-08-10T10:07:41.865Z">
+<meta property="article:author" content="良月">
+<meta property="article:tag" content="Web开发">
+<meta property="article:tag" content="java">
+<meta property="article:tag" content="springboot">
+<meta property="article:tag" content="vue">
+<meta property="article:tag" content="web开发">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://yangcheneee.github.io/img/cover/5.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Web 登录实现&身份认证",
+  "url": "https://yangcheneee.github.io/posts/web_login/",
+  "image": "https://yangcheneee.github.io/img/cover/5.jpg",
+  "datePublished": "2023-10-14T16:00:00.000Z",
+  "dateModified": "2026-08-10T10:07:41.865Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "良月",
+      "url": "https://yangcheneee.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.jpg"><link rel="canonical" href="https://yangcheneee.github.io/posts/web_login/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=5.7.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.3.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@6.1.14/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        const data = { value }
+
+        if (ttl != null) {
+          data.expiry = Date.now() + ttl * 86400000
+        }
+
+        localStorage.setItem(key, JSON.stringify(data))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return
+
+        try {
+          const data = JSON.parse(itemStr)
+
+          if (data.expiry && Date.now() > data.expiry) {
+            localStorage.removeItem(key)
+            return
+          }
+
+          return data.value
+        } catch {
+          localStorage.removeItem(key)
+        }
+      }
+    }
+
+    const scriptCache = new Map()
+    const cssCache = new Map()
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => {
+        if (scriptCache.has(url)) {
+          return scriptCache.get(url)
+        }
+
+        const promise = new Promise((resolve, reject) => {
+          const script = document.createElement('script')
+
+          script.src = url
+          script.async = true
+
+          for (const key in attr) {
+            script.setAttribute(key, attr[key])
+          }
+
+          script.onload = resolve
+          script.onerror = reject
+
+          document.head.appendChild(script)
+        })
+
+        scriptCache.set(url, promise)
+
+        return promise
+      },
+      getCSS: (url, id) => {
+        if (cssCache.has(url)) {
+          return cssCache.get(url)
+        }
+
+        const promise = new Promise((resolve, reject) => {
+          const link = document.createElement('link')
+
+          link.rel = 'stylesheet'
+          link.href = url
+
+          if (id) {
+            link.id = id
+          }
+
+          link.onload = resolve
+          link.onerror = reject
+
+          document.head.appendChild(link)
+        })
+
+        cssCache.set(url, promise)
+
+        return promise
+      },
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!true && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const metaThemeColor = document.querySelector('meta[name="theme-color"]')
+      const activateDarkMode = () => {
+        document.documentElement.dataset.theme = 'dark'
+        if (metaThemeColor !== null) {
+          metaThemeColor.setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.dataset.theme = 'light'
+        if (metaThemeColor !== null) {
+          metaThemeColor.setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":1,"unescape":false,"pagination":{"enable":false,"hitsPerPage":8},"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.13.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: true,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Web 登录实现&身份认证',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><link rel="stylesheet" href="/css/background.css"><meta name="generator" content="Hexo 8.1.2"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">61</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">88</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">14</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-graduation-cap"></i><span> 博文</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fa fa-archive"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fa fa-folder-open"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/messageboard/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于笔者</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/cover/5.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">良月的小窝</span></a><a class="nav-page-title" href="/"><span class="site-name">Web 登录实现&amp;身份认证</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-graduation-cap"></i><span> 博文</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fa fa-archive"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fa fa-folder-open"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/messageboard/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于笔者</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">Web 登录实现&amp;身份认证</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-10-14T16:00:00.000Z" title="发表于 2023-10-15 00:00:00">2023-10-15</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-08-10T10:07:41.865Z" title="更新于 2026-08-10 18:07:41">2026-08-10</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Web%E5%BC%80%E5%8F%91/">Web开发</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">1.4k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>7分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h2 id="开发工具-环境"><a href="#开发工具-环境" class="headerlink" title="开发工具&amp;环境"></a>开发工具&amp;环境</h2><h3 id="前端"><a href="#前端" class="headerlink" title="前端"></a>前端</h3><p>vue集成html，css，javascript</p>
+<h3 id="后端"><a href="#后端" class="headerlink" title="后端"></a>后端</h3><p>SpringBoot集成mybatis，java，tomcat</p>
+<h3 id="数据库"><a href="#数据库" class="headerlink" title="数据库"></a>数据库</h3><p>Mysql以及图形化界面SQLyogEnt</p>
+<h3 id="具体过程"><a href="#具体过程" class="headerlink" title="具体过程"></a>具体过程</h3><p>数据库数据-java对象&#x2F;Dao(mapper)—&gt; 程序数据 (controller)—&gt; 后端数据 —tomcat—&gt; 前端数据 -vue-&gt; html数据</p>
+<h1 id="数据结构-接口文档"><a href="#数据结构-接口文档" class="headerlink" title="数据结构&amp;接口文档"></a>数据结构&amp;接口文档</h1><h2 id="数据结构"><a href="#数据结构" class="headerlink" title="数据结构"></a>数据结构</h2><h3 id="数据库-1"><a href="#数据库-1" class="headerlink" title="数据库"></a>数据库</h3><p>user表id，username，password；将id设置为主键</p>
+<h3 id="Java类"><a href="#Java类" class="headerlink" title="Java类"></a>Java类</h3><p>新建User类：int id，String username，String password</p>
+<h2 id="接口文档"><a href="#接口文档" class="headerlink" title="接口文档"></a>接口文档</h2><h3 id="1-用户注册："><a href="#1-用户注册：" class="headerlink" title="1. 用户注册："></a>1. 用户注册：</h3><p>POST localhost&#x2F;auth&#x2F;register<br>username: “xxx”<br>hash_password: “xxx” </p>
+<h3 id="2-用户登录："><a href="#2-用户登录：" class="headerlink" title="2. 用户登录："></a>2. 用户登录：</h3><p>POST localhost&#x2F;auth&#x2F;login<br>username: “xxx”<br>password: “xxx”<br>return token</p>
+<h3 id="2-拉取用户信息："><a href="#2-拉取用户信息：" class="headerlink" title="2. 拉取用户信息："></a>2. 拉取用户信息：</h3><p>GET localhost&#x2F;user<br>token: “xxx”<br>return：id,username,password</p>
+<h3 id="3-修改用户信息："><a href="#3-修改用户信息：" class="headerlink" title="3. 修改用户信息："></a>3. 修改用户信息：</h3><p>PUT localhost&#x2F;user<br>token: “xxx”<br>username: “xxx”<br>hash_password: “xxx”</p>
+<h1 id="后端实现"><a href="#后端实现" class="headerlink" title="后端实现"></a>后端实现</h1><h2 id="数据库实现"><a href="#数据库实现" class="headerlink" title="数据库实现"></a>数据库实现</h2><p>user表id，username，password；将id设置为主键</p>
+<h2 id="连接数据库"><a href="#连接数据库" class="headerlink" title="连接数据库"></a>连接数据库</h2><h3 id="application-properties文件："><a href="#application-properties文件：" class="headerlink" title="application.properties文件："></a>application.properties文件：</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">spring.datasource.type=com.alibaba.druid.pool.DruidDataSource</span><br><span class="line"></span><br><span class="line"># ????</span><br><span class="line">spring.datasource.driver-class-name=com.mysql.jdbc.Driver</span><br><span class="line"># ?????</span><br><span class="line">spring.datasource.url=jdbc:mysql:<span class="comment">//localhost:3306/mybatis?useUnicode=true&amp;characterEncoding=UTF-8&amp;serverTimezone=UTC</span></span><br><span class="line">spring.datasource.username=root</span><br><span class="line">spring.datasource.password=root</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<h2 id="Dao层实现"><a href="#Dao层实现" class="headerlink" title="Dao层实现"></a>Dao层实现</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.example.bbb.entity;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">User</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> id;</span><br><span class="line">    <span class="keyword">private</span> String username;</span><br><span class="line">    <span class="keyword">private</span> String password;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">getId</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> id;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">getUsername</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> username;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">getPassword</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> password;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setUsername</span><span class="params">(String username)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.username = username;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setPassword</span><span class="params">(String password)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.password = password;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setId</span><span class="params">(<span class="type">int</span> id)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.id = id;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">toString</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;User&#123;&quot;</span> +</span><br><span class="line">                <span class="string">&quot;id=&quot;</span> + id +</span><br><span class="line">                <span class="string">&quot;, username=&#x27;&quot;</span> + username + <span class="string">&#x27;\&#x27;&#x27;</span> +</span><br><span class="line">                <span class="string">&quot;, password=&#x27;&quot;</span> + password + <span class="string">&#x27;\&#x27;&#x27;</span> +</span><br><span class="line">                <span class="string">&#x27;&#125;&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<h2 id="Mapper层实现"><a href="#Mapper层实现" class="headerlink" title="Mapper层实现"></a>Mapper层实现</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.example.bbb.mapper;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.List;</span><br><span class="line"><span class="keyword">import</span> com.baomidou.mybatisplus.core.mapper.BaseMapper;</span><br><span class="line"><span class="keyword">import</span> com.example.bbb.entity.User;</span><br><span class="line"><span class="keyword">import</span> org.apache.ibatis.annotations.*;</span><br><span class="line"><span class="meta">@Mapper</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">UserMapper</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="meta">@Select(&quot;select id from user where username = #&#123;username&#125;&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">getId</span><span class="params">(String username)</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//返回查询对象的集合</span></span><br><span class="line">    <span class="meta">@Select(&quot;select * from user&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> List&lt;User&gt; <span class="title function_">findAll</span><span class="params">()</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//返回查询对象</span></span><br><span class="line">    <span class="meta">@Select(&quot;select * from user where id = #&#123;id&#125;&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> User <span class="title function_">getInfo</span><span class="params">(<span class="type">int</span> id)</span>;</span><br><span class="line">    <span class="meta">@Select(&quot;select username from user&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> List&lt;String&gt; <span class="title function_">getAllUsername</span><span class="params">()</span>;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Select(&quot;select * from user where username = #&#123;username&#125;&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> User <span class="title function_">findByUsername</span><span class="params">(String username)</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//将数据库insert语句映射到java程序的insert方法</span></span><br><span class="line">    <span class="comment">//返回值为插入语句影响的记录数目</span></span><br><span class="line">    <span class="meta">@Insert(&quot;insert into user values (#&#123;id&#125;,#&#123;name&#125;,#&#123;password&#125;)&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">insert</span><span class="params">(<span class="type">int</span> id, String name,String password)</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//将数据库delete语句映射到java程序的delete方法</span></span><br><span class="line">    <span class="comment">//返回值为删除语句影响的记录数目</span></span><br><span class="line">    <span class="meta">@Delete(&quot;delete  from user where id = #&#123;id&#125;&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">delete</span><span class="params">(<span class="type">int</span> id)</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//将数据库update语句映射到java程序的update方法</span></span><br><span class="line">    <span class="comment">//返回值为更新语句影响的记录数目</span></span><br><span class="line">    <span class="meta">@Update(&quot;update user set username = #&#123;newName&#125;,password= #&#123;newPassword&#125; where id = #&#123;id&#125;&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">update</span><span class="params">(<span class="type">int</span> id,String newName,String newPassword)</span>;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Select(&quot;select username from user where username != #&#123;username&#125;&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> List&lt;String&gt; <span class="title function_">otherUserName</span><span class="params">(String username)</span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<h2 id="Controller层实现"><a href="#Controller层实现" class="headerlink" title="Controller层实现"></a>Controller层实现</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.example.bbb.controller;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.example.bbb.entity.User;</span><br><span class="line"><span class="keyword">import</span> com.example.bbb.mapper.UserMapper;</span><br><span class="line"><span class="keyword">import</span> com.fasterxml.jackson.core.JsonProcessingException;</span><br><span class="line"><span class="keyword">import</span> org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.*;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.List;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.fasterxml.jackson.databind.ObjectMapper;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="keyword">static</span> com.example.bbb.utils.JwtUtils.*;</span><br><span class="line"></span><br><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="meta">@CrossOrigin</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">UserController</span> &#123;</span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> UserMapper userMapper;</span><br><span class="line">    <span class="comment">//登录</span></span><br><span class="line">    <span class="meta">@PostMapping(&quot;/auth/login&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">login</span><span class="params">(<span class="meta">@RequestParam(&quot;username&quot;)</span> String username,<span class="meta">@RequestParam(&quot;password&quot;)</span> String password)</span>&#123;</span><br><span class="line">        <span class="comment">//权限标识</span></span><br><span class="line">        <span class="type">int</span> <span class="variable">verify</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">        <span class="comment">//检查账号，密码</span></span><br><span class="line">        List&lt;User&gt; list = userMapper.findAll();</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>; i&lt;list.size(); i++)&#123;</span><br><span class="line">            <span class="type">User</span> <span class="variable">useri</span> <span class="operator">=</span> list.get(i);</span><br><span class="line">            <span class="keyword">if</span>(useri.getUsername().equals(username) &amp;&amp; useri.getPassword().equals(password))&#123;</span><br><span class="line">                verify = <span class="number">1</span>;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//权限判断</span></span><br><span class="line">        <span class="keyword">if</span>(verify==<span class="number">1</span>)&#123;</span><br><span class="line">            <span class="type">String</span> <span class="variable">token</span> <span class="operator">=</span> generateToken(username);</span><br><span class="line">            <span class="type">int</span> <span class="variable">id</span> <span class="operator">=</span> userMapper.getId(username);</span><br><span class="line">            System.out.println(<span class="string">&quot;用户&quot;</span>+id+<span class="string">&quot;登录成功！&quot;</span>);</span><br><span class="line">            <span class="keyword">return</span> token;</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            System.out.println(<span class="string">&quot;用户&quot;</span>+username+<span class="string">&quot;登录失败！！&quot;</span>);</span><br><span class="line">            <span class="keyword">return</span> <span class="string">&quot;error&quot;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//返回用户个人信息</span></span><br><span class="line">    <span class="meta">@GetMapping(&quot;/user&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">info</span><span class="params">(<span class="meta">@RequestParam</span> String token)</span> <span class="keyword">throws</span> JsonProcessingException &#123;</span><br><span class="line">        <span class="keyword">if</span>(verifyToken(token)) &#123;</span><br><span class="line">            <span class="type">String</span> <span class="variable">username</span> <span class="operator">=</span> getUsernameFromToken(token);</span><br><span class="line">            <span class="type">int</span> <span class="variable">id</span> <span class="operator">=</span> userMapper.getId(username);</span><br><span class="line">            <span class="type">User</span> <span class="variable">user</span> <span class="operator">=</span> userMapper.getInfo(id);</span><br><span class="line">            <span class="type">ObjectMapper</span> <span class="variable">objectMapper</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ObjectMapper</span>();</span><br><span class="line">            <span class="type">String</span> <span class="variable">userJson</span> <span class="operator">=</span> objectMapper.writeValueAsString(user);</span><br><span class="line">            System.out.println(<span class="string">&quot;用户&quot;</span>+id+<span class="string">&quot;查看个人信息！&quot;</span>);</span><br><span class="line">            <span class="keyword">return</span> userJson;</span><br><span class="line">        &#125; <span class="keyword">else</span>&#123;</span><br><span class="line">            System.out.println(<span class="string">&quot;错误的token！！！&quot;</span>);</span><br><span class="line">            <span class="keyword">return</span> <span class="string">&quot;error&quot;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//用户注册</span></span><br><span class="line">    <span class="meta">@PostMapping(&quot;/auth/register&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">register</span><span class="params">(<span class="meta">@RequestParam(&quot;username&quot;)</span> String newusername,<span class="meta">@RequestParam</span> String password)</span>&#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">id</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">        List&lt;String&gt; usernameList = userMapper.getAllUsername();</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>; i&lt;usernameList.size(); i++)&#123;</span><br><span class="line">            <span class="type">String</span> <span class="variable">username</span> <span class="operator">=</span> usernameList.get(i);</span><br><span class="line">            <span class="keyword">if</span>(username.equals(newusername))&#123;</span><br><span class="line">                System.out.println(<span class="string">&quot;注册存在的用户名！&quot;</span>);</span><br><span class="line">                <span class="keyword">return</span>(<span class="string">&quot;error&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        userMapper.insert(id,newusername,password);</span><br><span class="line">        <span class="type">int</span> <span class="variable">newid</span> <span class="operator">=</span> userMapper.getId(newusername);</span><br><span class="line">        System.out.println(<span class="string">&quot;用户&quot;</span>+newid+<span class="string">&quot;注册成功！！&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;用户名：&quot;</span>+newusername + <span class="string">&#x27;\n&#x27;</span> +<span class="string">&quot;密码（hash）：&quot;</span>+password;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//    //用户注销</span></span><br><span class="line"><span class="comment">//    @DeleteMapping(&quot;/user&quot;)</span></span><br><span class="line"><span class="comment">//    public String delete(@RequestParam int id)&#123;</span></span><br><span class="line"><span class="comment">//        userMapper.delete(id);</span></span><br><span class="line"><span class="comment">//        return &quot;delete&quot;;</span></span><br><span class="line"><span class="comment">//    &#125;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">//修改个人信息</span></span><br><span class="line">    <span class="meta">@PutMapping(&quot;/user&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">update</span><span class="params">(<span class="meta">@RequestParam</span> String token,<span class="meta">@RequestParam</span> String newUsername,<span class="meta">@RequestParam</span> String newPassword)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span>(verifyToken(token)) &#123;</span><br><span class="line">            <span class="type">String</span> <span class="variable">username</span> <span class="operator">=</span> getUsernameFromToken(token);</span><br><span class="line">            <span class="type">int</span> <span class="variable">id</span> <span class="operator">=</span> userMapper.getId(username);</span><br><span class="line">            List&lt;String&gt; list = userMapper.otherUserName(username);</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; list.size(); i++) &#123;</span><br><span class="line">                <span class="type">String</span> <span class="variable">usernamei</span> <span class="operator">=</span> list.get(i);</span><br><span class="line">                <span class="keyword">if</span> (usernamei.equals(newUsername)) &#123;</span><br><span class="line">                    System.out.println(<span class="string">&quot;用户&quot;</span> + id + <span class="string">&quot;使用重复的用户名！&quot;</span>);</span><br><span class="line">                    <span class="keyword">return</span> <span class="string">&quot;error&quot;</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            userMapper.update(id, newUsername, newPassword);</span><br><span class="line">            System.out.println(<span class="string">&quot;用户&quot;</span> + id + <span class="string">&quot;更新用户名&quot;</span> + username + <span class="string">&quot;为&quot;</span> + newUsername);</span><br><span class="line">            <span class="keyword">return</span> <span class="string">&quot;ok&quot;</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span>&#123;</span><br><span class="line">            System.out.println(<span class="string">&quot;错误的token！！！&quot;</span>);</span><br><span class="line">            <span class="keyword">return</span> <span class="string">&quot;error&quot;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<h2 id="JWT实现"><a href="#JWT实现" class="headerlink" title="JWT实现"></a>JWT实现</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.example.bbb.utils;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> io.jsonwebtoken.Claims;</span><br><span class="line"><span class="keyword">import</span> io.jsonwebtoken.Jwts;</span><br><span class="line"><span class="keyword">import</span> io.jsonwebtoken.SignatureAlgorithm;</span><br><span class="line"><span class="keyword">import</span> java.util.Date;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">JwtUtils</span> &#123;</span><br><span class="line">    <span class="comment">//token有效时间</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="type">long</span> <span class="variable">expire</span> <span class="operator">=</span> <span class="number">604800</span>;</span><br><span class="line">    <span class="comment">//token秘钥</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="type">String</span> <span class="variable">key</span> <span class="operator">=</span> <span class="string">&quot;aaaabbbbccccddddaaaabbbbccccdddd&quot;</span>;</span><br><span class="line">    <span class="comment">//生成token</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> String <span class="title function_">generateToken</span><span class="params">(String username)</span>&#123;</span><br><span class="line">        <span class="type">Date</span> <span class="variable">now</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Date</span>();</span><br><span class="line">        <span class="type">Date</span> <span class="variable">expiration</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Date</span>(now.getTime()+<span class="number">1000</span>*expire);</span><br><span class="line">        <span class="keyword">return</span> Jwts.builder()</span><br><span class="line">                .setSubject(username)</span><br><span class="line">                .setIssuedAt(now)</span><br><span class="line">                .setExpiration(expiration)</span><br><span class="line">                .signWith(SignatureAlgorithm.HS512,key)</span><br><span class="line">                .compact();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 校验token合法性</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="type">boolean</span> <span class="title function_">verifyToken</span><span class="params">(String token)</span> &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            Jwts.parser().setSigningKey(key).parseClaimsJws(token);</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            <span class="comment">// 处理异常</span></span><br><span class="line">            System.out.println(<span class="string">&quot;错误的token&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//提取token中的username</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> String <span class="title function_">getUsernameFromToken</span><span class="params">(String token)</span>&#123;</span><br><span class="line">        <span class="type">Claims</span> <span class="variable">claims</span> <span class="operator">=</span> Jwts.parser()</span><br><span class="line">                .setSigningKey(key)</span><br><span class="line">                .parseClaimsJws(token)</span><br><span class="line">                .getBody();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> claims.getSubject();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://yangcheneee.github.io">良月</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://yangcheneee.github.io/posts/web_login/">https://yangcheneee.github.io/posts/web_login/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://yangcheneee.github.io" target="_blank">良月的小窝</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Web%E5%BC%80%E5%8F%91/">Web开发</a><a class="post-meta__tags" href="/tags/web%E5%BC%80%E5%8F%91/">web开发</a><a class="post-meta__tags" href="/tags/java/">java</a><a class="post-meta__tags" href="/tags/springboot/">springboot</a><a class="post-meta__tags" href="/tags/vue/">vue</a></div><div class="post-share"><div class="social-share" data-image="/img/cover/5.jpg" data-sites="wechat,qq,weibo"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>打赏</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechat.jpg" target="_blank"><img class="post-qr-code-img" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/wechat.jpg" alt="wechat"/></a><div class="post-qr-code-desc">wechat</div></li><li class="reward-item"><a href="/img/alipay.jpg" target="_blank"><img class="post-qr-code-img" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/alipay.jpg" alt="alipay"/></a><div class="post-qr-code-desc">alipay</div></li></ul></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/posts/seed_shellcode/" title="SEED：Shellcode Development Lab"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/3.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">SEED：Shellcode Development Lab</div></div><div class="info-2"><div class="info-item-1">一. Shellcode概述shellcode广泛用于许多涉及代码注入的攻击中。编写shellcode是相当有挑战性的。虽然我们可以很容易地从互联网上找到现有的shellcode，但是能够从头开始编写我们自己的shellcode总是令人兴奋的。shellcode中涉及到几种有趣的技术。本实验室的目的是帮助学生理解这些技术，以便他们能够编写自己的shellcode。编写shellcode有几个挑战，一个是确保二进制文件中没有0x00，另一个是找出命令中使用的数据的地址。第一个挑战不是很难解决，有几种方法可以解决它。第二个挑战的解决方案导致了编写外壳代码的两种典型方法。在一种方法中，数据在执行期间被推入堆栈，因此可以从堆栈指针获得它们的地址。在第二种方法中，数据存储在代码区域中，就在调用指令之后，因此在调用调用函数时，其地址被推入堆栈（作为返回地址）。两种解决方案都非常优雅，我们希望学生能够学习这两种技术。  二. 实验1. Task1 Writing Shellcode1.1. Task1.a The Entire ProcessCompiling to object code使用...</div></div></div></a><a class="pagination-related" href="/posts/seed_stackoverflow/" title="SEED：Buffer Overflow Attack Lab (Server Version)"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/5.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">SEED：Buffer Overflow Attack Lab (Server Version)</div></div><div class="info-2"><div class="info-item-1">你可以到SEED官网获取实验资料：Buffer-Overflow Attack Lab (Server Version)网络攻防技术——缓冲区溢出攻击（基于服务器） 一 缓存区溢出攻击概述C语言和堆栈局部变量函数中定义的变量 堆内存大，链表，碎片化 栈（堆栈）内存小，编译器决定1-8MB，后进先出LIFO，快 局部变量和堆栈c语言进阶：堆栈原理揭秘C语言有很多不同类别的数据，他们有不同的生命周期，这不是C语言本身决定的，而是操作系统存放这些数据的位置决定了他们的生命周期。运行一个程序，操作系统会将数据其映射到内存中，不同的数据将会映射到不同的内存中栈&#x2F;堆&#x2F;代码区等。 函数调用和堆栈缓冲区溢出原理一文理解缓冲区溢出缓冲区溢出被定义为程序试图将数据写入缓冲区边界之外的情况。恶意用户可以利用此漏洞更改程序的流控制，从而导致恶意代码的执行。 栈溢出详解缓冲区溢出在栈溢出上应用很多，因为当程序调用函数时，会将返回地址ret暂时存在栈区上。如果构造一次恶意溢出使用恶意抵制覆盖返回地址ret的值，那么将可以控制程序流甚至执行以进程权限执行任意程序。如果这个进程是根权限，那么...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/posts/web_maven/" title="Web开发（一）-Maven"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/cover/1.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2023-09-06</div><div class="info-item-2">Web开发（一）-Maven</div></div><div class="info-2"><div class="info-item-1">你需要先了解…关于此文章… 一. Maven基础Maven用于项目管理，包括以下功能：  依赖管理：依赖指我们项目中使用的第三方Jar包。在项目构建过程中，需要引入大量依赖，maven帮助你自动导入以及这个依赖所依赖的依赖。另外，maven帮助你管理依赖的版本。 简化项目构建：maven提供标准化的Java项目结构,通过Maven你可以快速创建Java项目。  二. Maven实现1. Maven下载&amp;安装 (参考文章)[https://blog.csdn.net/u012660464/article/details/114113349] 2. Maven构建项目3. pom.xml</div></div></div></a><a class="pagination-related" href="/posts/web_tomcat/" title="Web开发（三）-TomCat"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/cover/3.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2023-09-08</div><div class="info-item-2">Web开发（三）-TomCat</div></div><div class="info-2"><div class="info-item-1">一. TomCat-理论1. Tomcat基础TomCat是一个Web服务器，它默认活跃在电脑的8080端口，接收HTTP请求。同时，TomCat提供规范的HTTP接口，它接收规范的HTTP请求，对于Response，你也不需要自己编写，因为TomCat帮助你返回标准的Response。下面是具体实现：  当你访问此localhost:8080时，浏览器或者其他代理发送的HTTP请求将会被TomCat截获， 如果你在SpringBoot框架中使用TomCat，你可以获取HTTP请求，对数据做处理。 最后，你希望对这个请求作出响应，TomCat帮助你构建标准的HTTP响应。  二. TomCat-实现1. 依赖和配置当你新建一个SpringBoot项目时，该项目集成了TomCat。因此，你不必要花时间去配置TomCat。 2. Controller类一般来说，我们把对请求的处理封装在Controller类中。 @RestController你可以在使用这个注解标注为Controller类，在这个类中你可以定义函数处理HTTP请求。@RestController &#x3D; @Co...</div></div></div></a><a class="pagination-related no-desc" href="/posts/web_pre/" title="Web开发-写在前面"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/cover/0.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2023-09-05</div><div class="info-item-2">Web开发-写在前面</div></div></div></a><a class="pagination-related" href="/posts/web_jwt/" title="Web开发（五）-JWT"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/cover/5.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2023-09-10</div><div class="info-item-2">Web开发（五）-JWT</div></div><div class="info-2"><div class="info-item-1">这篇文章将会向你介绍JWT的理论基础和程序实现 一. JWT-理论JWT基础如果你没有任何基础，请耐心看完这一部分想象一下你登录某个网站的场景。你从登录页面输入账号密码进入到该网站，同时该网站返回你的个人信息，包括你的昵称，头像，个性签名，显示到网页上。更重要的是，登录网站意味着你的身份得到服务器的验证，你获得了访问你的个人信息的权限。服务器通过账号密码识别我们的身份吗？是，但不完全是。首先，你需要明白我们浏览器所依靠的http协议是无状态的。这就好像你和一个记忆力差劲的人交流，每一轮对话之后，他都会忘记你的名字。所以，你在每次和他说话之前，都需要重申你的身份。服务器就像这么一个人，尽管你对它说尽千言万语，而服务器只会在众多用户中迷失你的名字。那么，这是否意味着我们必须在每一个请求之前都输入我们的账号密码来告知服务器我们的合法身份呢？答案是否定的，有更简单的解决方案。JWT（JSON WEB TOKEN）就是一种实现方式。在输入账号密码之后，服务器会返回一个token给我们。以后在每次请求，我们带上token，服务器便会在用户中认出你。但是，如果你企图修改token，服务器能轻易...</div></div></div></a><a class="pagination-related" href="/posts/web_mybatis/" title="Web开发（四）-MyBatis"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/cover/4.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2023-09-09</div><div class="info-item-2">Web开发（四）-MyBatis</div></div><div class="info-2"><div class="info-item-1">一. MyBatis-理论这一部分我也不是很了解，简单的写点理解。 1. MyBatis基础MyBatis将数据库语句映射到java函数，将一个函数同SQL语句绑定后，当你调用这个函数，对应的SQL语句将会执行，并且返回参数到函数的返回值。同时，MyBatis将数据库的表和java的对象做了很好的连接。在MyBatis的作用下，映射SQL查询语句的函数可以返回java对象。 二. MyBatis实现1. 依赖和配置依赖你可以直接使用MyBatis-plus版本，它支持MyBatis 12345678910111213141516171819&lt;!--mybatis-plus--&gt;&lt;dependency&gt;    &lt;groupId&gt;com.baomidou&lt;/groupId&gt;    &lt;artifactId&gt;mybatis-plus-boot-starter&lt;/artifactId&gt;    &lt;version&gt;3.4.2&lt;/version&gt;&lt;/dependency&gt;&lt;!--My...</div></div></div></a><a class="pagination-related" href="/posts/web_springboot/" title="Web开发（二）-SpringBoot"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/cover/2.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2023-09-07</div><div class="info-item-2">Web开发（二）-SpringBoot</div></div><div class="info-2"><div class="info-item-1">你需要先了解…有关此文章… 一. 新建SpringBoot项目1. IDEA新建SpringBoot项目(参考文章)[https://blog.csdn.net/qq_43006591&#x2F;article&#x2F;details&#x2F;106137465] 二. SpringBoot框架解析1. .idea2. .mvn3. src&#x2F;main &#x2F;resource&#x2F;static存放CSS，JS以及图片等 &#x2F;resource&#x2F;templates存放Web页面 application.properties&#x2F;application.yml用于存放程序的各种依赖模块的配置信息，比如 服务端口，数据库连接配置等 &#x2F;main&#x2F;java&#x2F;com.example.xxx存放java源码 &#x2F;main&#x2F;java&#x2F;Application.javaSpringBoot 程序执行的入口，执行该程序中的 main 方法，启动当前SpringBoot项目。  &#x2F;test与...</div></div></div></a></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div><div class="comment-switch"><span class="first-comment">Valine</span><span id="switch-btn"></span><span class="second-comment">Disqus</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div><div><div id="disqus_thread"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">良月</div><div class="author-info-description">郎朗晴天</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">61</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">88</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">14</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Yangcheneee"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/Yangcheneee" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="tencent://AddContact/?fromId=45&amp;fromSubId=1&amp;subcmd=all&amp;uin=2657761647&amp;website=www.oicqzone.com" target="_blank" title="QQ"><i class="fab fa-qq" style="color: #12B7F5;"></i></a><a class="social-icon" href="mailto:2657761647@qq.com" target="_blank" title="Email"><i class="fas fa-envelope-open-text" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">欢迎来到我的个人博客</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7-%E7%8E%AF%E5%A2%83"><span class="toc-number">1.</span> <span class="toc-text">开发工具&amp;环境</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%89%8D%E7%AB%AF"><span class="toc-number">1.1.</span> <span class="toc-text">前端</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%8E%E7%AB%AF"><span class="toc-number">1.2.</span> <span class="toc-text">后端</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="toc-number">1.3.</span> <span class="toc-text">数据库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B7%E4%BD%93%E8%BF%87%E7%A8%8B"><span class="toc-number">1.4.</span> <span class="toc-text">具体过程</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E6%8E%A5%E5%8F%A3%E6%96%87%E6%A1%A3"><span class="toc-number">2.</span> <span class="toc-text">数据结构&amp;接口文档</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="toc-number">2.1.</span> <span class="toc-text">数据结构</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93-1"><span class="toc-number">2.1.1.</span> <span class="toc-text">数据库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Java%E7%B1%BB"><span class="toc-number">2.1.2.</span> <span class="toc-text">Java类</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8E%A5%E5%8F%A3%E6%96%87%E6%A1%A3"><span class="toc-number">2.2.</span> <span class="toc-text">接口文档</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E7%94%A8%E6%88%B7%E6%B3%A8%E5%86%8C%EF%BC%9A"><span class="toc-number">2.2.1.</span> <span class="toc-text">1. 用户注册：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E7%94%A8%E6%88%B7%E7%99%BB%E5%BD%95%EF%BC%9A"><span class="toc-number">2.2.2.</span> <span class="toc-text">2. 用户登录：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E6%8B%89%E5%8F%96%E7%94%A8%E6%88%B7%E4%BF%A1%E6%81%AF%EF%BC%9A"><span class="toc-number">2.2.3.</span> <span class="toc-text">2. 拉取用户信息：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E4%BF%AE%E6%94%B9%E7%94%A8%E6%88%B7%E4%BF%A1%E6%81%AF%EF%BC%9A"><span class="toc-number">2.2.4.</span> <span class="toc-text">3. 修改用户信息：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%90%8E%E7%AB%AF%E5%AE%9E%E7%8E%B0"><span class="toc-number">3.</span> <span class="toc-text">后端实现</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%9E%E7%8E%B0"><span class="toc-number">3.1.</span> <span class="toc-text">数据库实现</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%9E%E6%8E%A5%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="toc-number">3.2.</span> <span class="toc-text">连接数据库</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#application-properties%E6%96%87%E4%BB%B6%EF%BC%9A"><span class="toc-number">3.2.1.</span> <span class="toc-text">application.properties文件：</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Dao%E5%B1%82%E5%AE%9E%E7%8E%B0"><span class="toc-number">3.3.</span> <span class="toc-text">Dao层实现</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Mapper%E5%B1%82%E5%AE%9E%E7%8E%B0"><span class="toc-number">3.4.</span> <span class="toc-text">Mapper层实现</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Controller%E5%B1%82%E5%AE%9E%E7%8E%B0"><span class="toc-number">3.5.</span> <span class="toc-text">Controller层实现</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JWT%E5%AE%9E%E7%8E%B0"><span class="toc-number">3.6.</span> <span class="toc-text">JWT实现</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/posts/deploy/git/" title="使用 Git 实现本地与服务器代码仓库同步"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/cover/14.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="使用 Git 实现本地与服务器代码仓库同步"/></a><div class="content"><a class="title" href="/posts/deploy/git/" title="使用 Git 实现本地与服务器代码仓库同步">使用 Git 实现本地与服务器代码仓库同步</a><time datetime="2026-08-08T16:00:00.000Z" title="发表于 2026-08-09 00:00:00">2026-08-09</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/deploy/nginx/" title="Nginx 配置与多站点托管完整指南"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/cover/20.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Nginx 配置与多站点托管完整指南"/></a><div class="content"><a class="title" href="/posts/deploy/nginx/" title="Nginx 配置与多站点托管完整指南">Nginx 配置与多站点托管完整指南</a><time datetime="2026-08-08T16:00:00.000Z" title="发表于 2026-08-09 00:00:00">2026-08-09</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/deploy/rsync/" title="使用 rsync 实现服务器版本控制"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/cover/16.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="使用 rsync 实现服务器版本控制"/></a><div class="content"><a class="title" href="/posts/deploy/rsync/" title="使用 rsync 实现服务器版本控制">使用 rsync 实现服务器版本控制</a><time datetime="2026-08-08T16:00:00.000Z" title="发表于 2026-08-09 00:00:00">2026-08-09</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/steg_svd_watermark/" title="无题"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/3.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="无题"/></a><div class="content"><a class="title" href="/posts/steg_svd_watermark/" title="无题">无题</a><time datetime="2025-03-05T06:22:10.000Z" title="发表于 2025-03-05 14:22:10">2025-03-05</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/steg_svd/" title="无题"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/5.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="无题"/></a><div class="content"><a class="title" href="/posts/steg_svd/" title="无题">无题</a><time datetime="2025-03-05T06:22:03.000Z" title="发表于 2025-03-05 14:22:03">2025-03-05</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url(/img/cover/5.jpg);"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2023 - 2026 By 良月</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.7.0"></script><script src="/js/main.js?v=5.7.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@6.1.14/dist/fancybox/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@19.1.3/dist/lazyload.iife.min.js"></script><div class="js-pjax"><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+  const option = null
+
+  const initValine = (el, path) => {
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyValine = () => {
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
+
+    const valineConfig = {
+      el: '#vcomment',
+      appId: 'O8LBtcEHpDlrpdpmT4vFkCno-gzGzoHsz',
+      appKey: 'YYdyOhbCGoVEYggTt2icfUHj',
+      avatar: 'mp',
+      serverURLs: 'https://o8lbtceh.lc-cn-n1-shared.com',
+      emojiMaps: {},
+      visitor: false,
+      ...option,
+      path: isShuoshuo ? path : (option && option.path) || window.location.pathname
+    }
+
+    new Valine(valineConfig)
+  }
+
+  const loadValine = async (el, path) => {
+    if (typeof Valine === 'function') {
+      initValine(el, path)
+    } else {
+      await btf.getScript('https://cdn.jsdelivr.net/npm/valine@1.5.3/dist/Valine.min.js')
+      initValine(el, path)
+    }
+  }
+
+  if (isShuoshuo) {
+    'Valine' === 'Valine'
+      ? window.shuoshuoComment = { loadComment: loadValine }
+      : window.loadOtherComment = loadValine
+    return
+  }
+
+  if ('Valine' === 'Valine' || !false) {
+    if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+    else setTimeout(loadValine, 0)
+  } else {
+    window.loadOtherComment = loadValine
+  }
+})()</script><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+
+  const disqusReset = conf => {
+    window.DISQUS && window.DISQUS.reset({
+      reload: true,
+      config: conf
+    })
+  }
+
+  const loadDisqus = (el, path) => {
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyDisqus = () => {
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
+
+    window.disqus_identifier = isShuoshuo ? path : '/posts/web_login/'
+    window.disqus_url = isShuoshuo ? location.origin + path : 'https://yangcheneee.github.io/posts/web_login/'
+
+    const disqus_config = function () {
+      this.page.url = disqus_url
+      this.page.identifier = disqus_identifier
+      this.page.title = 'Web 登录实现&身份认证'
+    }
+
+    if (window.DISQUS) disqusReset(disqus_config)
+    else {
+      const script = document.createElement('script')
+      script.src = 'https://.disqus.com/embed.js'
+      script.setAttribute('data-timestamp', +new Date())
+      document.head.appendChild(script)
+    }
+
+    btf.addGlobalFn('themeChange', () => disqusReset(disqus_config), 'disqus')
+  }
+
+  const getCount = async() => {
+    try {
+      const eleGroup = document.querySelector('#post-meta .disqus-comment-count')
+      if (!eleGroup) return
+      const cleanedLinks = eleGroup.href.replace(/#post-comment$/, '')
+
+      const res = await fetch(`https://disqus.com/api/3.0/threads/set.json?forum=&api_key=&thread:link=${cleanedLinks}`,{
+        method: 'GET'
+      })
+      const result = await res.json()
+
+      const count = result.response.length ? result.response[0].posts : 0
+      eleGroup.textContent = count
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
+  if (isShuoshuo) {
+    'Valine' === 'Disqus'
+      ? window.shuoshuoComment = { loadComment: loadDisqus }
+      : window.loadOtherComment = loadDisqus
+    return
+  }
+
+  if ('Valine' === 'Disqus' || !false) {
+    if (false) btf.loadComment(document.getElementById('disqus_thread'), loadDisqus)
+    else {
+      loadDisqus()
+      
+    }
+  } else {
+    window.loadOtherComment = loadDisqus
+  }
+})()</script></div><script src="https://cdn.jsdelivr.net/npm/blueimp-md5@2.19.0/js/md5.min.js"></script><script>window.newestComments = {
+  changeContent: content => {
+    if (content === '') return content
+
+    content = content.replace(/<img.*?src="(.*?)"?[^\>]+>/ig, '[图片]') // replace image link
+    content = content.replace(/<a[^>]+?href=["']?([^"']+)["']?[^>]*>([^<]+)<\/a>/gi, '[链接]') // replace url
+    content = content.replace(/<pre><code>.*?<\/pre>/gi, '[代码]') // replace code
+    content = content.replace(/<code>.*?<\/code>/gi, '[代码]') // replace code
+    content = content.replace(/<[^>]+>/g, "") // remove html tag
+
+    if (content.length > 150) {
+      content = content.substring(0, 150) + '...'
+    }
+    return content
+  },
+
+  generateHtml: (array, ele) => {
+    let result = ''
+
+    if (array.length) {
+      for (let i = 0; i < array.length; i++) {
+        result += '<div class="aside-list-item">'
+
+        if (true && array[i].avatar) {
+          const imgAttr = 'data-lazy-src'
+          const lazyloadNative = ''
+          result += `<a href="${array[i].url}" class="thumbnail"><img ${imgAttr}="${array[i].avatar}" alt="${array[i].nick}" ${lazyloadNative}></a>`
+        }
+
+        result += `<div class="content">
+        <a class="comment" href="${array[i].url}" title="${array[i].content}">${array[i].content}</a>
+        <div class="name"><span>${array[i].nick} / </span><time datetime="${array[i].date}">${btf.diffDate(array[i].date, true)}</time></div>
+        </div></div>`
+      }
+    } else {
+      result += '暂无评论'
+    }
+
+    ele.innerHTML = result
+    window.lazyLoadInstance && window.lazyLoadInstance.update()
+    window.pjax && window.pjax.refresh(ele)
+  },
+
+  newestCommentInit: (name, getComment) => {
+    const $dom = document.querySelector('#card-newest-comments .aside-list')
+    if ($dom) {
+      const data = btf.saveToLocal.get(name)
+      if (data) {
+        newestComments.generateHtml(JSON.parse(data), $dom)
+      } else {
+        getComment($dom)
+      }
+    }
+  },
+
+  run: (name, getComment) => {
+    newestComments.newestCommentInit(name, getComment)
+    btf.addGlobalFn('pjaxComplete', () => newestComments.newestCommentInit(name, getComment), name)
+  }
+}</script><script>window.addEventListener('load', () => {
+  const keyName = 'valine-newest-comments'
+  const { changeContent, generateHtml, run } = window.newestComments
+
+  const getIcon = (icon, mail) => {
+    if (icon) return icon
+    let defaultIcon = '?d=mp'
+    let iconUrl = `https://gravatar.loli.net/avatar/${md5(mail.toLowerCase()) + defaultIcon}`
+    return iconUrl
+  }
+
+  const getComment = ele => {
+    const serverURL = 'https://o8lbtceh.lc-cn-n1-shared.com'
+
+    var settings = {
+      "method": "GET",
+      "headers": {
+        "X-LC-Id": 'O8LBtcEHpDlrpdpmT4vFkCno-gzGzoHsz',
+        "X-LC-Key": 'YYdyOhbCGoVEYggTt2icfUHj',
+        "Content-Type": "application/json"
+      },
+    }
+
+    fetch(`${serverURL}/1.1/classes/Comment?limit=6&order=-createdAt`,settings)
+      .then(response => response.json())
+      .then(data => {
+        const valineArray = data.results.map(e => {
+          return {
+            'avatar': getIcon(e.QQAvatar, e.mail),
+            'content': changeContent(e.comment),
+            'nick': e.nick,
+            'url': e.url + '#' + e.objectId,
+            'date': e.updatedAt,
+          }
+        })
+        btf.saveToLocal.set(keyName, JSON.stringify(valineArray), 10/(60*24))
+        generateHtml(valineArray, ele)
+      }).catch(e => {
+        console.error(e)
+        ele.textContent= "无法获取评论，请确认相关配置是否正确"
+      })
+  }
+
+  run(keyName, getComment)
+})</script><div id="web_bg"></div><div class="aplayer no-destroy" data-id="8674547170" data-server="netease" data-type="playlist" data-fixed="true" data-autoplay="false" data-lrcType="-1"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/metingjs/dist/Meting.min.js"></script><canvas class="fireworks" mobile="false"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/dist/fireworks.min.js"></script><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/dist/canvas-nest.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = false;
+POWERMODE.mobile = true;
+document.body.addEventListener('input', POWERMODE);
+</script><script src="https://cdn.jsdelivr.net/npm/pjax@0.2.8/pjax.min.js" defer="defer"></script><script>document.addEventListener('DOMContentLoaded', () => {
+  const pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+  window.pjax = new Pjax({
+    elements: 'a:not([target="_blank"]):not([data-fancybox])',
+    selectors: pjaxSelectors,
+    cacheBust: false,
+    analytics: false,
+    scrollRestoration: false
+  })
+
+  const triggerPjaxFn = (val) => {
+    if (!val) return
+    Object.values(val).forEach(fn => {
+      try {
+        fn()
+      } catch (err) {
+        console.debug('Pjax callback failed:', err)
+      }
+    })
+  }
+
+  document.addEventListener('pjax:send', () => {
+    // removeEventListener
+    btf.removeGlobalFnEvent('pjaxSendOnce')
+    btf.removeGlobalFnEvent('themeChange')
+
+    // reset readmode
+    const $bodyClassList = document.body.classList
+    if ($bodyClassList.contains('read-mode')) $bodyClassList.remove('read-mode')
+
+    triggerPjaxFn(window.globalFn.pjaxSend)
+  })
+
+  document.addEventListener('pjax:complete', () => {
+    btf.removeGlobalFnEvent('pjaxCompleteOnce')
+    document.querySelectorAll('script[data-pjax]').forEach(item => {
+      if (!item.parentNode) return
+      const newScript = document.createElement('script')
+      const content = item.text || item.textContent || ''
+      Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+      newScript.appendChild(document.createTextNode(content))
+      item.parentNode.replaceChild(newScript, item)
+    })
+
+    triggerPjaxFn(window.globalFn.pjaxComplete)
+  })
+
+  document.addEventListener('pjax:error', e => {
+    const responseURL = e.request && e.request.responseURL
+    if (e.request && e.request.status === 404) {
+      false
+        ? pjax.loadUrl('/404.html')
+        : responseURL && (window.location.href = responseURL)
+    } else if (responseURL) {
+      window.location.href = responseURL
+    }
+  })
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><i class="fas fa-spinner fa-pulse" id="loading-status" hidden="hidden"></i><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="local-search-input"><input placeholder="搜索文章" type="text"/></div><hr/><div id="local-search-results"></div><div class="ais-Pagination" id="local-search-pagination" style="display:none;"><ul class="ais-Pagination-list"></ul></div><div id="local-search-stats"></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=5.7.0"></script></div></div></body></html>

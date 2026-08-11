@@ -1,0 +1,511 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>爬虫（二）：响应解析 | 良月的小窝</title><meta name="author" content="良月"><meta name="copyright" content="良月"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="*当你获取响应文件后，你需要做的就是收集其中的关键信息。对不同的响应文件格式你需要选择不同方式解析。*下面是一些常见的响应解析方式 一. Xpath1. Xpath基础Xpath适用于解析HTML格式文件，并且语法及其简介。 2. 对str对象使用Xpath对于一般的HTML格式响应对象 response.text() 是字符串类型，因此在使用之前： from lxml import etree">
+<meta property="og:type" content="article">
+<meta property="og:title" content="爬虫（二）：响应解析">
+<meta property="og:url" content="https://yangcheneee.github.io/posts/spider_analysis/index.html">
+<meta property="og:site_name" content="良月的小窝">
+<meta property="og:description" content="*当你获取响应文件后，你需要做的就是收集其中的关键信息。对不同的响应文件格式你需要选择不同方式解析。*下面是一些常见的响应解析方式 一. Xpath1. Xpath基础Xpath适用于解析HTML格式文件，并且语法及其简介。 2. 对str对象使用Xpath对于一般的HTML格式响应对象 response.text() 是字符串类型，因此在使用之前： from lxml import etree">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://yangcheneee.github.io/img/cover/10.jpg">
+<meta property="article:published_time" content="2023-09-07T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-08-10T10:07:41.855Z">
+<meta property="article:author" content="良月">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="Web">
+<meta property="article:tag" content="Xpath">
+<meta property="article:tag" content="bs4">
+<meta property="article:tag" content="json">
+<meta property="article:tag" content="爬虫">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://yangcheneee.github.io/img/cover/10.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "爬虫（二）：响应解析",
+  "url": "https://yangcheneee.github.io/posts/spider_analysis/",
+  "image": "https://yangcheneee.github.io/img/cover/10.jpg",
+  "datePublished": "2023-09-07T16:00:00.000Z",
+  "dateModified": "2026-08-10T10:07:41.855Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "良月",
+      "url": "https://yangcheneee.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.jpg"><link rel="canonical" href="https://yangcheneee.github.io/posts/spider_analysis/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=5.7.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.3.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@6.1.14/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        const data = { value }
+
+        if (ttl != null) {
+          data.expiry = Date.now() + ttl * 86400000
+        }
+
+        localStorage.setItem(key, JSON.stringify(data))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return
+
+        try {
+          const data = JSON.parse(itemStr)
+
+          if (data.expiry && Date.now() > data.expiry) {
+            localStorage.removeItem(key)
+            return
+          }
+
+          return data.value
+        } catch {
+          localStorage.removeItem(key)
+        }
+      }
+    }
+
+    const scriptCache = new Map()
+    const cssCache = new Map()
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => {
+        if (scriptCache.has(url)) {
+          return scriptCache.get(url)
+        }
+
+        const promise = new Promise((resolve, reject) => {
+          const script = document.createElement('script')
+
+          script.src = url
+          script.async = true
+
+          for (const key in attr) {
+            script.setAttribute(key, attr[key])
+          }
+
+          script.onload = resolve
+          script.onerror = reject
+
+          document.head.appendChild(script)
+        })
+
+        scriptCache.set(url, promise)
+
+        return promise
+      },
+      getCSS: (url, id) => {
+        if (cssCache.has(url)) {
+          return cssCache.get(url)
+        }
+
+        const promise = new Promise((resolve, reject) => {
+          const link = document.createElement('link')
+
+          link.rel = 'stylesheet'
+          link.href = url
+
+          if (id) {
+            link.id = id
+          }
+
+          link.onload = resolve
+          link.onerror = reject
+
+          document.head.appendChild(link)
+        })
+
+        cssCache.set(url, promise)
+
+        return promise
+      },
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!true && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const metaThemeColor = document.querySelector('meta[name="theme-color"]')
+      const activateDarkMode = () => {
+        document.documentElement.dataset.theme = 'dark'
+        if (metaThemeColor !== null) {
+          metaThemeColor.setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.dataset.theme = 'light'
+        if (metaThemeColor !== null) {
+          metaThemeColor.setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":1,"unescape":false,"pagination":{"enable":false,"hitsPerPage":8},"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.13.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: true,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '爬虫（二）：响应解析',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><link rel="stylesheet" href="/css/background.css"><meta name="generator" content="Hexo 8.1.2"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">61</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">88</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">14</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-graduation-cap"></i><span> 博文</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fa fa-archive"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fa fa-folder-open"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/messageboard/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于笔者</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/cover/10.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">良月的小窝</span></a><a class="nav-page-title" href="/"><span class="site-name">爬虫（二）：响应解析</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-graduation-cap"></i><span> 博文</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fa fa-archive"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fa fa-folder-open"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/messageboard/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于笔者</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">爬虫（二）：响应解析</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-09-07T16:00:00.000Z" title="发表于 2023-09-08 00:00:00">2023-09-08</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-08-10T10:07:41.855Z" title="更新于 2026-08-10 18:07:41">2026-08-10</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%88%AC%E8%99%AB/">爬虫</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">476</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>1分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><p>*当你获取响应文件后，你需要做的就是收集其中的关键信息。对不同的响应文件格式你需要选择不同方式解析。*<em>下面是一些常见的响应解析方式</em></p>
+<h1 id="一-Xpath"><a href="#一-Xpath" class="headerlink" title="一. Xpath"></a>一. Xpath</h1><h2 id="1-Xpath基础"><a href="#1-Xpath基础" class="headerlink" title="1. Xpath基础"></a>1. Xpath基础</h2><p>Xpath适用于解析HTML格式文件，并且语法及其简介。</p>
+<h2 id="2-对str对象使用Xpath"><a href="#2-对str对象使用Xpath" class="headerlink" title="2. 对str对象使用Xpath"></a>2. 对str对象使用Xpath</h2><p>对于一般的HTML格式响应对象 <em>response.text()</em> 是字符串类型，因此在使用之前： <code>from lxml import etree</code> </p>
+<h2 id="3-Xpath语法"><a href="#3-Xpath语法" class="headerlink" title="3. Xpath语法"></a>3. Xpath语法</h2><p>这里先举个例子（也是我开始学爬虫的测试网站）<br><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/spider_analysis/image.png" alt="Alt text"><br>如果你想拿到 <em>a标签</em> 的href属性：&#x2F;&#x2F;div&#x2F;ul&#x2F;li&#x2F;a&#x2F;@href<br>如果你想拿到 <em>img标签</em> 的src属性：&#x2F;&#x2F;div&#x2F;ul&#x2F;li&#x2F;a&#x2F;span&#x2F;img&#x2F;@src<br>如果你想拿到 <em>b标签</em> 的内容：&#x2F;&#x2F;div&#x2F;ul&#x2F;li&#x2F;a&#x2F;b&#x2F;text()<br>&#x2F;&#x2F;div能够锁定所有div标签，这也是经常使用的Xpath开头，当然你也可以明确定位一个标签&#x2F;&#x2F;div[@class&#x3D;’slist’]<br>下面是详细语法<br>&#x2F;:子标签&#x2F;&#x2F;:子孙标签@：取属性text()：取内容</p>
+<h1 id="二-JSON"><a href="#二-JSON" class="headerlink" title="二. JSON"></a>二. JSON</h1><h2 id="1-JSON基础"><a href="#1-JSON基础" class="headerlink" title="1. JSON基础"></a>1. JSON基础</h2><p>json用于解析json类型格式响应，这是非常普遍的，在异步加载的网页中，很多后端数据通过json格式传到前端进行渲染，得到浏览器显示的HTML文件。比如微博。</p>
+<h2 id="2-Python字典处理JSON"><a href="#2-Python字典处理JSON" class="headerlink" title="2. Python字典处理JSON"></a>2. Python字典处理JSON</h2><p>Python字典和Java对象很相似，Json（JavaScript Object Notation）也可以通过python字典进行处理。<br><code>comment_json = json.loads(response.text)</code></p>
+<h2 id="3-Python字典语法"><a href="#3-Python字典语法" class="headerlink" title="3. Python字典语法"></a>3. Python字典语法</h2><p>这个很简单…<br>额..还是记一下吧</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">user = &#123;</span><br><span class="line">    <span class="string">&#x27;uid&#x27;</span>: <span class="string">&#x27;&#x27;</span></span><br><span class="line">    <span class="string">&#x27;username&#x27;</span>: <span class="string">&#x27;&#x27;</span></span><br><span class="line">    <span class="string">&#x27;password&#x27;</span>: <span class="string">&#x27;&#x27;</span></span><br><span class="line">    <span class="string">&#x27;friends&#x27;</span>: []</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>dict[“xxx”]:取字典中xxx</p>
+<h1 id="三-BS4"><a href="#三-BS4" class="headerlink" title="三. BS4"></a>三. BS4</h1><h2 id="1-bs4基础"><a href="#1-bs4基础" class="headerlink" title="1. bs4基础"></a>1. bs4基础</h2><h2 id="2-引入bs4"><a href="#2-引入bs4" class="headerlink" title="2. 引入bs4"></a>2. 引入bs4</h2><p><code>from bs4 import BeautifulSoup</code></p>
+<h2 id="3-bs4语法"><a href="#3-bs4语法" class="headerlink" title="3. bs4语法"></a>3. bs4语法</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">soup = BeautifulSoup(resp.content, <span class="string">&#x27;html.parser&#x27;</span>)</span><br><span class="line">tag_div = soup.find_all(<span class="string">&quot;div&quot;</span>,class_=<span class="string">&#x27;result c-container xpath-log new-pmd&#x27;</span>)</span><br><span class="line">link = i.get(<span class="string">&#x27;mu&#x27;</span>)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://yangcheneee.github.io">良月</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://yangcheneee.github.io/posts/spider_analysis/">https://yangcheneee.github.io/posts/spider_analysis/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://yangcheneee.github.io" target="_blank">良月的小窝</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Python/">Python</a><a class="post-meta__tags" href="/tags/Web/">Web</a><a class="post-meta__tags" href="/tags/%E7%88%AC%E8%99%AB/">爬虫</a><a class="post-meta__tags" href="/tags/Xpath/">Xpath</a><a class="post-meta__tags" href="/tags/bs4/">bs4</a><a class="post-meta__tags" href="/tags/json/">json</a></div><div class="post-share"><div class="social-share" data-image="/img/cover/10.jpg" data-sites="wechat,qq,weibo"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>打赏</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechat.jpg" target="_blank"><img class="post-qr-code-img" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/wechat.jpg" alt="wechat"/></a><div class="post-qr-code-desc">wechat</div></li><li class="reward-item"><a href="/img/alipay.jpg" target="_blank"><img class="post-qr-code-img" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/alipay.jpg" alt="alipay"/></a><div class="post-qr-code-desc">alipay</div></li></ul></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/posts/web_tomcat/" title="Web开发（三）-TomCat"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/cover/3.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">Web开发（三）-TomCat</div></div><div class="info-2"><div class="info-item-1">一. TomCat-理论1. Tomcat基础TomCat是一个Web服务器，它默认活跃在电脑的8080端口，接收HTTP请求。同时，TomCat提供规范的HTTP接口，它接收规范的HTTP请求，对于Response，你也不需要自己编写，因为TomCat帮助你返回标准的Response。下面是具体实现：  当你访问此localhost:8080时，浏览器或者其他代理发送的HTTP请求将会被TomCat截获， 如果你在SpringBoot框架中使用TomCat，你可以获取HTTP请求，对数据做处理。 最后，你希望对这个请求作出响应，TomCat帮助你构建标准的HTTP响应。  二. TomCat-实现1. 依赖和配置当你新建一个SpringBoot项目时，该项目集成了TomCat。因此，你不必要花时间去配置TomCat。 2. Controller类一般来说，我们把对请求的处理封装在Controller类中。 @RestController你可以在使用这个注解标注为Controller类，在这个类中你可以定义函数处理HTTP请求。@RestController &#x3D; @Co...</div></div></div></a><a class="pagination-related" href="/posts/computer_u/" title="车载U盘"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/3.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">车载U盘</div></div><div class="info-2"><div class="info-item-1">最近发现一个好玩的东西，车载U盘不知道大家有没有用过。暑假，有个哥哥叫我帮他U盘下点歌，顺便删掉里面的一些DJ歌曲。我想，这不简单吗？我接过U盘，插在电脑上，吓我一跳，提示我无法打开，需要格式化，这点错歌不全没了吗。我才发现，事情没有我想象的那么简单。于是，我马上搜索 “车载U盘” 相关信息。互联网上信息很多，但是我的信息检索能力还算合格吧。不一会就发现了问题所在。一般车子系统是Linux，车载U盘使用也是Linux系统的分区，因此我插入Windows系统的电脑并不能识别出U盘的音乐文件，而是直接提示我格式化U盘。原来如此，那么解决方案是什么呢？  最简单的方法：买一根连接U盘的转接线，手机是Linux内核的Android操作系统，因此可以解析车载U盘中的音乐文件。 如果你的计算机内装有Linux虚拟机，那么你也可以通过虚拟机连接U盘来对其中的文件进行更改。嗯，然后就熬夜下歌…最后发现搞错了，啊…joker额，怎么说呢？一个小小的车载U盘，即使学过操作系统，考试也觉得不难，但是倘若缺乏这次经历，可能我仍不知。我就像井底之蛙，但还好没事折腾两下自己，能看看更广阔的天地。  </div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/posts/spider_save/" title="爬虫（三）：结果保存"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/cover/11.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2023-09-09</div><div class="info-item-2">爬虫（三）：结果保存</div></div><div class="info-2"><div class="info-item-1">一般来说会把爬取的结果存储到列表或者字典中，然后将结果写入文件中 一. TXT代码比较简单,看一下应该就懂了…对于列表 12345678# 是否保存save = input(&quot;共&quot; + str(len(comment_list)) + &quot;条记录，保存到commen.txt（y/n）：&quot;)if (save == &quot;y&quot; or save == &quot;Y&quot;):    print(&quot;正在写入中...&quot;)    with open(&quot;comment.txt&quot;, &quot;w&quot;, encoding=&quot;utf-8&quot;) as f:        for comment in tqdm(comment_list):            f.writelines(comment + &quot;\n&quot;)  对于字典 1234567# 是否保存？save = input(&quot;共&quot; + str(len(list_dic_blog...</div></div></div></a><a class="pagination-related" href="/posts/spider_weibo/" title="微博爬虫实例"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/cover/8.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2023-09-15</div><div class="info-item-2">微博爬虫实例</div></div><div class="info-2"><div class="info-item-1">你需要先了解…关于此文章… 一. 帖子懒得写，贴个源码。爬不了的话，传入你的cookie 123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384858687888990919293949596979899100101import requests  # 网络请求import random  # 与time控制网络请求频率import time  # 与random控制网络请求频率import json  # 响应的json数据分析from tqdm import tqdm  # 进度条# 由此函数完成 请求-响应解析 的过程# 接收评论json文件的url，解析json文件并返回评论信息字典（max，total_number,max_id，max_id_type，commentlist[]）def getCommentT...</div></div></div></a><a class="pagination-related" href="/posts/spider_request/" title="爬虫（一）：请求&amp;响应"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/cover/7.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2023-09-07</div><div class="info-item-2">爬虫（一）：请求&amp;响应</div></div><div class="info-2"><div class="info-item-1">你需要先了解…关于此文章… 一. Requests-概述Request是Python的第三方库，用于网络请求并接收返回的数据，你需要在Python的虚拟环境中安装使用。  Request帮助你发送网络请求，同时你可以自定义Request携带的参数。 另外，Request模块接收响应请求的数据，并把Response作为函数的返回。 如果你想实现一个爬虫，对返回的网页文件进行Xpath&#x2F;正则表达式解析，并将你需要的内容存储即可。  二. Request基础1. 下载&amp;安装12pip/pip3 install requests   2. Request库关于requestrequest支持各种HTTP方法，同时你可以指定请求所携带的内容。  获取响应文件  12response = request.get(url)   带上请求头headers  12response = request.get(url, headers = headers)   伪装浏览器代理，避免反爬虫*如果你向https://www.douban.com/发送请求，响应码为418，  12345...</div></div></div></a><a class="pagination-related" href="/posts/spider_pre/" title="爬虫：写在前面"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/cover/6.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2023-09-06</div><div class="info-item-2">爬虫：写在前面</div></div><div class="info-2"><div class="info-item-1">一些理解 网络爬虫：爬虫完整的名字应该叫网络爬虫，因为它依赖于HTTP协议获取数据，浏览器上Web应用的基础，顾名思义需要网络。 所见即所得：另外，浏览器的原则是所见即所得，你在浏览器上看到的东西，都是服务器通过网络发到本地的，因此能见到的就能够爬到。 Robots.txt：在爬取之前应该仔细阅读网站设置的爬虫规则，上面有详细的允许和不允许爬的内容。爬虫基本运行过程一般是三个步骤：请求数据，过滤数据，保存数据。  一. Requests-概述Request是Python的第三方库，用于网络请求并接收返回的数据，你需要在Python的虚拟环境中安装使用。  Request帮助你发送网络请求，同时你可以自定义Request携带的参数。 另外，Request模块接收响应请求的数据，并把Response作为函数的返回。 如果你想实现一个爬虫，对返回的网页文件进行Xpath&#x2F;正则表达式解析，并将你需要的内容存储即可。  二. Request基础1. 下载&amp;安装12pip/pip3 install requests   2. Request库关于requestrequest...</div></div></div></a><a class="pagination-related" href="/posts/security_xss/" title="Web安全-XSS"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/cover/5.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2023-11-05</div><div class="info-item-2">Web安全-XSS</div></div><div class="info-2"><div class="info-item-1">一. XSS1. 反射&amp;DOM2. 存储</div></div></div></a><a class="pagination-related" href="/posts/spider_subdomain/" title="子域名爬虫"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/cover/9.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2023-09-14</div><div class="info-item-2">子域名爬虫</div></div><div class="info-2"><div class="info-item-1">子域名爬虫百度百度子域名搜索语法：domain:xxx.com百度将子域名存在于 div 标签的 mu 属性中，你可以通过 class&#x3D;”result c-container xpath-log new-pmd” 找到这个 div 标签。 1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859# 定义一个采用baidu搜索的方法def baidu_search():    print(&quot;Powered by baidu...&quot;)    domain = input(&quot;input the domain you want to query:&quot;)    page = int(input(&quot;The more page,the more subdomain(not sure):&quot;))    if page &lt; 1 or page &gt; 100:   ...</div></div></div></a></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div><div class="comment-switch"><span class="first-comment">Valine</span><span id="switch-btn"></span><span class="second-comment">Disqus</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div><div><div id="disqus_thread"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">良月</div><div class="author-info-description">郎朗晴天</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">61</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">88</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">14</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Yangcheneee"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/Yangcheneee" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="tencent://AddContact/?fromId=45&amp;fromSubId=1&amp;subcmd=all&amp;uin=2657761647&amp;website=www.oicqzone.com" target="_blank" title="QQ"><i class="fab fa-qq" style="color: #12B7F5;"></i></a><a class="social-icon" href="mailto:2657761647@qq.com" target="_blank" title="Email"><i class="fas fa-envelope-open-text" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">欢迎来到我的个人博客</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%80-Xpath"><span class="toc-number">1.</span> <span class="toc-text">一. Xpath</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-Xpath%E5%9F%BA%E7%A1%80"><span class="toc-number">1.1.</span> <span class="toc-text">1. Xpath基础</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E5%AF%B9str%E5%AF%B9%E8%B1%A1%E4%BD%BF%E7%94%A8Xpath"><span class="toc-number">1.2.</span> <span class="toc-text">2. 对str对象使用Xpath</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-Xpath%E8%AF%AD%E6%B3%95"><span class="toc-number">1.3.</span> <span class="toc-text">3. Xpath语法</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%8C-JSON"><span class="toc-number">2.</span> <span class="toc-text">二. JSON</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-JSON%E5%9F%BA%E7%A1%80"><span class="toc-number">2.1.</span> <span class="toc-text">1. JSON基础</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-Python%E5%AD%97%E5%85%B8%E5%A4%84%E7%90%86JSON"><span class="toc-number">2.2.</span> <span class="toc-text">2. Python字典处理JSON</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-Python%E5%AD%97%E5%85%B8%E8%AF%AD%E6%B3%95"><span class="toc-number">2.3.</span> <span class="toc-text">3. Python字典语法</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%89-BS4"><span class="toc-number">3.</span> <span class="toc-text">三. BS4</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-bs4%E5%9F%BA%E7%A1%80"><span class="toc-number">3.1.</span> <span class="toc-text">1. bs4基础</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E5%BC%95%E5%85%A5bs4"><span class="toc-number">3.2.</span> <span class="toc-text">2. 引入bs4</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-bs4%E8%AF%AD%E6%B3%95"><span class="toc-number">3.3.</span> <span class="toc-text">3. bs4语法</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/posts/deploy/git/" title="使用 Git 实现本地与服务器代码仓库同步"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/cover/14.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="使用 Git 实现本地与服务器代码仓库同步"/></a><div class="content"><a class="title" href="/posts/deploy/git/" title="使用 Git 实现本地与服务器代码仓库同步">使用 Git 实现本地与服务器代码仓库同步</a><time datetime="2026-08-08T16:00:00.000Z" title="发表于 2026-08-09 00:00:00">2026-08-09</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/deploy/nginx/" title="Nginx 配置与多站点托管完整指南"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/cover/20.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Nginx 配置与多站点托管完整指南"/></a><div class="content"><a class="title" href="/posts/deploy/nginx/" title="Nginx 配置与多站点托管完整指南">Nginx 配置与多站点托管完整指南</a><time datetime="2026-08-08T16:00:00.000Z" title="发表于 2026-08-09 00:00:00">2026-08-09</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/deploy/rsync/" title="使用 rsync 实现服务器版本控制"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/cover/16.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="使用 rsync 实现服务器版本控制"/></a><div class="content"><a class="title" href="/posts/deploy/rsync/" title="使用 rsync 实现服务器版本控制">使用 rsync 实现服务器版本控制</a><time datetime="2026-08-08T16:00:00.000Z" title="发表于 2026-08-09 00:00:00">2026-08-09</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/steg_svd_watermark/" title="无题"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/3.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="无题"/></a><div class="content"><a class="title" href="/posts/steg_svd_watermark/" title="无题">无题</a><time datetime="2025-03-05T06:22:10.000Z" title="发表于 2025-03-05 14:22:10">2025-03-05</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/steg_svd/" title="无题"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/5.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="无题"/></a><div class="content"><a class="title" href="/posts/steg_svd/" title="无题">无题</a><time datetime="2025-03-05T06:22:03.000Z" title="发表于 2025-03-05 14:22:03">2025-03-05</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url(/img/cover/10.jpg);"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2023 - 2026 By 良月</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.7.0"></script><script src="/js/main.js?v=5.7.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@6.1.14/dist/fancybox/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@19.1.3/dist/lazyload.iife.min.js"></script><div class="js-pjax"><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+  const option = null
+
+  const initValine = (el, path) => {
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyValine = () => {
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
+
+    const valineConfig = {
+      el: '#vcomment',
+      appId: 'O8LBtcEHpDlrpdpmT4vFkCno-gzGzoHsz',
+      appKey: 'YYdyOhbCGoVEYggTt2icfUHj',
+      avatar: 'mp',
+      serverURLs: 'https://o8lbtceh.lc-cn-n1-shared.com',
+      emojiMaps: {},
+      visitor: false,
+      ...option,
+      path: isShuoshuo ? path : (option && option.path) || window.location.pathname
+    }
+
+    new Valine(valineConfig)
+  }
+
+  const loadValine = async (el, path) => {
+    if (typeof Valine === 'function') {
+      initValine(el, path)
+    } else {
+      await btf.getScript('https://cdn.jsdelivr.net/npm/valine@1.5.3/dist/Valine.min.js')
+      initValine(el, path)
+    }
+  }
+
+  if (isShuoshuo) {
+    'Valine' === 'Valine'
+      ? window.shuoshuoComment = { loadComment: loadValine }
+      : window.loadOtherComment = loadValine
+    return
+  }
+
+  if ('Valine' === 'Valine' || !false) {
+    if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+    else setTimeout(loadValine, 0)
+  } else {
+    window.loadOtherComment = loadValine
+  }
+})()</script><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+
+  const disqusReset = conf => {
+    window.DISQUS && window.DISQUS.reset({
+      reload: true,
+      config: conf
+    })
+  }
+
+  const loadDisqus = (el, path) => {
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyDisqus = () => {
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
+
+    window.disqus_identifier = isShuoshuo ? path : '/posts/spider_analysis/'
+    window.disqus_url = isShuoshuo ? location.origin + path : 'https://yangcheneee.github.io/posts/spider_analysis/'
+
+    const disqus_config = function () {
+      this.page.url = disqus_url
+      this.page.identifier = disqus_identifier
+      this.page.title = '爬虫（二）：响应解析'
+    }
+
+    if (window.DISQUS) disqusReset(disqus_config)
+    else {
+      const script = document.createElement('script')
+      script.src = 'https://.disqus.com/embed.js'
+      script.setAttribute('data-timestamp', +new Date())
+      document.head.appendChild(script)
+    }
+
+    btf.addGlobalFn('themeChange', () => disqusReset(disqus_config), 'disqus')
+  }
+
+  const getCount = async() => {
+    try {
+      const eleGroup = document.querySelector('#post-meta .disqus-comment-count')
+      if (!eleGroup) return
+      const cleanedLinks = eleGroup.href.replace(/#post-comment$/, '')
+
+      const res = await fetch(`https://disqus.com/api/3.0/threads/set.json?forum=&api_key=&thread:link=${cleanedLinks}`,{
+        method: 'GET'
+      })
+      const result = await res.json()
+
+      const count = result.response.length ? result.response[0].posts : 0
+      eleGroup.textContent = count
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
+  if (isShuoshuo) {
+    'Valine' === 'Disqus'
+      ? window.shuoshuoComment = { loadComment: loadDisqus }
+      : window.loadOtherComment = loadDisqus
+    return
+  }
+
+  if ('Valine' === 'Disqus' || !false) {
+    if (false) btf.loadComment(document.getElementById('disqus_thread'), loadDisqus)
+    else {
+      loadDisqus()
+      
+    }
+  } else {
+    window.loadOtherComment = loadDisqus
+  }
+})()</script></div><script src="https://cdn.jsdelivr.net/npm/blueimp-md5@2.19.0/js/md5.min.js"></script><script>window.newestComments = {
+  changeContent: content => {
+    if (content === '') return content
+
+    content = content.replace(/<img.*?src="(.*?)"?[^\>]+>/ig, '[图片]') // replace image link
+    content = content.replace(/<a[^>]+?href=["']?([^"']+)["']?[^>]*>([^<]+)<\/a>/gi, '[链接]') // replace url
+    content = content.replace(/<pre><code>.*?<\/pre>/gi, '[代码]') // replace code
+    content = content.replace(/<code>.*?<\/code>/gi, '[代码]') // replace code
+    content = content.replace(/<[^>]+>/g, "") // remove html tag
+
+    if (content.length > 150) {
+      content = content.substring(0, 150) + '...'
+    }
+    return content
+  },
+
+  generateHtml: (array, ele) => {
+    let result = ''
+
+    if (array.length) {
+      for (let i = 0; i < array.length; i++) {
+        result += '<div class="aside-list-item">'
+
+        if (true && array[i].avatar) {
+          const imgAttr = 'data-lazy-src'
+          const lazyloadNative = ''
+          result += `<a href="${array[i].url}" class="thumbnail"><img ${imgAttr}="${array[i].avatar}" alt="${array[i].nick}" ${lazyloadNative}></a>`
+        }
+
+        result += `<div class="content">
+        <a class="comment" href="${array[i].url}" title="${array[i].content}">${array[i].content}</a>
+        <div class="name"><span>${array[i].nick} / </span><time datetime="${array[i].date}">${btf.diffDate(array[i].date, true)}</time></div>
+        </div></div>`
+      }
+    } else {
+      result += '暂无评论'
+    }
+
+    ele.innerHTML = result
+    window.lazyLoadInstance && window.lazyLoadInstance.update()
+    window.pjax && window.pjax.refresh(ele)
+  },
+
+  newestCommentInit: (name, getComment) => {
+    const $dom = document.querySelector('#card-newest-comments .aside-list')
+    if ($dom) {
+      const data = btf.saveToLocal.get(name)
+      if (data) {
+        newestComments.generateHtml(JSON.parse(data), $dom)
+      } else {
+        getComment($dom)
+      }
+    }
+  },
+
+  run: (name, getComment) => {
+    newestComments.newestCommentInit(name, getComment)
+    btf.addGlobalFn('pjaxComplete', () => newestComments.newestCommentInit(name, getComment), name)
+  }
+}</script><script>window.addEventListener('load', () => {
+  const keyName = 'valine-newest-comments'
+  const { changeContent, generateHtml, run } = window.newestComments
+
+  const getIcon = (icon, mail) => {
+    if (icon) return icon
+    let defaultIcon = '?d=mp'
+    let iconUrl = `https://gravatar.loli.net/avatar/${md5(mail.toLowerCase()) + defaultIcon}`
+    return iconUrl
+  }
+
+  const getComment = ele => {
+    const serverURL = 'https://o8lbtceh.lc-cn-n1-shared.com'
+
+    var settings = {
+      "method": "GET",
+      "headers": {
+        "X-LC-Id": 'O8LBtcEHpDlrpdpmT4vFkCno-gzGzoHsz',
+        "X-LC-Key": 'YYdyOhbCGoVEYggTt2icfUHj',
+        "Content-Type": "application/json"
+      },
+    }
+
+    fetch(`${serverURL}/1.1/classes/Comment?limit=6&order=-createdAt`,settings)
+      .then(response => response.json())
+      .then(data => {
+        const valineArray = data.results.map(e => {
+          return {
+            'avatar': getIcon(e.QQAvatar, e.mail),
+            'content': changeContent(e.comment),
+            'nick': e.nick,
+            'url': e.url + '#' + e.objectId,
+            'date': e.updatedAt,
+          }
+        })
+        btf.saveToLocal.set(keyName, JSON.stringify(valineArray), 10/(60*24))
+        generateHtml(valineArray, ele)
+      }).catch(e => {
+        console.error(e)
+        ele.textContent= "无法获取评论，请确认相关配置是否正确"
+      })
+  }
+
+  run(keyName, getComment)
+})</script><div id="web_bg"></div><div class="aplayer no-destroy" data-id="8674547170" data-server="netease" data-type="playlist" data-fixed="true" data-autoplay="false" data-lrcType="-1"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/metingjs/dist/Meting.min.js"></script><canvas class="fireworks" mobile="false"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/dist/fireworks.min.js"></script><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/dist/canvas-nest.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = false;
+POWERMODE.mobile = true;
+document.body.addEventListener('input', POWERMODE);
+</script><script src="https://cdn.jsdelivr.net/npm/pjax@0.2.8/pjax.min.js" defer="defer"></script><script>document.addEventListener('DOMContentLoaded', () => {
+  const pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+  window.pjax = new Pjax({
+    elements: 'a:not([target="_blank"]):not([data-fancybox])',
+    selectors: pjaxSelectors,
+    cacheBust: false,
+    analytics: false,
+    scrollRestoration: false
+  })
+
+  const triggerPjaxFn = (val) => {
+    if (!val) return
+    Object.values(val).forEach(fn => {
+      try {
+        fn()
+      } catch (err) {
+        console.debug('Pjax callback failed:', err)
+      }
+    })
+  }
+
+  document.addEventListener('pjax:send', () => {
+    // removeEventListener
+    btf.removeGlobalFnEvent('pjaxSendOnce')
+    btf.removeGlobalFnEvent('themeChange')
+
+    // reset readmode
+    const $bodyClassList = document.body.classList
+    if ($bodyClassList.contains('read-mode')) $bodyClassList.remove('read-mode')
+
+    triggerPjaxFn(window.globalFn.pjaxSend)
+  })
+
+  document.addEventListener('pjax:complete', () => {
+    btf.removeGlobalFnEvent('pjaxCompleteOnce')
+    document.querySelectorAll('script[data-pjax]').forEach(item => {
+      if (!item.parentNode) return
+      const newScript = document.createElement('script')
+      const content = item.text || item.textContent || ''
+      Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+      newScript.appendChild(document.createTextNode(content))
+      item.parentNode.replaceChild(newScript, item)
+    })
+
+    triggerPjaxFn(window.globalFn.pjaxComplete)
+  })
+
+  document.addEventListener('pjax:error', e => {
+    const responseURL = e.request && e.request.responseURL
+    if (e.request && e.request.status === 404) {
+      false
+        ? pjax.loadUrl('/404.html')
+        : responseURL && (window.location.href = responseURL)
+    } else if (responseURL) {
+      window.location.href = responseURL
+    }
+  })
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><i class="fas fa-spinner fa-pulse" id="loading-status" hidden="hidden"></i><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="local-search-input"><input placeholder="搜索文章" type="text"/></div><hr/><div id="local-search-results"></div><div class="ais-Pagination" id="local-search-pagination" style="display:none;"><ul class="ais-Pagination-list"></ul></div><div id="local-search-stats"></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=5.7.0"></script></div></div></body></html>
